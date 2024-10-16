@@ -1,3 +1,8 @@
+document.getElementById("generateLoginFormIndiv").addEventListener('click', generateLoginFormIndiv)
+
+document.getElementById("generateLoginFormBusiness").addEventListener('click', generateLoginFormBusiness)
+
+
 function generateLoginFormIndiv() {
     // Create the form element
     const form = document.createElement('form');
@@ -194,3 +199,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+
+import { getData, userDetailsCollection } from './database.js'
+getData(userDetailsCollection)

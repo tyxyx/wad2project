@@ -18,18 +18,20 @@
   };
 
   // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+  export const app = initializeApp(firebaseConfig);
 
-  const db = getFirestore(app)
+  export const db = getFirestore(app)
 
-  const auth = getAuth(app)
+  export const auth = getAuth(app)
+
+  export const userDetailsCollection = collection(db, "userDetails")
 
   // To get the collection: const x = collection(db, collectionName)
   //const userLogin = collection(db, "userDetails")
 
   //console.log(getDoc(userLogin))
 
-  async function getData(collectionName) {
+  export async function getData(collectionName) {
     const snapshot = await getDocs(collectionName);
     const dataList = snapshot.docs.map(doc => ({
       id: doc.id,
@@ -40,7 +42,5 @@
     return dataList
   }
 
-
-  export { app }
 
 

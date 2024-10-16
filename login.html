@@ -21,7 +21,7 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <!-- Firebase -->
-    <script type="module" src="./database.js" defer></script>
+    <!-- <script type="module" src="./database.js" defer></script> -->
 
 </head>
 <body>
@@ -83,12 +83,12 @@
         <div class="col-8 border rounded-pill p-1">
             <div class="row text-center">
                 <div class="col-6">
-                    <div class="user-type" onclick="generateLoginFormIndiv()">
+                    <div class="user-type" id="generateLoginFormIndiv">
                         <strong><span id="indiv" style="cursor: pointer;">Individuals</span></strong>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="user-type" onclick="generateLoginFormBusiness()">
+                    <div class="user-type" id="generateLoginFormBusiness">
                         <strong><span id="business" style="cursor: pointer;">Business</span></strong>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
 
   
     <!-- Form.js -->
-    <script src="./form.js"></script>
+    <script type="module" src="./form.js"></script>
 
 </body>
 </html>
