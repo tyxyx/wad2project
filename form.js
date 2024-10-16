@@ -9,10 +9,12 @@ function generateLoginFormIndiv() {
     const emailLabel = document.createElement('label');
     emailLabel.setAttribute('for', 'exampleInputEmail1');
     emailLabel.classList.add('form-label');
-    emailLabel.innerHTML = '<strong>Email</strong>';
+    const emailStrong = document.createElement("strong")
+    emailLabel.appendChild(emailStrong)
+    emailStrong.innerText = "Email"
 
     const emailInput = document.createElement('input');
-    emailInput.setAttribute('type', 'email');
+    emailInput.setAttribute('type', 'text');
     emailInput.classList.add('form-control');
     emailInput.setAttribute('id', 'exampleInputEmail1');
     emailInput.setAttribute('aria-describedby', 'emailHelp');
@@ -27,7 +29,10 @@ function generateLoginFormIndiv() {
     const passwordLabel = document.createElement('label');
     passwordLabel.setAttribute('for', 'exampleInputPassword1');
     passwordLabel.classList.add('form-label');
-    passwordLabel.innerHTML = '<strong>Password</strong>';
+    const passStrong = document.createElement("strong")
+    passwordLabel.appendChild(passStrong)
+    passStrong.innerText = "Password"
+    
 
     const passwordInput = document.createElement('input');
     passwordInput.setAttribute('type', 'password');
@@ -93,7 +98,10 @@ function generateLoginFormBusiness() {
         const emailLabel = document.createElement('label');
         emailLabel.setAttribute('for', 'exampleInputEmail1');
         emailLabel.classList.add('form-label');
-        emailLabel.innerHTML = '<strong>UEN</strong>';
+        const emailStrong = document.createElement("strong")
+        emailLabel.appendChild(emailStrong)
+        emailStrong.innerText = "UEN"
+        
     
         const emailInput = document.createElement('input');
         emailInput.setAttribute('type', 'email');
@@ -111,7 +119,10 @@ function generateLoginFormBusiness() {
         const passwordLabel = document.createElement('label');
         passwordLabel.setAttribute('for', 'exampleInputPassword1');
         passwordLabel.classList.add('form-label');
-        passwordLabel.innerHTML = '<strong>Password</strong>';
+        const passStrong = document.createElement("strong")
+        passwordLabel.appendChild(passStrong)
+        passStrong.innerText = "Password"
+        
     
         const passwordInput = document.createElement('input');
         passwordInput.setAttribute('type', 'password');
@@ -179,3 +190,4 @@ document.addEventListener("DOMContentLoaded", function() {
         generateLoginFormBusiness();
     }
 });
+
