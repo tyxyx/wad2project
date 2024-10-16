@@ -1,3 +1,6 @@
+import { getData, userDetailsCollection } from './database.js'
+
+
 document.getElementById("generateLoginFormIndiv").addEventListener('click', generateLoginFormIndiv)
 
 document.getElementById("generateLoginFormBusiness").addEventListener('click', generateLoginFormBusiness)
@@ -200,5 +203,3 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-import { getData, userDetailsCollection } from './database.js'
-getData(userDetailsCollection)
