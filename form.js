@@ -2,6 +2,8 @@ function generateLoginFormIndiv() {
     // Create the form element
     const form = document.createElement('form');
 
+    form.id = "formSubmit"
+
     // Email input group
     const emailGroup = document.createElement('div');
     emailGroup.classList.add('mb-3');
@@ -14,7 +16,7 @@ function generateLoginFormIndiv() {
     emailStrong.innerText = "Email"
 
     const emailInput = document.createElement('input');
-    emailInput.setAttribute('type', 'text');
+    emailInput.setAttribute('type', 'email');
     emailInput.classList.add('form-control');
     emailInput.setAttribute('id', 'exampleInputEmail1');
     emailInput.setAttribute('aria-describedby', 'emailHelp');
@@ -175,6 +177,7 @@ function generateLoginFormBusiness() {
         busOption.style.color = "blue"
 
 }
+
 
 document.addEventListener("DOMContentLoaded", function() {
     // Get the query parameter from the URL
