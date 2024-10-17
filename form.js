@@ -1,4 +1,4 @@
-import { getData, userDetailsCollection } from './database.js'
+import { getData, userDetailsCollection, loginUser, auth } from './database.js'
 
 
 document.getElementById("generateLoginFormIndiv").addEventListener('click', generateLoginFormIndiv)
@@ -88,6 +88,21 @@ function generateLoginFormIndiv() {
         container.removeChild(container.firstChild);
       }
     container.appendChild(form)
+
+    form.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent default form submission
+        const email = emailInput.value;
+        console.log(email)
+        const password = passwordInput.value;
+
+        loginUser(email, password)
+            .then(user => {
+                alert('Login successful! Welcome ' + user.email);
+            })
+            .catch(error => {
+                alert('Login failed: ' + error.message);
+            });
+    });
 
     let indivOption = document.getElementById("indiv")
     let busOption = document.getElementById("business")
