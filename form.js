@@ -1,251 +1,201 @@
-import { getData, userDetailsCollection, loginUser, auth, loginBusinessWithUEN } from './database.js'
+import { loginUser, loginBusinessWithUEN, createUser, createUserWithUEN, saveBusinessDetails } from '../wad2project/database.js';
 
-document.getElementById("generateLoginFormIndiv").addEventListener('click', generateLoginFormIndiv)
+let currentMode = 'login';
+let currentType = 'individual';
 
-document.getElementById("generateLoginFormBusiness").addEventListener('click', generateLoginFormBusiness)
+document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userType = urlParams.get('type');
+    const modeType = urlParams.get('mode');
 
+    currentMode = modeType === 'signup' ? 'signup' : 'login';
+    currentType = userType === 'business' ? 'business' : 'individual';
 
-function generateLoginFormIndiv() {
-    // Create the form element
+    updatePageTitle();
+    generateForm();
+    updateToggleLink();
+
+    document.getElementById("generateFormIndiv").addEventListener('click', () => {
+        currentType = 'individual';
+        generateForm();
+    });
+
+    document.getElementById("generateFormBusiness").addEventListener('click', () => {
+        currentType = 'business';
+        generateForm();
+    });
+
+    document.getElementById("toggleMode").addEventListener('click', (e) => {
+        e.preventDefault();
+        currentMode = currentMode === 'login' ? 'signup' : 'login';
+        updatePageTitle();
+        generateForm();
+        updateToggleLink();
+    });
+});
+
+function updatePageTitle() {
+    const pageTitle = document.getElementById('pageTitle');
+    pageTitle.textContent = `${currentMode === 'login' ? 'Sign In to MealMate' : 'Sign Up for MealMate'}`;
+}
+
+function updateToggleLink() {
+    const toggleLink = document.getElementById('toggleMode');
+    toggleLink.textContent = currentMode === 'login' ? 'Need an account? Sign up' : 'Already have an account? Sign in';
+}
+
+function generateForm() {
+    const formContainer = document.getElementById('formContainer');
+    formContainer.innerHTML = '';
+
     const form = document.createElement('form');
+    form.classList.add('col-12', 'col-md-6', 'mx-auto');
 
-    // Email input group
-    const emailGroup = document.createElement('div');
-    emailGroup.classList.add('mb-3');
+    if (currentMode === 'signup') {
+        // Name input (for both individual and business)
+        const nameGroup = createInputGroup(
+            currentType === 'individual' ? 'Full Name' : 'Business Name',
+            'text',
+            'name'
+        );
+        form.appendChild(nameGroup);
+    }
 
-    const emailLabel = document.createElement('label');
-    emailLabel.setAttribute('for', 'exampleInputEmail1');
-    emailLabel.classList.add('form-label');
-    const emailStrong = document.createElement("strong")
-    emailLabel.appendChild(emailStrong)
-    emailStrong.innerText = "Email"
+    // Email/UEN input
+    const emailGroup = createInputGroup(
+        currentType === 'individual' ? 'Email' : 'UEN',
+        currentType === 'individual' ? 'email' : 'text',
+        'emailOrUEN'
+    );
+    form.appendChild(emailGroup);
 
-    const emailInput = document.createElement('input');
-    emailInput.setAttribute('type', 'email');
-    emailInput.classList.add('form-control');
-    emailInput.setAttribute('id', 'exampleInputEmail1');
-    emailInput.setAttribute('aria-describedby', 'emailHelp');
+    // Password input
+    const passwordGroup = createInputGroup('Password', 'password', 'password');
+    form.appendChild(passwordGroup);
 
-    emailGroup.appendChild(emailLabel);
-    emailGroup.appendChild(emailInput);
+    // Confirm Password input (only for signup mode)
+    if (currentMode === 'signup') {
+        const confirmPasswordGroup = createInputGroup('Confirm Password', 'password', 'confirmPassword');
+        form.appendChild(confirmPasswordGroup);
+    }
 
-    // Password input group
-    const passwordGroup = document.createElement('div');
-    passwordGroup.classList.add('mb-3');
-
-    const passwordLabel = document.createElement('label');
-    passwordLabel.setAttribute('for', 'exampleInputPassword1');
-    passwordLabel.classList.add('form-label');
-    const passStrong = document.createElement("strong")
-    passwordLabel.appendChild(passStrong)
-    passStrong.innerText = "Password"
-    
-
-    const passwordInput = document.createElement('input');
-    passwordInput.setAttribute('type', 'password');
-    passwordInput.classList.add('form-control');
-    passwordInput.setAttribute('id', 'exampleInputPassword1');
-
-    passwordGroup.appendChild(passwordLabel);
-    passwordGroup.appendChild(passwordInput);
-
-    // Forget Password link
-    const forgetPasswordDiv = document.createElement('div');
-    forgetPasswordDiv.classList.add('mb-2', 'text-center');
-
-    const forgetPasswordLink = document.createElement('a');
-    forgetPasswordLink.setAttribute('href', '#');
-    forgetPasswordLink.classList.add('link-underline-secondary');
-    forgetPasswordLink.style.color = 'gray';
-    forgetPasswordLink.textContent = 'Forget Password';
-
-    forgetPasswordDiv.appendChild(forgetPasswordLink);
+    // Forget Password link (only for login mode)
+    if (currentMode === 'login') {
+        const forgetPasswordDiv = document.createElement('div');
+        forgetPasswordDiv.classList.add('mb-2', 'text-center');
+        const forgetPasswordLink = document.createElement('a');
+        forgetPasswordLink.href = '#';
+        forgetPasswordLink.classList.add('link-underline-secondary');
+        forgetPasswordLink.style.color = 'gray';
+        forgetPasswordLink.textContent = 'Forget Password';
+        forgetPasswordDiv.appendChild(forgetPasswordLink);
+        form.appendChild(forgetPasswordDiv);
+    }
 
     // Submit button
     const submitButtonDiv = document.createElement('div');
     submitButtonDiv.classList.add('text-center');
-
     const submitButton = document.createElement('button');
-    submitButton.setAttribute('type', 'submit');
+    submitButton.type = 'submit';
     submitButton.classList.add('btn', 'btn-primary');
-    submitButton.textContent = 'Submit';
-
+    submitButton.textContent = currentMode === 'login' ? 'Sign In' : 'Sign Up';
     submitButtonDiv.appendChild(submitButton);
-
-    // Append all elements to the form
-    form.appendChild(emailGroup);
-    form.appendChild(passwordGroup);
-    form.appendChild(forgetPasswordDiv);
     form.appendChild(submitButtonDiv);
 
-    // Append the form to a container
-    const container = document.getElementById('loginForm')
+    form.addEventListener('submit', handleSubmit);
 
-    while (container.hasChildNodes()) {
-        container.removeChild(container.firstChild);
-      }
-    container.appendChild(form)
-
-    form.addEventListener('submit', (event) => {
-        event.preventDefault(); // Prevent default form submission
-        const email = emailInput.value;
-        console.log(email)
-        const password = passwordInput.value;
-
-        loginUser(email, password)
-            .then(user => {
-                alert('Login successful! Welcome ' + user.email);
-            })
-            .catch(error => {
-                alert('Login failed: ' + error.message);
-            });
-    });
-
-    let indivOption = document.getElementById("indiv")
-    let busOption = document.getElementById("business")
-    indivOption.style.color = "blue"
-    busOption.style.color = "black"
-
+    formContainer.appendChild(form);
+    updateActiveType();
 }
 
+function createInputGroup(labelText, inputType, inputId) {
+    const group = document.createElement('div');
+    group.classList.add('mb-3');
 
-function generateLoginFormBusiness() {
-        // Create the form element
-        const form = document.createElement('form');
+    const label = document.createElement('label');
+    label.setAttribute('for', inputId);
+    label.classList.add('form-label');
+    const strong = document.createElement('strong');
+    strong.textContent = labelText;
+    label.appendChild(strong);
 
-        // Email input group
-        const emailGroup = document.createElement('div');
-        emailGroup.classList.add('mb-3');
-    
-        const emailLabel = document.createElement('label');
-        emailLabel.setAttribute('for', 'exampleInputEmail1');
-        emailLabel.classList.add('form-label');
-        const emailStrong = document.createElement("strong")
-        emailLabel.appendChild(emailStrong)
-        emailStrong.innerText = "UEN"
-        
-    
-        const emailInput = document.createElement('input');
-        emailInput.setAttribute('type', 'text');
-        emailInput.classList.add('form-control');
-        emailInput.setAttribute('id', 'exampleInputEmail1');
-        emailInput.setAttribute('aria-describedby', 'emailHelp');
-    
-        emailGroup.appendChild(emailLabel);
-        emailGroup.appendChild(emailInput);
-    
-        // Password input group
-        const passwordGroup = document.createElement('div');
-        passwordGroup.classList.add('mb-3');
-    
-        const passwordLabel = document.createElement('label');
-        passwordLabel.setAttribute('for', 'exampleInputPassword1');
-        passwordLabel.classList.add('form-label');
-        const passStrong = document.createElement("strong")
-        passwordLabel.appendChild(passStrong)
-        passStrong.innerText = "Password"
-        
-    
-        const passwordInput = document.createElement('input');
-        passwordInput.setAttribute('type', 'password');
-        passwordInput.classList.add('form-control');
-        passwordInput.setAttribute('id', 'exampleInputPassword1');
-    
-        passwordGroup.appendChild(passwordLabel);
-        passwordGroup.appendChild(passwordInput);
-    
-        // Forget Password link
-        const forgetPasswordDiv = document.createElement('div');
-        forgetPasswordDiv.classList.add('mb-2', 'text-center');
-    
-        const forgetPasswordLink = document.createElement('a');
-        forgetPasswordLink.setAttribute('href', '#');
-        forgetPasswordLink.classList.add('link-underline-secondary');
-        forgetPasswordLink.style.color = 'gray';
-        forgetPasswordLink.textContent = 'Forget Password';
-    
-        forgetPasswordDiv.appendChild(forgetPasswordLink);
-    
-        // Submit button
-        const submitButtonDiv = document.createElement('div');
-        submitButtonDiv.classList.add('text-center');
-    
-        const submitButton = document.createElement('button');
-        submitButton.setAttribute('type', 'submit');
-        submitButton.classList.add('btn', 'btn-primary');
-        submitButton.textContent = 'Submit';
-    
-        submitButtonDiv.appendChild(submitButton);
-    
-        // Append all elements to the form
-        form.appendChild(emailGroup);
-        form.appendChild(passwordGroup);
-        form.appendChild(forgetPasswordDiv);
-        form.appendChild(submitButtonDiv);
-    
-        // Append the form to a container
-        const container = document.getElementById('loginForm')
-    
-        while (container.hasChildNodes()) {
-            container.removeChild(container.firstChild);
-          }
-        container.appendChild(form)
+    const input = document.createElement('input');
+    input.type = inputType;
+    input.classList.add('form-control');
+    input.id = inputId;
+    input.required = true;
 
-        form.addEventListener('submit', (event) => {
-            event.preventDefault(); // Prevent default form submission
-            const uen = emailInput.value;
-            const password = passwordInput.value;
-    
-            loginBusinessWithUEN(uen, password)
+    group.appendChild(label);
+    group.appendChild(input);
+
+    return group;
+}
+
+function handleSubmit(event) {
+    event.preventDefault();
+    const emailOrUEN = document.getElementById('emailOrUEN').value;
+    const password = document.getElementById('password').value;
+
+    if (currentMode === 'login') {
+        if (currentType === 'individual') {
+            loginUser(emailOrUEN, password)
                 .then(user => {
-                    // Need Change this to UEN/Biz Name
                     alert('Login successful! Welcome ' + user.email);
                 })
                 .catch(error => {
                     alert('Login failed: ' + error.message);
                 });
-        });
+        } else {
+            loginBusinessWithUEN(emailOrUEN, password)
+                .then(user => {
+                    alert('Login successful! Welcome ' + user.email);
+                })
+                .catch(error => {
+                    alert('Login failed: ' + error.message);
+                });
+        }
+    } else {
+        const name = document.getElementById('name').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
 
-        let indivOption = document.getElementById("indiv")
-        let busOption = document.getElementById("business")
-        indivOption.style.color = "black"
-        busOption.style.color = "blue"
+        if (password !== confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
 
+        if (currentType === 'individual') {
+            createUser(name, emailOrUEN, password)
+                .then(user => {
+                    alert('Registration successful! Welcome ' + user.email);
+                })
+                .catch(error => {
+                    alert('Registration failed: ' + error.message);
+                });
+        } else {
+            createUserWithUEN(name, emailOrUEN, password)
+            .then(business => {
+                alert('Registration successful! Welcome ' + name);
+                // After successful registration, save business details
+                return saveBusinessDetails(emailOrUEN, business.uid);
+            })
+            .then(() => {
+                console.log('Business details saved successfully');
+            })
+            .catch(error => {
+                if (error.message.includes('Business details')) {
+                    console.error('Failed to save business details:', error);
+                    alert('Registration successful, but there was an issue saving business details. Please contact support.');
+                } else {
+                    alert('Registration failed: ' + error.message);
+                }
+            });
+    }
+}
 }
 
-
-document.addEventListener("DOMContentLoaded", function() {
-    // Get the query parameter from the URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const userType = urlParams.get('type'); // 'individual' or 'business'
-    const modeType = urlParams.get('mode'); // login or signup
-
-    let header = document.getElementById('header')
-    const h1 = document.createElement("h1")
-    h1.classList.add("h1", "text-center", "mt-3")
-    header.appendChild(h1)
-    
-
-    if (modeType === 'login') {
-
-        h1.innerText = "Sign In to MealMate"
-
-        // Show the appropriate form based on the userType
-        if (userType === 'individual') {
-            // Call a function to display the form for Individuals
-            generateLoginFormIndiv();
-        } else if (userType === 'business') {
-            // Call a function to display the form for Businesses
-            generateLoginFormBusiness();
-        }
-        
-    } else if (modeType === 'signup') {
-        h1.innerText = "Register for MealMate"
-    }
-
-
-
-});
-
-
-
+function updateActiveType() {
+    const indivOption = document.getElementById('indiv');
+    const busOption = document.getElementById('business');
+    indivOption.style.color = currentType === 'individual' ? 'blue' : 'black';
+    busOption.style.color = currentType === 'business' ? 'blue' : 'black';
+}
