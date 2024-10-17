@@ -42,14 +42,14 @@
     return dataList
   }
 
-  export function createUser(email, password) {
+  export function createUser(name, email, password) {
     return createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        return user
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        throw error
       })
   }
 
