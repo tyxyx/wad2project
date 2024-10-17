@@ -1,5 +1,4 @@
-import { getData, userDetailsCollection, loginUser, auth } from './database.js'
-
+import { getData, userDetailsCollection, loginUser, auth, loginBusinessWithUEN } from './database.js'
 
 document.getElementById("generateLoginFormIndiv").addEventListener('click', generateLoginFormIndiv)
 
@@ -9,8 +8,6 @@ document.getElementById("generateLoginFormBusiness").addEventListener('click', g
 function generateLoginFormIndiv() {
     // Create the form element
     const form = document.createElement('form');
-
-    form.id = "formSubmit"
 
     // Email input group
     const emailGroup = document.createElement('div');
@@ -129,7 +126,7 @@ function generateLoginFormBusiness() {
         
     
         const emailInput = document.createElement('input');
-        emailInput.setAttribute('type', 'email');
+        emailInput.setAttribute('type', 'text');
         emailInput.classList.add('form-control');
         emailInput.setAttribute('id', 'exampleInputEmail1');
         emailInput.setAttribute('aria-describedby', 'emailHelp');
@@ -194,6 +191,21 @@ function generateLoginFormBusiness() {
           }
         container.appendChild(form)
 
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent default form submission
+            const uen = emailInput.value;
+            const password = passwordInput.value;
+    
+            loginBusinessWithUEN(uen, password)
+                .then(user => {
+                    // Need Change this to UEN/Biz Name
+                    alert('Login successful! Welcome ' + user.email);
+                })
+                .catch(error => {
+                    alert('Login failed: ' + error.message);
+                });
+        });
+
         let indivOption = document.getElementById("indiv")
         let busOption = document.getElementById("business")
         indivOption.style.color = "black"
@@ -206,15 +218,34 @@ document.addEventListener("DOMContentLoaded", function() {
     // Get the query parameter from the URL
     const urlParams = new URLSearchParams(window.location.search);
     const userType = urlParams.get('type'); // 'individual' or 'business'
+    const modeType = urlParams.get('mode'); // login or signup
 
-    // Show the appropriate form based on the userType
-    if (userType === 'individual') {
-        // Call a function to display the form for Individuals
-        generateLoginFormIndiv();
-    } else if (userType === 'business') {
-        // Call a function to display the form for Businesses
-        generateLoginFormBusiness();
+    let header = document.getElementById('header')
+    const h1 = document.createElement("h1")
+    h1.classList.add("h1", "text-center", "mt-3")
+    header.appendChild(h1)
+    
+
+    if (modeType === 'login') {
+
+        h1.innerText = "Sign In to MealMate"
+
+        // Show the appropriate form based on the userType
+        if (userType === 'individual') {
+            // Call a function to display the form for Individuals
+            generateLoginFormIndiv();
+        } else if (userType === 'business') {
+            // Call a function to display the form for Businesses
+            generateLoginFormBusiness();
+        }
+        
+    } else if (modeType === 'signup') {
+        h1.innerText = "Register for MealMate"
     }
+
+
+
 });
+
 
 
