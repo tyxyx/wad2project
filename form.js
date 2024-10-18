@@ -1,4 +1,4 @@
-import { loginUser, loginBusinessWithUEN, createUser, createUserWithUEN, saveBusinessDetails } from '../wad2project/database.js';
+import { loginUser, loginBusinessWithUEN, createUser, createUserWithUEN, saveBusinessDetails, saveUserDetails } from '../wad2project/database.js';
 
 let currentMode = 'login';
 let currentType = 'individual';
@@ -167,12 +167,17 @@ function handleSubmit(event) {
             createUser(name, emailOrUEN, password)
                 .then(user => {
                     alert('Registration successful! Welcome ' + user.email);
+                    // After successful registration, save user details
+                    return saveUserDetails(name, emailOrUEN);
+                })
+                .then(() => {
+                    console.log("User details saved successfully");
                 })
                 .catch(error => {
                     alert('Registration failed: ' + error.message);
                 });
         } else {
-            createUserWithUEN(name, emailOrUEN, password)
+            createUserWithUEN(emailOrUEN, password)
             .then(business => {
                 alert('Registration successful! Welcome ' + name);
                 // After successful registration, save business details

@@ -1,7 +1,7 @@
 
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-  import { getFirestore, collection, getDocs, getDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+  import { getFirestore, collection, getDocs, getDoc, doc, setDoc, Timestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
   import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
  
   // TODO: Add SDKs for Firebase products that you want to use
@@ -98,14 +98,26 @@
 
   export async function saveBusinessDetails(uen, userId) {
     try {
-      await setDoc(doc(db, "business", userId), {
+      await setDoc(doc(db, "businessLogin", uen), {
         uen: uen,
-        createdAt: new Date(),
+        createdAt: Timestamp.fromDate(new Date()),
         userId: userId,
       });
     } catch (error) {
       console.error("Error saving business details:", error);
       throw new Error("Business details could not be saved. " + error.message);
+    }
+  }
+
+  export async function saveUserDetails(name, email) {
+    try {
+      await setDoc(doc(db, "userLogin", email), {
+        fullName: name,
+        email: email
+      });
+    } catch (error) {
+      console.error("Error saving user details:", error);
+      throw new Error("User details could not be saved." + error.message);
     }
   }
 
