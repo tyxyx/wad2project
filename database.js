@@ -84,7 +84,7 @@
         });
   }
 
-  export function loginBusinessWithUEN(name, uen, password) {
+  export function loginBusinessWithUEN(uen, password) {
     const email = uenToEmail(uen);  // Convert UEN to email format
     return signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
