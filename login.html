@@ -8,109 +8,185 @@
   <link rel="icon" type="image/png" sizes="32x32" href="./images/icon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./images/icon/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <title>MealMate</title>
-
-  <style>
-    .navbar {
-      height: 50px;
-    }
-  </style>
+  <title>MealMate - Login</title>
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <!-- Firebase -->
-    <!-- <script type="module" src="./database.js" defer></script> -->
+  <!-- Custom CSS -->
+  <style>
+    body {
+      background-color: #F2E6D8;
+      font-family: 'Arial', sans-serif;
+      color: #A17C55;
+    }
 
+    .navbar {
+      background-color: #6C9A8B !important;
+    }
+
+    .container {
+      max-width: 800px;
+    }
+
+    #header {
+      margin-top: 2rem;
+    }
+
+    #pageTitle {
+      color: #A17C55;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .user-type-container {
+      background-color: #D4A373;
+      border-radius: 50px;
+      padding: 0.5rem;
+      margin-bottom: 2rem;
+      width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      justify-content: space-evenly;
+    }
+
+    .user-type {
+      flex: 1;
+      text-align: center;
+      cursor: pointer;
+      padding: 0.5rem 2rem;
+      border-radius: 50px;
+      transition: background-color 0.3s, color 0.3s;
+      color: #F2E6D8;
+      margin: 0 5px;
+    }
+
+    .user-type.active {
+      background-color: #6C9A8B;
+      color: #F2E6D8;
+    }
+
+    #formContainer {
+      background-color: #F2E6D8;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px rgba(161, 124, 85, 0.1);
+    }
+
+    .form-control {
+      border-radius: 20px;
+      border-color: #A17C55;
+    }
+
+    .form-control:focus {
+      border-color: #6C9A8B;
+      box-shadow: 0 0 0 0.2rem rgba(108, 154, 139, 0.25);
+    }
+
+    .btn-primary {
+      background-color: #FF8F56;
+      border-color: #FF8F56;
+      border-radius: 20px;
+      padding: 0.5rem 2rem;
+      color: #F2E6D8;
+    }
+
+    .btn-primary:hover {
+      background-color: #D55D63;
+      border-color: #D55D63;
+    }
+
+    #toggleMode {
+      color: #6C9A8B;
+      text-decoration: none;
+    }
+
+    #toggleMode:hover {
+      color: #D55D63;
+      text-decoration: underline;
+    }
+  </style>
 </head>
+
 <body>
-
-    <!-- Main Navbar -->
-  <nav class="navbar navbar-expand-md" style="background-color: #6c9a8b;">
+  <!-- Main Navbar -->
+  <nav class="navbar navbar-expand-md">
     <div class="container-fluid">
-
-      <div class="col-2 d-none d-md-block">
-
-      </div>
-
+      <div class="col-2 d-none d-md-block"></div>
       <div class="col-8 col-md-4 d-flex justify-content-center justify-content-md-start">
         <img src="./images/icon/favicon-32x32.png" alt="" class="me-2">
         <span class="navbar-brand h1 text-white">MealMate</span>
       </div>
-
       <div class="col-md-2 d-flex justify-content-end text-nowrap">
-
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor"
-          class="bi bi-person-circle text-white d-block d-md-none" viewBox="0 0 16 16" data-bs-toggle="modal"
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#F2E6D8"
+          class="bi bi-person-circle d-block d-md-none" viewBox="0 0 16 16" data-bs-toggle="modal"
           data-bs-target="#profileModal" style="cursor: pointer;">
           <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
           <path fill-rule="evenodd"
             d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
         </svg>
-
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item mx-0">
               <a href="./login.html" class="nav-link text-white">Log In</a>
             </li>
-
             <li class="nav-item mx-0">
               <a href="#" class="nav-link text-white">Sign Up</a>
             </li>
           </ul>
         </div>
-
       </div>
-
     </div>
   </nav>
 
-
   <div class="container">
-
     <div class="row">
-        <div class="col-12" id="header">
-            
-        </div>
+      <div id="header" class="col-12 text-center">
+        <h1 id="pageTitle">Welcome to MealMate</h1>
+      </div>
     </div>
 
-    <div class="container">
-      <div class="row">
-          <div id="header" class="col-12 text-center mt-3">
-              <h1 id="pageTitle"></h1>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="user-type-container">
+          <div id="generateFormIndiv" class="user-type active">
+            <strong id="indiv">Individual</strong>
           </div>
-      </div>
-
-      <div class="row text-center mt-4 mb-3">
-          <div class="col-2"></div>
-          <div class="col-8 border rounded-pill p-1">
-              <div class="row text-center">
-                  <div class="col-6">
-                      <div id="generateFormIndiv" class="user-type">
-                          <strong id="indiv">Individuals</strong>
-                      </div>
-                  </div>
-                  <div class="col-6">
-                      <div id="generateFormBusiness" class="user-type">
-                          <strong id="business">Business</strong>
-                      </div>
-                  </div>
-              </div>
+          <div id="generateFormBusiness" class="user-type">
+            <strong id="business">Business</strong>
           </div>
-          <div class="col-2"></div>
+        </div>
       </div>
+    </div>
 
-      <div id="formContainer" class="row"></div>
+    <div id="formContainer" class="row justify-content-center">
+      <!-- Form will be dynamically inserted here -->
+    </div>
 
-      <div class="row mt-3">
-          <div class="col-12 text-center">
-              <a id="toggleMode" href="#"></a>
-          </div>
+    <div class="row mt-3">
+      <div class="col-12 text-center">
+        <a id="toggleMode" href="#">Don't have an account? Click here to sign up</a>
       </div>
+    </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
   <script type="module" src="form.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    gsap.from("#pageTitle", { opacity: 0, y: -50, duration: 1, ease: "power3.out" });
+    gsap.from(".user-type-container", { opacity: 0, y: 50, duration: 1, ease: "power3.out", delay: 0.3 });
+    gsap.from("#formContainer", { opacity: 0, y: 50, duration: 1, ease: "power3.out", delay: 0.6 });
+    
+    document.querySelectorAll('.user-type').forEach(element => {
+      element.addEventListener('click', function() {
+        document.querySelectorAll('.user-type').forEach(el => el.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
