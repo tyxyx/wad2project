@@ -24,7 +24,9 @@
 
   export const auth = getAuth(app)
 
-  export const userDetailsCollection = collection(db, "userDetails")
+  export const userDetailsCollection = collection(db, "userLogin")
+
+  export const businessDetailsCollection = collection(db, "businessLogin")
 
   // To get the collection: const x = collection(db, collectionName)
   //const userLogin = collection(db, "userDetails")
