@@ -140,33 +140,34 @@ function handleSubmit(event) {
         if (currentType === 'individual') {
             loginUser(emailOrUEN, password)
                 .then(user => {
-                    alert('Login successful! Welcome ' + user.email);
+                    showStatusPopup('Login successful! Welcome ' + user.email)
                 })
                 .catch(error => {
-                    alert('Login failed: ' + error.message);
+                    showStatusPopup('Login failed: ' + getCustomErrorMessage(error), false)
                 });
         } else {
             loginBusinessWithUEN(emailOrUEN, password)
                 .then(user => {
-                    alert('Login successful! Welcome ' + user.email);
+                    showStatusPopup('Login successful! Welcome ' + user.email)
                 })
                 .catch(error => {
-                    alert('Login failed: ' + error.message);
+                    showStatusPopup('Login failed: ' + getCustomErrorMessage(error), false)
+
                 });
         }
-    } else {
+    } else { // sign up
         const name = document.getElementById('name').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
 
         if (password !== confirmPassword) {
-            alert('Passwords do not match');
+            showStatusPopup("Passwords do not match", false)
             return;
         }
 
         if (currentType === 'individual') {
             createUser(name, emailOrUEN, password)
                 .then(user => {
-                    alert('Registration successful! Welcome ' + user.email);
+                    showStatusPopup('Registration successful! Welcome ' + user.email)
                     // After successful registration, save user details
                     return saveUserDetails(name, emailOrUEN);
                 })
@@ -174,12 +175,12 @@ function handleSubmit(event) {
                     console.log("User details saved successfully");
                 })
                 .catch(error => {
-                    alert('Registration failed: ' + error.message);
+                    showStatusPopup("Registration failed: " + getCustomErrorMessage(error), false)
                 });
         } else {
             createUserWithUEN(emailOrUEN, password)
             .then(business => {
-                alert('Registration successful! Welcome ' + name);
+                showStatusPopup('Registration successful! Welcome ' + name)
                 // After successful registration, save business details
                 return saveBusinessDetails(emailOrUEN, business.uid);
             })
@@ -191,7 +192,8 @@ function handleSubmit(event) {
                     console.error('Failed to save business details:', error);
                     alert('Registration successful, but there was an issue saving business details. Please contact support.');
                 } else {
-                    alert('Registration failed: ' + error.message);
+                    showStatusPopup('Registration failed: ' + getCustomErrorMessage(error), false)
+                    
                 }
             });
     }
@@ -203,4 +205,65 @@ function updateActiveType() {
     const busOption = document.getElementById('business');
     indivOption.style.color = currentType === 'individual' ? 'blue' : 'black';
     busOption.style.color = currentType === 'business' ? 'blue' : 'black';
+}
+
+function showStatusPopup(message, isSuccess = true) {
+    // Remove any existing popup
+    const existingPopup = document.querySelector('.status-popup');
+    if (existingPopup) {
+      existingPopup.remove();
+    }
+  
+    // Create new popup element
+    const popup = document.createElement('div');
+    popup.className = `status-popup ${isSuccess ? 'success' : 'error'}`;
+    popup.textContent = message;
+  
+    // Add popup to the document
+    document.body.appendChild(popup);
+  
+    // Trigger reflow to ensure transition works
+    popup.offsetHeight;
+  
+    // Show the popup
+    setTimeout(() => {
+      popup.classList.add('show');
+    }, 10);
+  
+    // Hide the popup after 3 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+      setTimeout(() => {
+        popup.remove();
+      }, 300); // Wait for fade out transition to complete
+    }, 3000);
+  }
+
+function getCustomErrorMessage(error) {
+switch (error.code) {
+    case 'auth/email-already-in-use':
+        if (currentType === 'individual') {
+            return 'This email is already registered. Please use a different email or try logging in.';
+        } else if (currentType === 'business') {
+            return 'This UEN is already registered. Please use a different UEN or try logging in.';
+        }
+    case 'auth/invalid-email':
+        return 'The email address is not valid. Please check and try again.';
+    case 'auth/weak-password':
+        return 'The password is too weak. Please use a stronger password.';
+    case 'auth/user-not-found':
+        return 'No account found with this email. Please check your email or sign up.';
+    case 'auth/wrong-password':
+        return 'Incorrect password. Please try again or reset your password.';
+    case 'auth/too-many-requests':
+        return 'Too many unsuccessful attempts. Please try again later.';
+    case 'auth/invalid-credential':
+        return 'Invalid login credentials. Please try again later.';
+    case 'auth/invalid-email':
+        return 'Invalid email';
+    case 'auth/password-does-not-meet-requirements':
+        return "Password does not meet the following requirements:\n1. At least 1 uppercase and 1 lowercase character\n2. Require 1 numeric character"
+    default:
+    return 'An error occurred. Please try again later.';
+}
 }
