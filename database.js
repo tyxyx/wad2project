@@ -42,6 +42,28 @@
     return dataList
   }
 
+  export async function getFieldValue(collectionName, docId, fieldName) {
+    try {
+      // Reference to the document in the Firestore collection
+      const docRef = doc(db, collectionName, docId);
+  
+      // Get the document snapshot
+      const docSnap = await getDoc(docRef);
+  
+      // Check if the document exists
+      if (docSnap.exists()) {
+        // Retrieve and return the specific field value
+        return docSnap.data()[fieldName]; // Access the specific field by name
+      } else {
+        console.log("No such document!");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error fetching document:", error);
+      return null;
+    }
+  }
+
   export function createUser(name, email, password) {
     return createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -96,10 +118,11 @@
         });
   }
 
-  export async function saveBusinessDetails(uen, userId) {
+  export async function saveBusinessDetails(uen, userId, name) {
     try {
       await setDoc(doc(db, "businessLogin", uen), {
         uen: uen,
+        busName: name,
         createdAt: Timestamp.fromDate(new Date()),
         userId: userId,
       });

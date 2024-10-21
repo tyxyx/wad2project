@@ -1,4 +1,4 @@
-import { loginUser, loginBusinessWithUEN, createUser, createUserWithUEN, saveBusinessDetails, saveUserDetails } from '../wad2project/database.js';
+import { loginUser, loginBusinessWithUEN, createUser, createUserWithUEN, saveBusinessDetails, saveUserDetails, getFieldValue } from '../wad2project/database.js';
 
 let currentMode = 'login';
 let currentType = 'individual';
@@ -140,7 +140,10 @@ function handleSubmit(event) {
         if (currentType === 'individual') {
             loginUser(emailOrUEN, password)
                 .then(user => {
-                    showStatusPopup('Login successful! Welcome ' + user.email)
+                    getFieldValue('userLogin', emailOrUEN, 'fullName').then((fieldValue) => {
+                        showStatusPopup('Login successful! Welcome ' + fieldValue)
+                    })
+
                 })
                 .catch(error => {
                     showStatusPopup('Login failed: ' + getCustomErrorMessage(error), false)
@@ -148,7 +151,9 @@ function handleSubmit(event) {
         } else {
             loginBusinessWithUEN(emailOrUEN, password)
                 .then(user => {
-                    showStatusPopup('Login successful! Welcome ' + user.email)
+                    getFieldValue('businessLogin', emailOrUEN, 'busName').then((fieldValue) => {
+                        showStatusPopup('Login successful! Welcome ' + fieldValue)
+                    })
                 })
                 .catch(error => {
                     showStatusPopup('Login failed: ' + getCustomErrorMessage(error), false)
@@ -182,7 +187,7 @@ function handleSubmit(event) {
             .then(business => {
                 showStatusPopup('Registration successful! Welcome ' + name)
                 // After successful registration, save business details
-                return saveBusinessDetails(emailOrUEN, business.uid);
+                return saveBusinessDetails(emailOrUEN, business.uid, name);
             })
             .then(() => {
                 console.log('Business details saved successfully');
