@@ -24,3 +24,6 @@ dist-ssr
 .vercel
 
 *.env
+
+# API Keys
+configure.js
