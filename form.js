@@ -191,11 +191,12 @@ function handleSubmit(event) {
                     showStatusPopup("Registration failed: " + getCustomErrorMessage(error), false)
                 });
         } else {
+            let uppercaseUEN = emailOrUEN.toUpperCase()
             createUserWithUEN(emailOrUEN, password)
             .then(business => {
                 showStatusPopup('Registration successful! Welcome ' + name)
                 // After successful registration, save business details
-                return saveBusinessDetails(emailOrUEN, business.uid, name);
+                return saveBusinessDetails(uppercaseUEN, business.uid, name);
             })
             .then(() => {
                 console.log('Business details saved successfully');
