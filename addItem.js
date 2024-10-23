@@ -146,14 +146,14 @@ function createModalForm() {
     modalTitle.id = 'exampleModalLabel';
     modalTitle.textContent = 'Add Menu Item';
 
-    const closeButton = document.createElement('button');
-    closeButton.type = 'button';
-    closeButton.className = 'btn-close';
-    closeButton.setAttribute('data-bs-dismiss', 'modal');
-    closeButton.setAttribute('aria-label', 'Close');
+    // const closeButton = document.createElement('button');
+    // closeButton.type = 'button';
+    // closeButton.className = 'btn-close';
+    // closeButton.setAttribute('data-bs-dismiss', 'modal');
+    // closeButton.setAttribute('aria-label', 'Close');
 
     modalHeader.appendChild(modalTitle);
-    modalHeader.appendChild(closeButton);
+    // modalHeader.appendChild(closeButton);
 
     // Create modal body
     const modalBody = document.createElement('div');
@@ -270,18 +270,18 @@ function createModalForm() {
     const modalFooter = document.createElement('div');
     modalFooter.className = 'modal-footer';
 
-    const closeModalBtn = document.createElement('button');
-    closeModalBtn.type = 'button';
-    closeModalBtn.className = 'btn btn-secondary';
-    closeModalBtn.setAttribute('data-bs-dismiss', 'modal');
-    closeModalBtn.textContent = 'Close';
+    // const closeModalBtn = document.createElement('button');
+    // closeModalBtn.type = 'button';
+    // closeModalBtn.className = 'btn btn-secondary';
+    // closeModalBtn.setAttribute('data-bs-dismiss', 'modal');
+    // closeModalBtn.textContent = 'Close';
 
     const saveButton = document.createElement('button');
     saveButton.type = 'button';
     saveButton.className = 'btn btn-primary';
     saveButton.textContent = 'Save changes';
 
-    modalFooter.appendChild(closeModalBtn);
+    // modalFooter.appendChild(closeModalBtn);
     modalFooter.appendChild(saveButton);
 
     // Assemble all parts
