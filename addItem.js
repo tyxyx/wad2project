@@ -270,18 +270,18 @@ function createModalForm() {
     const modalFooter = document.createElement('div');
     modalFooter.className = 'modal-footer';
 
-    // const closeModalBtn = document.createElement('button');
-    // closeModalBtn.type = 'button';
-    // closeModalBtn.className = 'btn btn-secondary';
-    // closeModalBtn.setAttribute('data-bs-dismiss', 'modal');
-    // closeModalBtn.textContent = 'Close';
+    const discardModalBtn = document.createElement('button');
+    discardModalBtn.type = "button";
+    discardModalBtn.className = "btn btn-danger";
+    discardModalBtn.setAttribute("data-bs-dismiss", "modal");
+    discardModalBtn.textContent = "Discard changes";
 
     const saveButton = document.createElement('button');
     saveButton.type = 'button';
     saveButton.className = 'btn btn-primary';
     saveButton.textContent = 'Save changes';
 
-    // modalFooter.appendChild(closeModalBtn);
+    modalFooter.appendChild(discardModalBtn);
     modalFooter.appendChild(saveButton);
 
     // Assemble all parts
@@ -291,6 +291,14 @@ function createModalForm() {
 
     modalDialog.appendChild(modalContent);
     modalDiv.appendChild(modalDialog);
+
+    // event listener for discard button
+    discardModalBtn.addEventListener('click', async () => {
+        const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+            modal.hide();
+            // Reset form
+            document.querySelector('form').reset();
+    });
 
     // Add event listener for the save button
     saveButton.addEventListener('click', async () => {

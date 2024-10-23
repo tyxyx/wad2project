@@ -86,93 +86,6 @@
         Add
       </button>
 
-      <!-- Modal -->
-      <!-- <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">
-                Add Menu Item
-              </h1>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="menuItemName" class="form-label"
-                    >Menu Item Name</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="menuItemName"
-                    placeholder="Enter item name"
-                    required
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="menuItemPrice" class="form-label">Price</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="menuItemPrice"
-                    placeholder="Enter price"
-                    required
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="menuItemDescription" class="form-label"
-                    >Description</label
-                  >
-                  <textarea
-                    class="form-control"
-                    id="menuItemDescription"
-                    rows="3"
-                    placeholder="Enter description"
-                    required
-                  ></textarea>
-                </div>
-                <div class="mb-3">
-                  <label for="menuItemImage" class="form-label"
-                    >Attach Image</label
-                  >
-                  <input
-                    type="file"
-                    class="form-control"
-                    id="menuItemImage"
-                    accept="image/*"
-                  />
-                </div>
-              </form>
-            </div>
-
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button type="button" class="btn btn-primary">
-                Save changes
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
       <div class="row mt-4">
         <div class="col-md-4" v-for="item in menuItems" :key="item.id">
           <div class="card mb-4">
@@ -251,13 +164,7 @@
 
       app.mount("#app");
     </script>
-    <script type="module">
-    import { showModal } from './additem.js';
-          
-    // Event listener for the button
-    document.getElementById('addButton').addEventListener('click', showModal);
     
-</script>
-
+    <script type="module" src="./addItem.js"></script>
   </body>
 </html>

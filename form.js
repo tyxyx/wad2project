@@ -144,7 +144,7 @@ function handleSubmit(event) {
                         showStatusPopup('Login successful! Welcome ' + fieldValue)
                         // UPDATE HERE TO CHANGE LOCATION
                         setTimeout(function() {
-                            window.location.href = './restaurant-profile.html'
+                            window.location.href = './browse.html'
                         }, 1000)
                     })
 
@@ -158,7 +158,7 @@ function handleSubmit(event) {
                     getFieldValue('businessLogin', emailOrUEN, 'busName').then((fieldValue) => {
                         showStatusPopup('Login successful! Welcome ' + fieldValue)
                         setTimeout(function() {
-                            window.location.href = './restaurant-profile.html'
+                            window.location.href = './business-profile.html'
                         }, 1000)
                         
                     })
