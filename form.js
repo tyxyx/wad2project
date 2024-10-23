@@ -219,6 +219,12 @@ function updateActiveType() {
     const busOption = document.getElementById('business');
     indivOption.style.color = currentType === 'individual' ? 'blue' : 'black';
     busOption.style.color = currentType === 'business' ? 'blue' : 'black';
+
+    const indivCont = document.getElementById('generateFormIndiv');
+    const busCont = document.getElementById('generateFormBusiness');
+    indivCont.classList.toggle('active', currentType === 'individual');
+    busCont.classList.toggle('active', currentType === 'business');
+
 }
 
 function showStatusPopup(message, isSuccess = true) {
