@@ -1,4 +1,4 @@
-import { loginUser, loginBusinessWithUEN, createUser, createUserWithUEN, saveBusinessDetails, saveUserDetails, getFieldValue } from '../wad2project/database.js';
+import { loginUser, loginBusinessWithUEN, createUser, createUserWithUEN, saveBusinessDetails, saveUserDetails, getFieldValue, passwordReset } from '../wad2project/database.js';
 
 let currentMode = 'login';
 let currentType = 'individual';
@@ -88,9 +88,17 @@ function generateForm() {
         forgetPasswordLink.classList.add('link-underline-secondary');
         forgetPasswordLink.style.color = 'gray';
         forgetPasswordLink.textContent = 'Forget Password';
+        
+        // Add click event listener for the forget password link
+        forgetPasswordLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          const resetModal = createPasswordResetModal();
+          resetModal.show();
+        });
+    
         forgetPasswordDiv.appendChild(forgetPasswordLink);
         form.appendChild(forgetPasswordDiv);
-    }
+      }
 
     // Submit button
     const submitButtonDiv = document.createElement('div');
@@ -287,3 +295,115 @@ switch (error.code) {
     return 'An error occurred. Please try again later.';
 }
 }
+
+function createPasswordResetModal() {
+    // Create modal elements
+    const modal = document.createElement('div');
+    modal.className = 'modal fade';
+    modal.id = 'resetPasswordModal';
+    modal.setAttribute('tabindex', '-1');
+    modal.setAttribute('aria-labelledby', 'resetPasswordModalLabel');
+    modal.setAttribute('aria-hidden', 'true');
+  
+    const modalDialog = document.createElement('div');
+    modalDialog.className = 'modal-dialog';
+  
+    const modalContent = document.createElement('div');
+    modalContent.className = 'modal-content';
+  
+    // Modal Header
+    const modalHeader = document.createElement('div');
+    modalHeader.className = 'modal-header';
+  
+    const modalTitle = document.createElement('h5');
+    modalTitle.className = 'modal-title';
+    modalTitle.id = 'resetPasswordModalLabel';
+    modalTitle.textContent = 'Reset Password';
+  
+    const closeButton = document.createElement('button');
+    closeButton.className = 'btn-close';
+    closeButton.setAttribute('data-bs-dismiss', 'modal');
+    closeButton.setAttribute('aria-label', 'Close');
+  
+    modalHeader.appendChild(modalTitle);
+    modalHeader.appendChild(closeButton);
+  
+    // Modal Body
+    const modalBody = document.createElement('div');
+    modalBody.className = 'modal-body';
+  
+    const formGroup = document.createElement('div');
+    formGroup.className = 'mb-3';
+  
+    const label = document.createElement('label');
+    label.className = 'form-label';
+    label.setAttribute('for', 'resetEmail');
+    
+    const strong = document.createElement('strong');
+    strong.textContent = 'Email Address';
+    label.appendChild(strong);
+  
+    const input = document.createElement('input');
+    input.type = 'email';
+    input.className = 'form-control';
+    input.id = 'resetEmail';
+    input.required = true;
+  
+    formGroup.appendChild(label);
+    formGroup.appendChild(input);
+    modalBody.appendChild(formGroup);
+  
+    // Modal Footer
+    const modalFooter = document.createElement('div');
+    modalFooter.className = 'modal-footer';
+  
+    const cancelButton = document.createElement('button');
+    cancelButton.type = 'button';
+    cancelButton.className = 'btn btn-secondary';
+    cancelButton.setAttribute('data-bs-dismiss', 'modal');
+    cancelButton.textContent = 'Cancel';
+  
+    const sendButton = document.createElement('button');
+    sendButton.type = 'button';
+    sendButton.className = 'btn btn-primary';
+    sendButton.id = 'sendResetLink';
+    sendButton.textContent = 'Send Reset Link';
+  
+    modalFooter.appendChild(cancelButton);
+    modalFooter.appendChild(sendButton);
+  
+    // Assemble modal
+    modalContent.appendChild(modalHeader);
+    modalContent.appendChild(modalBody);
+    modalContent.appendChild(modalFooter);
+    modalDialog.appendChild(modalContent);
+    modal.appendChild(modalDialog);
+  
+    // Add modal to document if it doesn't exist
+    if (!document.getElementById('resetPasswordModal')) {
+      document.body.appendChild(modal);
+    }
+  
+    // Initialize modal
+    const resetModal = new bootstrap.Modal(document.getElementById('resetPasswordModal'));
+  
+    // Add event listener for send reset link button
+    document.getElementById('sendResetLink').addEventListener('click', async () => {
+      const emailInput = document.getElementById('resetEmail');
+      const email = emailInput.value.trim();
+  
+      if (email) {
+        try {
+          await passwordReset(email);
+          resetModal.hide();
+          alert('Password reset link has been sent to your email');
+        } catch (error) {
+          alert('Error sending reset link: ' + error.message);
+        }
+      } else {
+        alert('Please enter a valid email address');
+      }
+    });
+  
+    return resetModal;
+  }
