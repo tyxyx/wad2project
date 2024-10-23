@@ -16,14 +16,14 @@ onAuthStateChanged(auth, async (user) => {
             if (businessDoc.exists()) {
                 currentUserDetails = businessDoc.data();
             } else {
-                window.location.href = './form.html?mode=login';
+                window.location.href = './login.html?mode=login';
             }
         } catch (error) {
             console.error("Error fetching user details:", error);
             alert("Failed to load user details. Please try again later.");
         }
     } else {
-        window.location.href = './form.html?mode=login';
+        window.location.href = './login.html?mode=login';
     }
 });
 
@@ -335,4 +335,4 @@ document.addEventListener('DOMContentLoaded', () => {
 export {
     addMenuItem,
     showModal
-};
+};  
