@@ -27,7 +27,8 @@ onAuthStateChanged(auth, async (user) => {
       const businessDoc = await fetchBusinessName(businessUEN);
 
       if (businessDoc.exists()) {
-        businessMenu = await fetchMenuItems(businessUEN);        
+        businessMenu = await fetchMenuItems(businessUEN); 
+        currentUserDetails = businessDoc.data();
         await displayBusinessName(businessUEN);
           await displayBusinessMenu(businessMenu);
       } else {
@@ -206,7 +207,7 @@ async function addMenuItem(uen, menuItemData) {
     await setDoc(newMenuItemRef, menuItemDoc);
 
     console.log("Menu item added successfully:", newMenuItemRef.id);
-
+    location.reload();
     // Return success with the new item's ID and data
     return {
       success: true,
