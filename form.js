@@ -163,7 +163,7 @@ function handleSubmit(event) {
         } else {
             loginBusinessWithUEN(emailOrUEN, password)
                 .then(user => {
-                    getFieldValue('businessLogin', emailOrUEN, 'busName').then((fieldValue) => {
+                    getFieldValue('businessLogin', emailOrUEN.toUpperCase(), 'busName').then((fieldValue) => {
                         showStatusPopup('Login successful! Welcome ' + fieldValue)
                         setTimeout(function() {
                             window.location.href = './business-profile.html'
