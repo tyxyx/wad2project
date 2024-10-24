@@ -37,6 +37,7 @@ onAuthStateChanged(auth, async (user) => {
     } catch (error) {
       console.error("Error fetching user details:", error);
       alert("Failed to load user details. Please try again later.");
+      redirectToLogin()
     }
   } else {
     redirectToLogin();
