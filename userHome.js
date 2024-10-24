@@ -89,7 +89,7 @@ function createBusinessCard(businessUEN, businessData) {
     
     // Add event listener to the 'View Menu' button
     viewMenuBtn.addEventListener("click", () => {
-        fetchAndDisplayMenuItems(businessUEN, businessData.businessName);
+        fetchAndDisplayMenuItems(businessUEN, businessData.busName);
     });
 
     // Append the button to the card
