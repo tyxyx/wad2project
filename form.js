@@ -46,10 +46,10 @@ function updateToggleLink() {
 
 function generateForm() {
     const formContainer = document.getElementById('formContainer');
-    formContainer.innerHTML = '';
+    formContainer.innerText = '';
 
     const form = document.createElement('form');
-    form.classList.add('col-12', 'col-md-6', 'mx-auto');
+    form.classList.add('col-12', 'col-md-6', 'mx-auto', 'formContent');
 
     if (currentMode === 'signup') {
         // Name input (for both individual and business)
