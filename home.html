@@ -55,6 +55,16 @@
             max-width: 1000px;
         }
 
+        /* Card animations */
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for both scale and shadow */
+        }
+
+        .card:hover {
+            transform: translateY(-5px) scale(1.05); /* Moves the card up slightly and increases its size */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Adds a stronger shadow on hover */
+        }
+
         
 
         
