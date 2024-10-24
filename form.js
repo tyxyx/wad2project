@@ -166,7 +166,7 @@ function handleSubmit(event) {
                     getFieldValue('businessLogin', emailOrUEN, 'busName').then((fieldValue) => {
                         showStatusPopup('Login successful! Welcome ' + fieldValue)
                         setTimeout(function() {
-                            window.location.href = './business-profile.html'
+                            window.location.href = './business-menu.html'
                         }, 1000)
                         
                     })
