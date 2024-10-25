@@ -112,6 +112,8 @@ function createBusinessCard(businessUEN, businessData) {
     
     // Add event listener to the 'View Menu' button
     card.addEventListener("click", () => {
+        // Update URL to include business ID
+        history.pushState({ businessUEN, businessName: businessData.busName }, '', `?business=${businessUEN}`);
         fetchAndDisplayMenuItems(businessUEN, businessData.busName);
     });
 
@@ -147,6 +149,11 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
             fetchBusinessCards();
         });
         businessContainer.appendChild(backButton);
+
+        window.addEventListener('popstate', () => {
+            businessContainer.innerHTML = "";
+            fetchBusinessCards();
+        });
 
     } catch (error) {
         console.error("Error fetching menu items:", error);
