@@ -5,6 +5,9 @@ import {
   setDoc,
   getDoc,
   getDocs,
+  deleteDoc,
+  query,
+  where,
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import {
@@ -132,13 +135,21 @@ export async function displayBusinessMenu(businessMenu) {
             ).toFixed(2)}</strong>
         `;
 
+    // Create discard button
+    const discardButton = document.createElement("button");
+    discardButton.className = "btn btn-danger"; 
+    discardButton.textContent = "Discard";
+    discardButton.onclick = () => discardMenuItem(item.itemName); 
+
     cardBodyDiv.appendChild(titleElement);
     cardBodyDiv.appendChild(descriptionElement);
     cardBodyDiv.appendChild(priceElement);
+    cardBodyDiv.appendChild(discardButton);
     cardDiv.appendChild(imgElement);
     cardDiv.appendChild(cardBodyDiv);
     colDiv.appendChild(cardDiv);
     rowDiv.appendChild(colDiv);
+
   });
 
   menuContainer.appendChild(rowDiv);
@@ -236,6 +247,32 @@ async function addMenuItem(uen, menuItemData) {
       error: errorMessage,
       details: error.message,
     };
+  }
+}
+
+async function discardMenuItem(itemName) {
+  const menuItemsRef = collection(
+    db,
+    "businessLogin",
+    businessUEN,
+    "menuItems"
+  );
+
+  // Create a query against the collection
+  const q = query(menuItemsRef, where("itemName", "==", itemName));
+
+  try {
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      const menuItemRef = doc.ref; // 
+
+      // Delete the document
+      await deleteDoc(menuItemRef);
+      alert(`Item with name: ${doc.id} is deleted`);
+      location.reload();
+    });
+  } catch (error) {
+    console.error("Error deleting menu item: ", error);
   }
 }
 
