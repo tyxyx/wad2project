@@ -46,10 +46,12 @@ function updateToggleLink() {
 
 function generateForm() {
     const formContainer = document.getElementById('formContainer');
-    formContainer.innerHTML = '';
+
+    formContainer.innerText = '';
 
     const form = document.createElement('form');
-    form.classList.add('col-12', 'col-md-6', 'mx-auto');
+    form.classList.add('col-12', 'col-md-6', 'mx-auto', 'formContent');
+
 
     if (currentMode === 'signup') {
         // Name input (for both individual and business)
@@ -152,7 +154,7 @@ function handleSubmit(event) {
                         showStatusPopup('Login successful! Welcome ' + fieldValue)
                         // UPDATE HERE TO CHANGE LOCATION
                         setTimeout(function() {
-                            window.location.href = './browse.html'
+                            window.location.href = './home.html'
                         }, 1000)
                     })
 
@@ -163,6 +165,7 @@ function handleSubmit(event) {
         } else {
             loginBusinessWithUEN(emailOrUEN, password)
                 .then(user => {
+
                     getFieldValue('businessLogin', emailOrUEN.toUpperCase(), 'busName').then((fieldValue) => {
                         showStatusPopup('Login successful! Welcome ' + fieldValue)
                         setTimeout(function() {
@@ -170,6 +173,7 @@ function handleSubmit(event) {
                         }, 1000)
                         
                     })
+
                 })
                 .catch(error => {
                     showStatusPopup('Login failed: ' + getCustomErrorMessage(error), false)

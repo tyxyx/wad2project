@@ -2,7 +2,7 @@
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
   import { getFirestore, collection, getDocs, getDoc, doc, setDoc, Timestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, confirmPasswordReset, verifyPasswordResetCode } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, confirmPasswordReset, verifyPasswordResetCode, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
   import { firebaseConfig } from "./configure.js";
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -165,6 +165,17 @@
     return verifyPasswordResetCode(auth, oobCode)
       .then(() => {
 
+      })
+      .catch((error) => {
+        throw error
+      })
+  }
+
+  export async function logOut() {
+    return signOut(auth)
+      .then(() => {
+        window.location.href = './login.html'
+        console.log("signout successful")
       })
       .catch((error) => {
         throw error

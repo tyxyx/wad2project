@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./images/mealmate-logo-zip-file/svg icon/logo-color.svg">
+    <title>MealMate - Home</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!-- Custom CSS -->
+    <style>
+      /* Body */
+      body {
+        background-color: #f2e6d8;
+        font-family: "Arial", sans-serif;
+      }
+
+      /* Navbar */
+      .navbar {
+        height: 50px;
+        animation: slideDown 0.5s ease-in-out;
+      }
+
+      a.text-white:hover {
+        color: black !important;
+        text-decoration: underline;
+      }
+
+      /* Search bar */
+      .search-bar-box {
+        padding: 30px;
+        background-color: #d4a373;
+      }
+
+      .search-bar {
+        padding: 15px;
+        width: 700px;
+        border-radius: 30px;
+      }
+
+      .search-button {
+        border-radius: 30px;
+      }
+
+      /* Main */
+      .container {
+        max-width: 1000px;
+      }
+
+      /* Horizontal card listings */
+      .horizontal-list {
+        display: flex;
+        overflow-x: auto;
+        scrollbar-width: thin; /* For Firefox */
+        padding: 10px 0; /* Padding for aesthetics */
+      }
+
+      .horizontal-list::-webkit-scrollbar {
+        height: 8px;
+      }
+
+      .horizontal-list::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+      }
+
+      .horizontal-list::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+      .card {
+        min-width: 250px; /* Adjust as needed */
+        max-width: 300px; /* Ensure a maximum width for uniformity */
+        margin-right: 16px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 15px;
+        overflow: hidden; /* Round corners */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+      }
+
+      .card img {
+        border-bottom: 1px solid #ddd; /* Add a border under the image */
+      }
+
+      .card:hover {
+        transform: translateY(-5px) scale(1.05);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Title and Ratings */
+      .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      .card-text {
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      /* Animations */
+      @keyframes slideDown {
+        from {
+          transform: translateY(-20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* Button Styles */
+      .scroll-button {
+        background-color: #6c9a8b;
+        color: white;
+        border: none;
+        border-radius: 100%;
+        padding: 10px;
+        cursor: pointer;
+        z-index: 10;
+        transition: background-color 0.3s ease;
+      }
+
+      .scroll-button:hover {
+        background-color: #5a7f6f; /* Darker shade on hover */
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .horizontal-list {
+          padding: 5px; /* Reduce padding on smaller screens */
+        }
+        .scroll-button {
+          padding: 8px; /* Smaller button for smaller screens */
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Main Navbar -->
+    <div class="row">
+      <nav class="navbar navbar-expand-md" style="background-color: #6c9a8b;">
+        <div class="container-fluid">
+          <div class="col-2 d-flex align-items-center">
+            <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" alt="MealMate Logo" class="me-2" style="height: 40px;" />
+          </div>
+          <div class="col-8 col-md-4 d-flex justify-content-center justify-content-md-start"></div>
+          <div class="col-md-2 d-flex justify-content-end text-nowrap" id="logout">
+            <a href="./login.html?mode=login&type=individual" class="nav-link text-white">Log out</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="row search-bar-box">
+      <div class="col-12">
+        <nav class="navbar navbar-expand">
+          <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <form class="d-flex w-100" role="search">
+                <input class="form-control me-2 search-bar w-100" type="search" placeholder="Search for food businesses" aria-label="Search" />
+                <button class="btn btn-outline-light search-button" type="submit">Search</button>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <div id="business-container"></div>
+
+    <div id="app" class="container mt-5">
+      <h3>Near Me</h3>
+      <div class="d-flex align-items-center">
+        <button class="scroll-button" @click="scrollLeftNear"><</button>
+        <div class="horizontal-list mt-4" ref="scrollContainerNear">
+          <div class="card" v-for="restaurant in restaurants" :key="restaurant.name">
+            <img v-bind:src="restaurant.image" class="card-img-top" alt="Menu item image" />
+            <div class="card-body">
+              <h5 class="card-title d-inline">{{ restaurant.name }}</h5>
+              <span class="float-end">⭐ {{ restaurant.rating }} ({{ restaurant.reviews }}+)</span>
+              <p class="card-text">
+                <span v-for="(classification, index) in restaurant.dietaryClassification" :key="index">{{ classification }}<span v-if="index < restaurant.dietaryClassification.length - 1">, </span></span>
+                <br />
+                <span v-for="(cuisine, index) in restaurant.cuisine" :key="index">{{ cuisine }}<span v-if="index < restaurant.cuisine.length - 1">, </span></span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <button class="scroll-button" @click="scrollRightNear">></button>
+      </div>
+
+      <h3 class="mt-5">Cuisines</h3>
+      <div class="d-flex align-items-center">
+        <button class="scroll-button" @click="scrollLeftCuisine"><</button>
+        <div class="horizontal-list mt-4" ref="scrollContainerCuisine">
+          <div class="card" v-for="restaurant in restaurants" :key="restaurant.name + '-all'">
+            <img v-bind:src="restaurant.image" class="card-img-top" alt="Menu item image" />
+            <div class="card-body">
+              <h5 class="card-title d-inline">{{ restaurant.name }}</h5>
+              <span class="float-end">⭐ {{ restaurant.rating }} ({{ restaurant.reviews }}+)</span>
+              <p class="card-text">
+                <span v-for="(classification, index) in restaurant.dietaryClassification" :key="index">{{ classification }}<span v-if="index < restaurant.dietaryClassification.length - 1">, </span></span>
+                <br />
+                <span v-for="(cuisine, index) in restaurant.cuisine" :key="index">{{ cuisine }}<span v-if="index < restaurant.cuisine.length - 1">, </span></span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <button class="scroll-button" @click="scrollRightCuisine">></button>
+      </div>
+      
+      <h3 class="mt-5">New Food Businesses</h3>
+      <div class="d-flex align-items-center">
+        <button class="scroll-button" @click="scrollLeftNew"><</button>
+        <div class="horizontal-list mt-4" ref="scrollContainerNew">
+          <div class="card" v-for="restaurant in restaurants" :key="restaurant.name + '-all'">
+            <img v-bind:src="restaurant.image" class="card-img-top" alt="Menu item image" />
+            <div class="card-body">
+              <h5 class="card-title d-inline">{{ restaurant.name }}</h5>
+              <span class="float-end">⭐ {{ restaurant.rating }} ({{ restaurant.reviews }}+)</span>
+              <p class="card-text">
+                <span v-for="(classification, index) in restaurant.dietaryClassification" :key="index">{{ classification }}<span v-if="index < restaurant.dietaryClassification.length - 1">, </span></span>
+                <br />
+                <span v-for="(cuisine, index) in restaurant.cuisine" :key="index">{{ cuisine }}<span v-if="index < restaurant.cuisine.length - 1">, </span></span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <button class="scroll-button" @click="scrollRightNew">></button>
+      </div>
+
+      <!-- <h3 class="mt-5">All Food Businesses</h3>
+      <div class="d-flex align-items-center">
+        <button class="scroll-button" @click="scrollLeftAll"><</button>
+        <div class="horizontal-list mt-4" ref="scrollContainerAll">
+          <div class="card" v-for="restaurant in restaurants" :key="restaurant.name + '-all'">
+            <img v-bind:src="restaurant.image" class="card-img-top" alt="Menu item image" />
+            <div class="card-body">
+              <h5 class="card-title d-inline">{{ restaurant.name }}</h5>
+              <span class="float-end">⭐ {{ restaurant.rating }} ({{ restaurant.reviews }}+)</span>
+              <p class="card-text">
+                <span v-for="(classification, index) in restaurant.dietaryClassification" :key="index">{{ classification }}<span v-if="index < restaurant.dietaryClassification.length - 1">, </span></span>
+                <br />
+                <span v-for="(cuisine, index) in restaurant.cuisine" :key="index">{{ cuisine }}<span v-if="index < restaurant.cuisine.length - 1">, </span></span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <button class="scroll-button" @click="scrollRightAll">></button> -->
+        <h3 class="my-5">All food businesses</h3>
+        <div class="row mt-4">
+            <div class="col-md-4" v-for="restaurant in restaurants">
+                <div class="card mb-4">
+                    <img v-bind:src="restaurant.image" class="card-img-top" alt="Menu item image" />
+                    <div class="card-body" style="position: relative;">
+                        <h5 class="card-title d-inline">{{ restaurant.name }}</h5>
+                        <span style="position: absolute; right: 20px;">⭐ {{restaurant.rating}} ({{restaurant.reviews}}+)</span>
+                        <p class="card-text">
+                            <span v-for="a_classification in restaurant.dietaryClassification">{{a_classification}}</span> &#8226;
+                            <span v-for="a_cuisine in restaurant.cuisine">{{a_cuisine}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script type="module" src="userHome.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const app = Vue.createApp({
+        data() {
+          return {
+            restaurants: [
+              {
+                name: "Pasta Mania",
+                image: "https://via.placeholder.com/250x150?text=Pasta+Mania",
+                rating: 4.5,
+                reviews: 100,
+                dietaryClassification: ["Vegetarian"],
+                cuisine: ["Italian"],
+              },
+              {
+                name: "Sushi Express",
+                image: "https://via.placeholder.com/250x150?text=Sushi+Express",
+                rating: 4.7,
+                reviews: 80,
+                dietaryClassification: ["Seafood"],
+                cuisine: ["Japanese"],
+              },
+              {
+                name: "Burger King",
+                image: "https://via.placeholder.com/250x150?text=Burger+King",
+                rating: 4.2,
+                reviews: 200,
+                dietaryClassification: ["Halal"],
+                cuisine: ["Fast Food"],
+              },
+              {
+                name: "Mamma Mia!",
+                image: "https://via.placeholder.com/250x150?text=Mamma+Mia!",
+                rating: 4.8,
+                reviews: 150,
+                dietaryClassification: ["Vegan"],
+                cuisine: ["Italian"],
+              },
+              {
+                name: "Taco Bell",
+                image: "https://via.placeholder.com/250x150?text=Taco+Bell",
+                rating: 4.3,
+                reviews: 120,
+                dietaryClassification: ["Vegetarian"],
+                cuisine: ["Mexican"],
+              },
+              {
+                name: "Cafe Coffee Day",
+                image: "https://via.placeholder.com/250x150?text=Cafe+Coffee+Day",
+                rating: 4.0,
+                reviews: 60,
+                dietaryClassification: ["Vegetarian"],
+                cuisine: ["Cafe"],
+              },
+              {
+                name: "Chow Mein",
+                image: "https://via.placeholder.com/250x150?text=Chow+Mein",
+                rating: 4.1,
+                reviews: 90,
+                dietaryClassification: ["Vegetarian"],
+                cuisine: ["Chinese"],
+              },
+              {
+                name: "Thai Delight",
+                image: "https://via.placeholder.com/250x150?text=Thai+Delight",
+                rating: 4.4,
+                reviews: 110,
+                dietaryClassification: ["Vegan"],
+                cuisine: ["Thai"],
+              },
+            ],
+          };
+        },
+        methods: {
+            scrollLeftNear() {
+            this.$refs.scrollContainerNear.scrollBy({
+              left: -250, // Adjust based on the card width
+              behavior: "smooth",
+            });
+          },
+          scrollRightNear() {
+            this.$refs.scrollContainerNear.scrollBy({
+              left: 250, // Adjust based on the card width
+              behavior: "smooth",
+            });
+          },
+          scrollLeftAll() {
+            this.$refs.scrollContainerAll.scrollBy({
+              left: -250, // Adjust based on the card width
+              behavior: "smooth",
+            });
+          },
+          scrollRightAll() {
+            this.$refs.scrollContainerAll.scrollBy({
+              left: 250, // Adjust based on the card width
+              behavior: "smooth",
+            });
+          },
+          scrollLeftNew() {
+            this.$refs.scrollContainerNew.scrollBy({
+              left: -250, // Adjust based on the card width
+              behavior: "smooth",
+            });
+          },
+          scrollRightNew() {
+            this.$refs.scrollContainerNew.scrollBy({
+              left: 250, // Adjust based on the card width
+              behavior: "smooth",
+            });
+          },
+          scrollLeftCuisine() {
+            this.$refs.scrollContainerCuisine.scrollBy({
+              left: -250, // Adjust based on the card width
+              behavior: "smooth",
+            });
+          },
+          scrollRightCuisine() {
+            this.$refs.scrollContainerCuisine.scrollBy({
+              left: 250, // Adjust based on the card width
+              behavior: "smooth",
+            });
+          },
+        },
+      });
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>
