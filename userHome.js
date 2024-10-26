@@ -105,20 +105,14 @@ function createBusinessCard(businessUEN, businessData) {
     location.innerText = `Location: ${businessData.address}`; // Using innerText to set the address
     cardText.appendChild(location);
 
-    // // Create the "View Menu" button
-    // const viewMenuBtn = document.createElement("button");
-    // viewMenuBtn.innerText = "View Menu"; // Using innerText to set button text
-    // viewMenuBtn.classList.add("view-menu-btn", 'btn', 'btn-secondary');
     
-    // Add event listener to the 'View Menu' button
+    // Add event listener to the card
     card.addEventListener("click", () => {
-        // Update URL to include business ID
+        // Update URL to include business ID to allow browser back
         history.pushState({ businessUEN, businessName: businessData.busName }, '', `?business=${businessUEN}`);
         fetchAndDisplayMenuItems(businessUEN, businessData.busName);
     });
 
-    // // Append the button to the card
-    // cardBody.appendChild(viewMenuBtn);
 
     // Append the card to the container
     businessContainer.appendChild(card);
@@ -150,15 +144,19 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
         });
         businessContainer.appendChild(backButton);
 
-        window.addEventListener('popstate', () => {
-            businessContainer.innerHTML = "";
-            fetchBusinessCards();
-        });
-
     } catch (error) {
         console.error("Error fetching menu items:", error);
     }
 }
+
+
+// This is for browser back button, root level to prevent duplicates
+window.addEventListener('popstate', (event) => {
+    const businessContainer = document.getElementById("business-container");
+    businessContainer.innerHTML = "";
+    fetchBusinessCards();
+});
+
 
 // Function to create a card for each menu item
 function createMenuItemCard(menuItemData) {
