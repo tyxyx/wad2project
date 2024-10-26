@@ -1,4 +1,4 @@
-import { db, auth } from "../wad2project/database.js";
+import { db, auth, logOut } from "../wad2project/database.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import {
     collection,
@@ -292,3 +292,10 @@ function createCarousel(containerId, imageUrls) {
     
     container.appendChild(carousel);
 }
+
+
+// Logout function
+document.getElementById('logout').addEventListener('click', (event) => {
+    logOut();
+})
+
