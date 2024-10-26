@@ -64,6 +64,40 @@ $(document).ready(function ($) {
         },
     });
 
+    $(".main-navigation .nav-link").on("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const href = $(this).attr("href");
+        
+        // Remove the toggled class if it exists (mobile menu)
+        $(".main-navigation").removeClass("toggled");
+        
+        // Navigate to the new page
+        window.location.href = href;
+    });
+
+    // Your existing header menu click handler can be updated to:
+    jQuery(".header-menu ul li a").click(function (e) {
+        // Only handle non-nav-link items (your scroll items)
+        if (!$(this).hasClass('nav-link')) {
+            e.preventDefault();
+            jQuery(".main-navigation").removeClass("toggled");
+            
+            // Handle scroll for anchor links
+            const href = $(this).attr('href');
+            if (href.startsWith('#')) {
+                const target = $(href);
+                if (target.length) {
+                    $('html, body').animate({
+                        scrollTop: target.offset().top
+                    }, 1000);
+                }
+            }
+        }
+    });
+
+
     jQuery(".filters").on("click", function () {
         jQuery("#menu-dish").removeClass("bydefault_show");
     });
