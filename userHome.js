@@ -8,6 +8,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 let userEmail = null; 
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 // Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
@@ -17,7 +18,7 @@ onAuthStateChanged(auth, async (user) => {
             const userDoc = await fetchUserName(userEmail);
 
             if (userDoc.exists()) {
-                console.log("User found:", userDoc.data());
+                
                 // Fetch and display businesses
                 await fetchBusinessCards();
             } else {
@@ -33,6 +34,10 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
+function redirectToLogin() {
+  window.location.href = "./login.html?mode=login";
+}
+
 // Function to fetch user details
 async function fetchUserName(userEmail) {
     return await getDoc(doc(db, "userLogin", userEmail));
@@ -45,7 +50,7 @@ async function fetchBusinessCards() {
         
         businessQuerySnapshot.forEach((businessDoc) => {
             const businessData = businessDoc.data();
-            console.log("Business:", businessData);
+            
 
             // Create a card for each business
             createBusinessCard(businessDoc.id, businessData);
@@ -168,7 +173,7 @@ function createBusinessCard(businessUEN, businessData) {
     card.addEventListener("click", () => {
         // Update URL to include business ID to allow browser back
         history.pushState({ businessUEN, businessName: businessData.busName }, '', `?business=${businessUEN}`);
-        fetchAndDisplayMenuItems(businessUEN, businessData.busName);
+        fetchAndDisplayMenuItems(businessUEN, businessData.busName);      
     });
 
     // Append the card to the container
@@ -178,37 +183,68 @@ function createBusinessCard(businessUEN, businessData) {
     menuDish.appendChild(card);
 }
 
-
+let listGroup=[]
 // Function to fetch and display menu items for a specific business CHANGE HERE TO DISPLAY MENU
 async function fetchAndDisplayMenuItems(businessUEN, businessName) {
-    try {
-        const menuItemsSnapshot = await getDocs(collection(db, `businessLogin/${businessUEN}/menuItems`));
-        
-        // Clear existing cards to display menu
-        const menuDish = document.getElementById("menu-dish");
-        menuDish.innerHTML = `<h2>Menu for ${businessName}</h2>`;
+  try {
+    const menuItemsSnapshot = await getDocs(
+      collection(db, `businessLogin/${businessUEN}/menuItems`)
+    );
 
-        menuItemsSnapshot.forEach((menuItemDoc) => {
-            const menuItemData = menuItemDoc.data();
-            console.log("Menu Item:", menuItemData);
-            createMenuItemCard(menuItemData);
-        });
+    // Clear existing cards to display menu
+    const menuDish = document.getElementById("menu-dish");
+    menuDish.innerHTML = `<h2>Menu for ${businessName}</h2>`;
 
-        // Add a back button to go back to the business list
-        const backButton = document.createElement("button");
-        backButton.textContent = "Back to Businesses";
-        backButton.addEventListener("click", () => {
-            // Clear the menu and show the business cards again
-            menuDish.innerText = "";
-            fetchBusinessCards();
-        });
-        menuDish.appendChild(backButton);
+    menuItemsSnapshot.forEach((menuItemDoc) => {
+      const menuItemData = menuItemDoc.data();
 
-    } catch (error) {
-        console.error("Error fetching menu items:", error);
-    }
-}
+      createMenuItemCard(menuItemData);
+    });
 
+    // Create a container for cart items
+    const cartContainer = document.createElement("div");
+    cartContainer.classList.add("card", "mt-4");
+    cartContainer.style.width = "18rem";
+
+    // Create the card header
+    const cardHeader = document.createElement("div");
+    cardHeader.classList.add("card-header");
+    cardHeader.innerText = "Your Cart";
+
+    // Create the list group
+    listGroup = document.createElement("ul");
+    listGroup.classList.add("list-group", "list-group-flush");
+
+    // Append the header and list group to the cart container
+    cartContainer.appendChild(cardHeader);
+    cartContainer.appendChild(listGroup);
+
+    // Create Order Now button
+    const orderNowButton = document.createElement("button");
+    orderNowButton.textContent = "Order Now";
+    orderNowButton.classList.add("btn", "btn-success");
+      orderNowButton.addEventListener("click", () => {
+        window.location.href = "cart.html";
+    });
+
+    // Add a back button to go back to the business list
+    const backButton = document.createElement("button");
+    backButton.textContent = "Back to Businesses";
+    backButton.addEventListener("click", () => {
+      // Clear the menu and show the business cards again
+      menuDish.innerText = "";
+      fetchBusinessCards();
+    });
+    // Append buttons to the menu dish
+    menuDish.appendChild(cartContainer);
+    menuDish.appendChild(orderNowButton);
+      menuDish.appendChild(backButton);
+      loadCartItems(listGroup);
+      
+  } catch (error) {
+    console.error("Error fetching menu items:", error);
+  }
+}   
 
 // This is for browser back button, root level to prevent duplicates
 window.addEventListener('popstate', (event) => {
@@ -217,61 +253,109 @@ window.addEventListener('popstate', (event) => {
     fetchBusinessCards();
 });
 
-
 // Function to create a card for each menu item
 function createMenuItemCard(menuItemData) {
-    const menuDish = document.getElementById("menu-dish");
+  const menuDish = document.getElementById("menu-dish");
 
-    // Create food card
-    const menuItemCard = document.createElement("div");
-    menuItemCard.classList.add("menu-item-card", "card", "mb-4");
-    
-    // Create carousel container first
-    const carouselContainer = document.createElement("div");
-    carouselContainer.classList.add("carousel-container", "mb-3");
-    const carouselId = `carousel-${menuItemData.itemName.replace(/\s+/g, '-').toLowerCase()}`;
-    carouselContainer.id = carouselId;
-    
-    // Add carousel container to card
-    menuItemCard.appendChild(carouselContainer);
-    
-    // Create card body for content
-    const cardBody = document.createElement("div");
-    cardBody.classList.add("card-body");
-    
-    // Create title
-    const title = document.createElement("h4");
-    title.classList.add("card-title", "mb-2");
-    title.textContent = menuItemData.itemName;
-    
-    // Create description
-    const description = document.createElement("p");
-    description.classList.add("card-text", "mb-2");
-    description.textContent = menuItemData.description;
-    
-    // Create price with proper formatting
-    const price = document.createElement("p");
-    price.classList.add("card-text", "fw-bold");
-    price.textContent = `$${Number(menuItemData.price).toFixed(2)}`;
-    
-    // Assemble the card body
-    cardBody.appendChild(title);
-    cardBody.appendChild(description);
-    cardBody.appendChild(price);
-    
-    // Add card body to card
-    menuItemCard.appendChild(cardBody);
-    
-    // Add the completed card to the container
-    menuDish.appendChild(menuItemCard);
-    
-    // Create carousel only after the container is in the DOM
-    createCarousel(carouselId, menuItemData.images);
+  // Create food card
+  const menuItemCard = document.createElement("div");
+  menuItemCard.classList.add("menu-item-card", "card", "mb-4");
+
+  // Create carousel container first
+  const carouselContainer = document.createElement("div");
+  carouselContainer.classList.add("carousel-container", "mb-3");
+  const carouselId = `carousel-${menuItemData.itemName
+    .replace(/\s+/g, "-")
+    .toLowerCase()}`;
+  carouselContainer.id = carouselId;
+
+  // Add carousel container to card
+  menuItemCard.appendChild(carouselContainer);
+
+  // Create card body for content
+  const cardBody = document.createElement("div");
+  cardBody.classList.add("card-body");
+
+  // Create title
+  const title = document.createElement("h4");
+  title.classList.add("card-title", "mb-2");
+  title.textContent = menuItemData.itemName;
+
+  // Create description
+  const description = document.createElement("p");
+  description.classList.add("card-text", "mb-2");
+  description.textContent = menuItemData.description;
+
+  // Create price with proper formatting
+  const price = document.createElement("p");
+  price.classList.add("card-text", "fw-bold");
+  price.textContent = `$${Number(menuItemData.price).toFixed(2)}`;
+
+  // Create quantity counter
+  const quantityContainer = document.createElement("div");
+  quantityContainer.classList.add("quantity-container", "mb-2");
+
+  const quantityInput = document.createElement("input");
+  quantityInput.type = "number";
+  quantityInput.value = 0; // Starting quantity
+  quantityInput.min = 0; // Prevent negative numbers
+  quantityInput.classList.add("quantity-input", "form-control", "me-2");
+
+  const addToCartButton = document.createElement("button");
+  addToCartButton.textContent = "Add to Cart";
+  addToCartButton.classList.add("btn", "btn-primary");
+
+  // Add event listener to update cart on button click
+  addToCartButton.addEventListener("click", () => {
+    const quantity = parseInt(quantityInput.value);
+    if (quantity > 0) {
+      // Add item to cart logic here
+      addToCart(menuItemData.itemName, quantity, menuItemData.price);
+      alert(`${quantity} ${menuItemData.itemName}(s) added to cart!`);
+      quantityInput.value = 0; // Reset counter to 0
+    } else {
+      alert("Please select a quantity to add to the cart.");
+    }
+  });
+
+  // Append input and button to the quantity container
+  quantityContainer.appendChild(quantityInput);
+  quantityContainer.appendChild(addToCartButton);
+
+  // Assemble the card body
+  cardBody.appendChild(title);
+  cardBody.appendChild(description);
+  cardBody.appendChild(price);
+  cardBody.appendChild(quantityContainer);
+
+  // Add card body to card
+  menuItemCard.appendChild(cardBody);
+
+  // Add the completed card to the container
+  menuDish.appendChild(menuItemCard);
+
+  // Create carousel only after the container is in the DOM
+  createCarousel(carouselId, menuItemData.images);
+}
+// Function to add item to cart
+function addToCart(itemName, quantity, price) {
+    // Check if the item is already in the cart
+  
+  const existingItemIndex = cart.findIndex((item) => item.name === itemName);
+
+  if (existingItemIndex !== -1) {
+    // If item exists, update the quantity
+    cart[existingItemIndex].quantity += quantity;
+  } else {
+    // If item doesn't exist, add it to the cart
+    cart.push({ name: itemName, quantity: quantity, price: price });
+  }
+
+  // Store the updated cart back to localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCartItems(listGroup)
 }
 
-function redirectToLogin() {
-    window.location.href = "./login.html?mode=login";
-}
 
 
 function createCarousel(containerId, imageUrls) {
@@ -359,3 +443,52 @@ document.getElementById('logout').addEventListener('click', (event) => {
     logOut();
 })
 
+
+// Function to load cart items and display them
+function loadCartItems(listGroup) {
+  
+  // Clear existing items in the list group
+    listGroup.innerHTML = "";
+
+    cart.forEach((item) => {
+        const listItem = document.createElement("li");
+        listItem.classList.add("list-group-item");
+        listItem.textContent = `${item.name}: ${item.quantity} @ $${item.price.toFixed(2)}`;
+        listGroup.appendChild(listItem);
+    });
+  }
+
+
+
+// Function to create and append a cart item element
+function createCartItemElement(item, cartContainer) {
+  const itemElement = document.createElement("div");
+  itemElement.classList.add("cart-item");
+
+  // Item name and price
+  const itemInfo = document.createElement("span");
+  itemInfo.textContent = `${item.name}: $${item.price.toFixed(2)}`;
+
+  // Quantity input
+  const quantityInput = document.createElement("input");
+  quantityInput.type = "number";
+  quantityInput.value = item.quantity;
+  quantityInput.min = 0;
+  quantityInput.classList.add("quantity-input", "me-2");
+
+  // Update quantity event listener
+  quantityInput.addEventListener("change", () => {
+    const newQuantity = parseInt(quantityInput.value);
+    if (newQuantity >= 0) {
+      item.quantity = newQuantity;
+      localStorage.setItem("cart", JSON.stringify(cart)); // Update cart in localStorage
+      updateTotals(cart); // Update totals after changing quantity
+      }
+     
+  });
+
+  // Append elements to item element
+  itemElement.appendChild(itemInfo);
+  itemElement.appendChild(quantityInput);
+  cartContainer.appendChild(itemElement);
+}
