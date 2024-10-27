@@ -33,6 +33,31 @@
             height: 60px;
             color: #666;
         }
+
+        .profile-pic-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s;
+        border-radius: 50%;
+        cursor: pointer;
+        }
+        
+        #profilePicContainer {
+            position: relative;
+        }
+        
+        #profilePicContainer:hover .profile-pic-overlay {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -110,6 +135,7 @@
                                 </div>
                                 <input type="file" id="profilePicInput" class="d-none" accept="image/*">
                             </div>
+                            <!-- edit profile -->
                             <button id="editProfileBtn" class="sec-btn">
                                 <i class="bi bi-pencil"></i> Edit Profile
                             </button>

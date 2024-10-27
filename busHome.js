@@ -11,9 +11,12 @@ import {
     ref,
     uploadBytes,
     getDownloadURL,
+    deleteObject
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
 let businessUEN = null;
+let currentProfilePic = '';
+let oldProfilePicRef = null;
 
 // Listen for authentication state changes
 onAuthStateChanged(auth, async(user) => {
@@ -30,6 +33,8 @@ onAuthStateChanged(auth, async(user) => {
                 bsModal.show();
                 setupFormHandlers();
             } else {
+                currentProfilePic = businessFields.profilePic
+                oldProfilePicRef = ref(getStorage(), businessFields.profilePic)
                 document.getElementById('businessName').innerText = businessFields.busName;
                 document.getElementById('addressDisplay').innerText = businessFields.address
                 document.getElementById('contactDisplay').innerText = businessFields.contactInfo
@@ -204,3 +209,213 @@ async function handleOnboardingSubmit(e) {
     form.classList.add('was-validated');
 }
 
+// Add to busHome.js
+
+// Event listener for edit button
+document.addEventListener('DOMContentLoaded', () => {
+    const editBtn = document.getElementById('editProfileBtn');
+    if (editBtn) {
+        editBtn.addEventListener('click', handleEditClick);
+    }
+
+    const cancelBtn = document.getElementById('cancelEditBtn');
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', handleCancelEdit);
+    }
+
+    const saveBtn = document.getElementById('saveProfileBtn');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', handleSaveProfile);
+    }
+
+    // Set up profile picture change handler
+    const profilePicContainer = document.getElementById('profilePicContainer');
+    const profilePicInput = document.createElement('input');
+    profilePicInput.type = 'file';
+    profilePicInput.id = 'profilePicInput';
+    profilePicInput.className = 'd-none';
+    profilePicInput.accept = 'image/*';
+    profilePicContainer.parentElement.appendChild(profilePicInput);
+
+    profilePicContainer.addEventListener('click', () => {
+        if (document.getElementById('editMode').classList.contains('d-none')) return;
+        document.getElementById('profilePicInput').click();
+    });
+
+    profilePicInput.addEventListener('change', handleProfilePicChange);
+});
+
+function handleEditClick() {
+    const viewMode = document.getElementById('viewMode');
+    const editMode = document.getElementById('editMode');
+    const addressInput = document.getElementById('addressInput');
+    const contactInput = document.getElementById('contactInput');
+
+    // Get current values
+    const currentAddress = document.getElementById('addressDisplay').textContent;
+    const currentContact = document.getElementById('contactDisplay').textContent;
+
+    // Set input values
+    addressInput.value = currentAddress;
+    contactInput.value = currentContact;
+
+    if (profilePicContainer.querySelector('img')) {
+        const img = profilePicContainer.querySelector('img');
+        img.style.cursor = 'pointer';
+        
+        const overlay = document.createElement('div');
+        overlay.className = 'profile-pic-overlay';
+        
+        const icon = document.createElement('i');
+        icon.className = 'bi bi-pencil';
+        
+        const text = document.createElement('span');
+        text.innerText = ' Change Photo';
+        
+        overlay.appendChild(icon);
+        overlay.appendChild(text);
+        profilePicContainer.appendChild(overlay);
+    }
+
+    // Switch modes
+    viewMode.classList.add('d-none');
+    editMode.classList.remove('d-none');
+}
+
+function handleCancelEdit() {
+    const viewMode = document.getElementById('viewMode');
+    const editMode = document.getElementById('editMode');
+
+    // Switch back to view mode
+    editMode.classList.add('d-none');
+    viewMode.classList.remove('d-none');
+}
+
+function handleProfilePicChange(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+        alert('File size must be less than 5MB');
+        return;
+    }
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+    }
+
+    // Preview the image
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const profilePicContainer = document.getElementById('profilePicContainer');
+        profilePicContainer.textContent = '';
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'cover';
+        profilePicContainer.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+}
+
+async function handleSaveProfile() {
+    try {
+        const saveBtn = document.getElementById('saveProfileBtn');
+        const addressInput = document.getElementById('addressInput');
+        const contactInput = document.getElementById('contactInput');
+        const profilePicInput = document.getElementById('profilePicInput');
+
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving...';
+
+        let profilePicUrl = null;
+        
+        // Handle profile picture upload if a new one was selected
+        if (profilePicInput.files[0]) {
+            const storage = getStorage();
+            const timestamp = new Date().getTime();
+            const fileName = `${timestamp}_${profilePicInput.files[0].name.replace(/[^a-zA-Z0-9.]/g, "_")}`;
+            const storageRef = ref(storage, `businessProfiles/${businessUEN}/${fileName}`);
+
+            await uploadBytes(storageRef, profilePicInput.files[0]);
+            profilePicUrl = await getDownloadURL(storageRef);
+        }
+
+        // Prepare update data
+        const updateData = {
+            address: addressInput.value,
+            contactInfo: contactInput.value,
+            updatedAt: new Date().toISOString()
+        };
+
+        // Only add profilePic to update if a new one was uploaded
+        if (profilePicUrl) {
+            updateData.profilePic = profilePicUrl;
+            // delete old profile pic from storage
+            await deleteObject(oldProfilePicRef);
+        }
+
+        // Update Firestore
+        const businessRef = doc(db, "businessLogin", businessUEN);
+        await setDoc(businessRef, updateData, { merge: true });
+
+        // Update display
+        document.getElementById('addressDisplay').textContent = addressInput.value;
+        document.getElementById('contactDisplay').textContent = contactInput.value;
+
+        // Switch back to view mode
+        handleCancelEdit();
+
+        // Show success message
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-success alert-dismissible fade show';
+        alertDiv.setAttribute('role', 'alert');
+        alertDiv.textContent = 'Profile updated successfully!';
+        
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'btn-close';
+        closeButton.setAttribute('data-bs-dismiss', 'alert');
+        closeButton.setAttribute('aria-label', 'Close');
+        
+        alertDiv.appendChild(closeButton);
+        
+        const profileBox = document.querySelector('.profile-box');
+        profileBox.parentNode.insertBefore(alertDiv, profileBox);
+
+        // Remove alert after 3 seconds
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 3000);
+
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        
+        // Show error message
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+        alertDiv.setAttribute('role', 'alert');
+        alertDiv.textContent = 'Error updating profile. Please try again.';
+        
+        const closeButton = document.createElement('button');
+        closeButton.type = 'button';
+        closeButton.className = 'btn-close';
+        closeButton.setAttribute('data-bs-dismiss', 'alert');
+        closeButton.setAttribute('aria-label', 'Close');
+        
+        alertDiv.appendChild(closeButton);
+        
+        const profileBox = document.querySelector('.profile-box');
+        profileBox.parentNode.insertBefore(alertDiv, profileBox);
+
+    } finally {
+        // Reset save button
+        const saveBtn = document.getElementById('saveProfileBtn');
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Changes';
+    }
+}
