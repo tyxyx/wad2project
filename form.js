@@ -154,7 +154,7 @@ function handleSubmit(event) {
                         showStatusPopup('Login successful! Welcome ' + fieldValue)
                         // UPDATE HERE TO CHANGE LOCATION
                         setTimeout(function() {
-                            window.location.href = './homeNew.html'
+                            window.location.href = './home.html'
                         }, 1000)
                     })
 
