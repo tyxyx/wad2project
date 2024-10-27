@@ -57,65 +57,125 @@ async function fetchBusinessCards() {
 
 // Function to create a business card CHANGE THE DATA HERE FOR THE OUTPUT
 function createBusinessCard(businessUEN, businessData) {
-    const businessContainer = document.getElementById("business-container")
-    if (!businessContainer) {
-        console.error("Business container not found");
+    // const businessContainer = document.getElementById("business-container")
+    // if (!businessContainer) {
+    //     console.error("Business container not found");
+    //     return;
+    // }
+    const menuDish = document.getElementById("menu-dish")
+    if (!menuDish) {
+        console.error("Menu dish container not found");
         return;
     }
 
     // Create card element
+    // const card = document.createElement("div");
+    // card.classList.add("business-card", "card", "mb-4");
+
+    // Create card-like element
     const card = document.createElement("div");
-    card.classList.add("business-card", "card", "mb-4");
+    card.classList.add("col-lg-4", "col-sm-6", "dish-box-wp", "breakfast");
+    card.setAttribute("data-cat", "breakfast");
+
+    // Create dish-box
+    const dishBox = document.createElement("div");
+    dishBox.classList.add("dish-box", "text-center");
+
+    // Create distImg 
+    const distImg = document.createElement("div");
+    distImg.classList.add("dist-img");
+
+    // Create image element
+    // const img = document.createElement('img');
+    // img.src = `https://via.placeholder.com/250x150?text=${businessData.busName}`
+    // card.appendChild(img)
 
     // Create image element
     const img = document.createElement('img');
-    img.src = `https://via.placeholder.com/250x150?text=${businessData.busName}`
-    card.appendChild(img)
+    img.src = `https://via.placeholder.com/250x150?text=${businessData.busName}`;
+    distImg.appendChild(img);
+    dishBox.appendChild(distImg);
+
+    // Create dish title section
+    const dishTitle = document.createElement("div");
+    dishTitle.classList.add("dist-title");
+    const h3Title = document.createElement("h3");
+    h3Title.classList.add("h3-title");
+    h3Title.innerText = businessData.busName;
+    const locationP = document.createElement("p");
+    locationP.innerText = `Location: ${businessData.address}`;
+    const contactP = document.createElement("p");
+    contactP.innerText = `Contact: ${businessData.contactInfo}`;
+    dishTitle.appendChild(h3Title);
+    dishTitle.appendChild(locationP);
+    dishTitle.appendChild(contactP);
+    dishBox.appendChild(dishTitle);
+
+    // Create view button section
+    const viewButtonSection = document.createElement("div");
+    viewButtonSection.classList.add("dist-bottom-row");
+    const viewButton = document.createElement("button");
+    viewButton.classList.add("dish-add-btn");
+    viewButton.innerText = "View";
+    viewButtonSection.appendChild(viewButton);
+    dishBox.appendChild(viewButtonSection);
+
+    // Append dishBox into card-like elem
+    card.appendChild(dishBox);
 
     // Create card body
-    const cardBody = document.createElement("div")
-    cardBody.classList.add("card-body");
-    cardBody.style.position = "relative";
-    card.appendChild(cardBody)
+    // const cardBody = document.createElement("div")
+    // cardBody.classList.add("card-body");
+    // cardBody.style.position = "relative";
+    // card.appendChild(cardBody)
 
     // Create business name element
-    const businessName = document.createElement("h3");
-    businessName.innerText = businessData.busName; // Using innerText to set the business name
-    businessName.classList.add("card-title", "d-inline")
-    cardBody.appendChild(businessName);
+    // const businessName = document.createElement("h3");
+    // businessName.innerText = businessData.busName; // Using innerText to set the business name
+    // businessName.classList.add("card-title", "d-inline")
+    // cardBody.appendChild(businessName);
 
     // Create Ratings and review element
-    const ratingReviews = document.createElement("span");
-    ratingReviews.style.position = "absolute";
-    ratingReviews.style.right = "20px"
-    ratingReviews.innerText = `⭐${businessData.ratings} ${businessData.reviews}`
-    cardBody.appendChild(ratingReviews)
+    // const ratingReviews = document.createElement("span");
+    // ratingReviews.style.position = "absolute";
+    // ratingReviews.style.right = "20px"
+    // ratingReviews.innerText = `⭐${businessData.ratings} ${businessData.reviews}`
+    // cardBody.appendChild(ratingReviews)
 
-    const cardText = document.createElement('p')
-    cardText.classList.add('card-text')
-    cardBody.appendChild(cardText)
+    // const cardText = document.createElement('p')
+    // cardText.classList.add('card-text')
+    // cardBody.appendChild(cardText)
 
     // Create contact info element
-    const contactInfo = document.createElement("p");
-    contactInfo.innerText = `Contact: ${businessData.contactInfo}`; // Using innerText to set contact info
-    cardText.appendChild(contactInfo);
+    // const contactInfo = document.createElement("p");
+    // contactInfo.innerText = `Contact: ${businessData.contactInfo}`; // Using innerText to set contact info
+    // cardText.appendChild(contactInfo);
 
     // Create location element
-    const location = document.createElement("p");
-    location.innerText = `Location: ${businessData.address}`; // Using innerText to set the address
-    cardText.appendChild(location);
+    // const location = document.createElement("p");
+    // location.innerText = `Location: ${businessData.address}`; // Using innerText to set the address
+    // cardText.appendChild(location);
 
     
     // Add event listener to the card
+    // card.addEventListener("click", () => {
+    //     // Update URL to include business ID to allow browser back
+    //     history.pushState({ businessUEN, businessName: businessData.busName }, '', `?business=${businessUEN}`);
+    //     fetchAndDisplayMenuItems(businessUEN, businessData.busName);
+    // });
+
+    // Add event listener to the card-like element
     card.addEventListener("click", () => {
         // Update URL to include business ID to allow browser back
         history.pushState({ businessUEN, businessName: businessData.busName }, '', `?business=${businessUEN}`);
         fetchAndDisplayMenuItems(businessUEN, businessData.busName);
     });
 
-
     // Append the card to the container
-    businessContainer.appendChild(card);
+    // businessContainer.appendChild(card);
+    
+    // Append the card-like elem into the container
+    menuDish.appendChild(card);
 }
 
 
