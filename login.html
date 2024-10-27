@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="icon" type="image/svg+xml" href="./images/mealmate-logo-zip-file/svg icon/logo-color.svg">
+  <link rel="icon" type="image/svg+xml" href="./images/mealmate-logo-zip-file/svg icon 2/logo-color.svg">
 
   <title>MealMate - Login</title>
 
@@ -29,18 +29,28 @@
       max-width: 800px;
     }
 
+    .container-wrapper {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+
     #header {
       margin-top: 2rem;
     }
 
     #pageTitle {
-      color: #A17C55;
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
+      color: black;
+      font-size: 3rem;
+      font-weight:;
+      margin-bottom: 3rem;
     }
 
     .user-type-container {
-      background-color: #D4A373;
+      background-color: #ff8243;
       border-radius: 50px;
       padding: 0.5rem;
       margin-bottom: 2rem;
@@ -63,8 +73,12 @@
     }
 
     .user-type.active {
-      background-color: #6C9A8B;
+      background-color: gray;
       color: #F2E6D8;
+    }
+
+    .user-type strong{
+      color: inherit;
     }
 
     #formContainer {
@@ -85,8 +99,8 @@
     }
 
     .btn-primary {
-      background-color: #FF8F56;
-      border-color: #FF8F56;
+      background-color: #ff8243;
+      border-color: #ff8243;
       border-radius: 20px;
       padding: 0.5rem 2rem;
       color: #F2E6D8;
@@ -152,36 +166,38 @@
     </div>
   </nav>
 
-  <div class="container">
-    <div class="row">
-      <div id="header" class="col-12 text-center">
-        <h1 id="pageTitle"></h1>
+  <div class="container-wrapper">
+    <div class="container">
+      <div class="row">
+        <div id="header" class="col-12 text-center">
+          <h1 id="pageTitle"></h1>
+        </div>
       </div>
-    </div>
 
-    <!-- pill section -->
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="user-type-container">
-          <div id="generateFormIndiv" class="user-type active">
-            <strong id="indiv">Individual</strong>
-          </div>
-          <div id="generateFormBusiness" class="user-type">
-            <strong id="business">Business</strong>
+      <!-- pill section -->
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="user-type-container">
+            <div id="generateFormIndiv" class="user-type active">
+              <strong id="indiv">Individual</strong>
+            </div>
+            <div id="generateFormBusiness" class="user-type">
+              <strong id="business">Business</strong>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- form section -->
-    <div id="formContainer" class="row justify-content-center">
-      <!-- Form will be dynamically inserted here -->
-    </div>
+      <!-- form section -->
+      <div id="formContainer" class="row justify-content-center">
+        <!-- Form will be dynamically inserted here -->
+      </div>
 
-    <!-- Sign up Sign In toggle -->
-    <div class="row mt-3">
-      <div class="col-12 text-center">
-        <a id="toggleMode" href="#"></a>
+      <!-- Sign up Sign In toggle -->
+      <div class="row mt-3">
+        <div class="col-12 text-center">
+          <a id="toggleMode" href="#"></a>
+        </div>
       </div>
     </div>
   </div>

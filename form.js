@@ -229,8 +229,8 @@ function handleSubmit(event) {
 function updateActiveType() {
     const indivOption = document.getElementById('indiv');
     const busOption = document.getElementById('business');
-    indivOption.style.color = currentType === 'individual' ? 'blue' : 'black';
-    busOption.style.color = currentType === 'business' ? 'blue' : 'black';
+    indivOption.style.color = currentType === 'individual' ? 'white' : 'black';
+    busOption.style.color = currentType === 'business' ? 'white' : 'black';
 
     const indivCont = document.getElementById('generateFormIndiv');
     const busCont = document.getElementById('generateFormBusiness');
