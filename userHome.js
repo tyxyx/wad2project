@@ -92,7 +92,7 @@ function createBusinessCard(businessUEN, businessData) {
 
     // Create image element
     const img = document.createElement('img');
-    img.src = `https://via.placeholder.com/250x150?text=${businessData.busName}`;
+    img.src = businessData.profilePic;
     distImg.appendChild(img);
     dishBox.appendChild(distImg);
 
@@ -103,9 +103,9 @@ function createBusinessCard(businessUEN, businessData) {
     h3Title.classList.add("h3-title");
     h3Title.innerText = businessData.busName;
     const locationP = document.createElement("p");
-    locationP.innerText = `Location: ${businessData.address}`;
+    locationP.innerText = `📍 ${businessData.address}`;
     const contactP = document.createElement("p");
-    contactP.innerText = `Contact: ${businessData.contactInfo}`;
+    contactP.innerText = `📞 ${businessData.contactInfo}`;
     dishTitle.appendChild(h3Title);
     dishTitle.appendChild(locationP);
     dishTitle.appendChild(contactP);
