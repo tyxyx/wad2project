@@ -84,6 +84,223 @@
         </div>
     </div>
 
-    <script type="module" src="busHome.js"></script>
+    <!-- businessHome.html -->
+<div class="section main-banner">
+    <!-- Business Profile Section -->
+    <div class="sec-wp">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="sec-title text-center mb-5">
+                        <h2 id="businessName" class="h2-title">Business Name</h2>
+                        <div class="sec-title-shape mb-4">
+                            <img src="assets/images/title-shape.svg" alt="title shape">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-8 m-auto">
+                    <div class="profile-box">
+                        <div class="profile-header d-flex justify-content-between align-items-center">
+                            <div class="profile-info-wp">
+                                <div id="profilePicContainer" class="profile-pic-circle">
+                                    <!-- Profile picture will be set via JavaScript -->
+                                </div>
+                                <input type="file" id="profilePicInput" class="d-none" accept="image/*">
+                            </div>
+                            <button id="editProfileBtn" class="sec-btn">
+                                <i class="bi bi-pencil"></i> Edit Profile
+                            </button>
+                        </div>
+
+                        <div class="profile-content mt-4">
+                            <!-- View mode -->
+                            <div id="viewMode">
+                                <div class="info-box">
+                                    <h4 class="h4-title">Address</h4>
+                                    <p id="addressDisplay"></p>
+                                </div>
+                                <div class="info-box">
+                                    <h4 class="h4-title">Contact</h4>
+                                    <p id="contactDisplay"></p>
+                                </div>
+                            </div>
+
+                            <!-- Edit mode -->
+                            <div id="editMode" class="d-none">
+                                <div class="mb-4">
+                                    <label class="form-label h4-title">Address</label>
+                                    <input type="text" class="form-control" id="addressInput">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label h4-title">Contact</label>
+                                    <input type="text" class="form-control" id="contactInput">
+                                </div>
+                                <div class="d-flex justify-content-end gap-3">
+                                    <button id="cancelEditBtn" class="sec-btn">Cancel</button>
+                                    <button id="saveProfileBtn" class="sec-btn">Save Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Items Section -->
+    <div class="section">
+        <div class="sec-wp">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="sec-title text-center mb-5">
+                            <h2 class="h2-title">Menu Items</h2>
+                            <div class="sec-title-shape mb-4">
+                                <img src="assets/images/title-shape.svg" alt="title shape">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-end mb-4">
+                    <div class="col-auto">
+                        <button id="addMenuItemBtn" class="sec-btn">
+                            <i class="bi bi-plus"></i> Add Menu Item
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" id="menuItemsContainer">
+                    <!-- Menu items will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Menu Item Modal -->
+<div class="modal fade" id="menuItemModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="h5-title">Add Menu Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="menuItemForm">
+                    <div class="mb-3">
+                        <label for="itemName" class="form-label h4-title">Item Name</label>
+                        <input type="text" class="form-control" id="itemName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="itemPrice" class="form-label h4-title">Price</label>
+                        <input type="number" class="form-control" id="itemPrice" min="0" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="itemDescription" class="form-label h4-title">Description</label>
+                        <textarea class="form-control" id="itemDescription" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="itemImage" class="form-label h4-title">Image</label>
+                        <input type="file" class="form-control" id="itemImage" accept="image/*">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="sec-btn" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="sec-btn" id="saveMenuItemBtn">Save Item</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add this CSS to match the styling -->
+<style>
+.profile-box {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.profile-pic-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.profile-pic-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-box {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.info-box h4 {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.info-box p {
+    margin: 0;
+    color: #666;
+}
+
+.menu-item-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.menu-item-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.menu-item-content {
+    padding: 1.5rem;
+}
+
+.menu-item-price {
+    font-size: 1.2rem;
+    color: #A17C55;
+    font-weight: bold;
+}
+
+/* Match the existing button styling */
+.sec-btn {
+    padding: 0.75rem 1.5rem;
+    background: #A17C55;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.sec-btn:hover {
+    background: #6C9A8B;
+}
+</style>
+
+
+    <script type="module" src="./busHome.js"></script>
 </body>
 </html>

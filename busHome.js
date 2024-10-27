@@ -30,6 +30,14 @@ onAuthStateChanged(auth, async(user) => {
                 const bsModal = new bootstrap.Modal(myModal);
                 bsModal.show();
                 setupFormHandlers();
+            } else {
+                document.getElementById('businessName').innerText = businessFields.busName;
+                document.getElementById('addressDisplay').innerText = businessFields.address
+                document.getElementById('contactDisplay').innerText = businessFields.contactInfo
+                const profileContainer = document.getElementById('profilePicContainer')
+                const img = document.createElement('img')
+                profileContainer.appendChild(img)
+                img.src = businessFields.profilePic
             }
         } else {
             redirectToLogin();
@@ -196,3 +204,4 @@ async function handleOnboardingSubmit(e) {
 
     form.classList.add('was-validated');
 }
+
