@@ -3,7 +3,6 @@ import {
   collection,
   doc,
   setDoc,
-  getDoc,
   getDocs,
   deleteDoc,
   query,
@@ -18,39 +17,17 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
 // Initialize variables to store user details
-let currentUserDetails = null;
-let businessUEN = null; 
+let businessUEN = null;
 let businessMenu = null;
 
 // Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    try {
-      businessUEN = user.email.split("@")[0].toUpperCase(); // Set the global business UEN
-      const businessDoc = await fetchBusinessName(businessUEN);
-
-      if (businessDoc.exists()) {
-        businessMenu = await fetchMenuItems(businessUEN); 
-        currentUserDetails = businessDoc.data();
-        await displayBusinessName(businessUEN);
-          await displayBusinessMenu(businessMenu);
-      } else {
-        redirectToLogin();
-      }
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-      alert("Failed to load user details. Please try again later.");
-      redirectToLogin()
-    }
-  } else {
-    redirectToLogin();
+    businessUEN = user.email.split("@")[0].toUpperCase();
+    businessMenu = await fetchMenuItems(businessUEN);
+    await displayBusinessMenu(businessMenu);
   }
 });
-
-
-async function fetchBusinessName(businessUEN) {
-  return await getDoc(doc(db, "businessLogin", businessUEN));
-}
 
 async function fetchMenuItems(businessUEN) {
   const menuItemsCollection = collection(
@@ -58,7 +35,7 @@ async function fetchMenuItems(businessUEN) {
     `businessLogin/${businessUEN}/menuItems`
   );
   const querySnapshot = await getDocs(menuItemsCollection);
-  const businessMenu = [];
+  var businessMenu = [];
 
   querySnapshot.forEach((doc) => {
     businessMenu.push({ id: doc.id, ...doc.data() });
@@ -67,79 +44,55 @@ async function fetchMenuItems(businessUEN) {
   return businessMenu;
 }
 
-function redirectToLogin() {
-  window.location.href = "./login.html?mode=login";
-}
-
-async function displayBusinessName(businessUEN) {
-  try {
-    const businessDoc = await fetchBusinessName(businessUEN);
-
-    if (businessDoc.exists()) {
-      const businessData = businessDoc.data();
-      const businessName = businessData.busName; // Assuming 'name' is the field for the business name
-      document.getElementById("businessName").textContent = businessName; // Update the HTML element
-    } else {
-      console.error("Business document does not exist.");
-      document.getElementById("businessName").textContent =
-        "Business not found.";
-    }
-  } catch (error) {
-    console.error("Error fetching business name:", error);
-    document.getElementById("businessName").textContent =
-      "Error loading business name.";
-  }
-}
-
 export async function displayBusinessMenu(businessMenu) {
-  const menuContainer = document.getElementById("menuContainer"); // Ensure this element exists in your HTML
 
-  // Clear any existing items in the container
+  const menuContainer = document.getElementById("menuItemsContainer"); 
+ 
   menuContainer.innerHTML = "";
-    
+
   // Create a row for the menu items
   const rowDiv = document.createElement("div");
   rowDiv.className = "row mt-4";
+ 
+    businessMenu.forEach((item) => {
+      const colDiv = document.createElement("div");
+      colDiv.className = "col-md-4";
+      colDiv.setAttribute("key", item.id);
 
-  businessMenu.forEach((item) => {
-    const colDiv = document.createElement("div");
-    colDiv.className = "col-md-4";
-    colDiv.setAttribute("key", item.id);
+      const cardDiv = document.createElement("div");
+      cardDiv.className = "card mb-4";
 
-    const cardDiv = document.createElement("div");
-    cardDiv.className = "card mb-4";
+      const imgElement = document.createElement("img");
+      imgElement.src = item.images[0] || ""; // Use the first image, or a placeholder if none
+      imgElement.className = "card-img-top";
+      imgElement.alt = "Menu item image";
 
-    const imgElement = document.createElement("img");
-    imgElement.src = item.images[0] || ""; // Use the first image, or a placeholder if none
-    imgElement.className = "card-img-top";
-    imgElement.alt = "Menu item image";
+      const cardBodyDiv = document.createElement("div");
+      cardBodyDiv.className = "card-body";
 
-    const cardBodyDiv = document.createElement("div");
-    cardBodyDiv.className = "card-body";
+      const titleElement = document.createElement("h5");
+      titleElement.className = "card-title";
+      titleElement.textContent = item.itemName;
 
-    const titleElement = document.createElement("h5");
-    titleElement.className = "card-title";
-    titleElement.textContent = item.itemName;
+      const descriptionElement = document.createElement("p");
+      descriptionElement.className = "card-text";
+      descriptionElement.textContent = item.description;
 
-    const descriptionElement = document.createElement("p");
-    descriptionElement.className = "card-text";
-    descriptionElement.textContent = item.description;
-
-    const priceElement = document.createElement("p");
-    priceElement.className = "card-text";
-    priceElement.innerHTML = `
+      const priceElement = document.createElement("p");
+      priceElement.className = "card-text";
+      priceElement.innerHTML = `
             <strong>Price: $${item.price.toFixed(2)}</strong>
             <br>
-            <strong>Price (after discount): $${(
-              item.price - item.discount
-            ).toFixed(2)}</strong>
+            <strong>Discounted Price: $${(
+          item.price-item.discount
+        ).toFixed(2)}</strong>
         `;
-
+    
     // Create discard button
     const discardButton = document.createElement("button");
-    discardButton.className = "btn btn-danger"; 
+    discardButton.className = "btn btn-danger";
     discardButton.textContent = "Discard";
-    discardButton.onclick = () => discardMenuItem(item.itemName); 
+    discardButton.onclick = () => discardMenuItem(item.itemName);
 
     cardBodyDiv.appendChild(titleElement);
     cardBodyDiv.appendChild(descriptionElement);
@@ -149,7 +102,6 @@ export async function displayBusinessMenu(businessMenu) {
     cardDiv.appendChild(cardBodyDiv);
     colDiv.appendChild(cardDiv);
     rowDiv.appendChild(colDiv);
-
   });
 
   menuContainer.appendChild(rowDiv);
@@ -213,6 +165,8 @@ async function addMenuItem(uen, menuItemData) {
       status: "active",
     };
 
+    
+
     // Save to Firestore
     const menuItemsRef = collection(db, "businessLogin", uen, "menuItems");
     const newMenuItemRef = doc(menuItemsRef);
@@ -264,11 +218,11 @@ async function discardMenuItem(itemName) {
   try {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(async (doc) => {
-      const menuItemRef = doc.ref; // 
+      const menuItemRef = doc.ref; //
 
       // Delete the document
       await deleteDoc(menuItemRef);
-      alert(`Item with name: ${doc.id} is deleted`);
+      alert(`${itemName} is deleted`);
       location.reload();
     });
   } catch (error) {
@@ -302,14 +256,7 @@ function createModalForm() {
   modalTitle.id = "exampleModalLabel";
   modalTitle.textContent = "Add Menu Item";
 
-  // const closeButton = document.createElement('button');
-  // closeButton.type = 'button';
-  // closeButton.className = 'btn-close';
-  // closeButton.setAttribute('data-bs-dismiss', 'modal');
-  // closeButton.setAttribute('aria-label', 'Close');
-
   modalHeader.appendChild(modalTitle);
-  // modalHeader.appendChild(closeButton);
 
   // Create modal body
   const modalBody = document.createElement("div");
@@ -369,7 +316,7 @@ function createModalForm() {
   discInput.type = "number";
   discInput.className = "form-control";
   discInput.id = "menuItemDiscount";
-  discInput.placeholder = "Enter discount";
+  discInput.placeholder = "Enter discounted price";
   discInput.required = true;
 
   discGroup.appendChild(discLabel);
@@ -454,8 +401,7 @@ function createModalForm() {
       document.getElementById("exampleModal")
     );
     modal.hide();
-    // Reset form
-    document.querySelector("form").reset();
+    form.reset();
   });
 
   // Add event listener for the save button
@@ -466,7 +412,7 @@ function createModalForm() {
     const description = document.getElementById("menuItemDescription").value;
     const imageFile = document.getElementById("menuItemImage").files;
 
-    const result = await addMenuItem(currentUserDetails.uen, {
+    const result = await addMenuItem(businessUEN, {
       name,
       description,
       price,
@@ -493,12 +439,9 @@ function showModal() {
   const modal = new bootstrap.Modal(document.getElementById("exampleModal"));
   modal.show();
 }
-
 // When the page loads
 document.addEventListener("DOMContentLoaded", () => {
-    createModalForm();
-    displayBusinessMenu(businessUEN)
-    
+  createModalForm();
 });
 
 // Export functions that might be needed elsewhere

@@ -19,7 +19,6 @@ let businessUEN = null;
 onAuthStateChanged(auth, async(user) => {
     if (user) {
         businessUEN = user.email.split("@")[0].toUpperCase();
-        console.log(businessUEN)
         const businessDoc = await fetchBusinessName(businessUEN);
 
         if (businessDoc.exists()) {
