@@ -185,8 +185,8 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
         const menuItemsSnapshot = await getDocs(collection(db, `businessLogin/${businessUEN}/menuItems`));
         
         // Clear existing cards to display menu
-        const businessContainer = document.getElementById("business-container");
-        businessContainer.innerHTML = `<h2>Menu for ${businessName}</h2>`;
+        const menuDish = document.getElementById("menu-dish");
+        menuDish.innerHTML = `<h2>Menu for ${businessName}</h2>`;
 
         menuItemsSnapshot.forEach((menuItemDoc) => {
             const menuItemData = menuItemDoc.data();
@@ -199,10 +199,10 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
         backButton.textContent = "Back to Businesses";
         backButton.addEventListener("click", () => {
             // Clear the menu and show the business cards again
-            businessContainer.innerText = "";
+            menuDish.innerText = "";
             fetchBusinessCards();
         });
-        businessContainer.appendChild(backButton);
+        menuDish.appendChild(backButton);
 
     } catch (error) {
         console.error("Error fetching menu items:", error);
@@ -212,15 +212,15 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
 
 // This is for browser back button, root level to prevent duplicates
 window.addEventListener('popstate', (event) => {
-    const businessContainer = document.getElementById("business-container");
-    businessContainer.innerHTML = "";
+    const menuDish = document.getElementById("menu-dish");
+    menuDish.innerHTML = "";
     fetchBusinessCards();
 });
 
 
 // Function to create a card for each menu item
 function createMenuItemCard(menuItemData) {
-    const businessContainer = document.getElementById("business-container");
+    const menuDish = document.getElementById("menu-dish");
 
     // Create food card
     const menuItemCard = document.createElement("div");
@@ -263,7 +263,7 @@ function createMenuItemCard(menuItemData) {
     menuItemCard.appendChild(cardBody);
     
     // Add the completed card to the container
-    businessContainer.appendChild(menuItemCard);
+    menuDish.appendChild(menuItemCard);
     
     // Create carousel only after the container is in the DOM
     createCarousel(carouselId, menuItemData.images);
