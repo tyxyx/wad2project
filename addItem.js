@@ -1,4 +1,4 @@
-import { db, auth } from "../wad2project/database.js";
+import { db, auth } from "./database.js";
 import {
   collection,
   doc,

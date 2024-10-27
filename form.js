@@ -1,4 +1,4 @@
-import { loginUser, loginBusinessWithUEN, createUser, createUserWithUEN, saveBusinessDetails, saveUserDetails, getFieldValue, passwordReset } from '../wad2project/database.js';
+import { loginUser, loginBusinessWithUEN, createUser, createUserWithUEN, saveBusinessDetails, saveUserDetails, getFieldValue, passwordReset } from './database.js';
 
 let currentMode = 'login';
 let currentType = 'individual';

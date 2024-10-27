@@ -1,4 +1,4 @@
-import { db, auth, logOut } from "../wad2project/database.js";
+import { db, auth, logOut } from "./database.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import {
     collection,
