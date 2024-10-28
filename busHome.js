@@ -230,12 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set up profile picture change handler
     const profilePicContainer = document.getElementById('profilePicContainer');
-    const profilePicInput = document.createElement('input');
-    profilePicInput.type = 'file';
-    profilePicInput.id = 'profilePicInput';
-    profilePicInput.className = 'd-none';
-    profilePicInput.accept = 'image/*';
-    profilePicContainer.parentElement.appendChild(profilePicInput);
 
     profilePicContainer.addEventListener('click', () => {
         if (document.getElementById('editMode').classList.contains('d-none')) return;
@@ -243,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     profilePicInput.addEventListener('change', handleProfilePicChange);
+
 });
 
 function handleEditClick() {
@@ -265,6 +260,7 @@ function handleEditClick() {
         
         const overlay = document.createElement('div');
         overlay.className = 'profile-pic-overlay';
+        overlay.id = 'overlay';
         
         const icon = document.createElement('i');
         icon.className = 'bi bi-pencil';
@@ -285,10 +281,20 @@ function handleEditClick() {
 function handleCancelEdit() {
     const viewMode = document.getElementById('viewMode');
     const editMode = document.getElementById('editMode');
+    const profilePicContainer = document.getElementById('profilePicContainer')
+    const picEdit = document.getElementById("picEdit")
+    const overlay = document.getElementById('overlay')
+    profilePicContainer.removeChild(overlay)
+    const profilePicInput = document.getElementById('profilePicInput');
+    if (profilePicInput) {
+        profilePicInput.value = '';
+    }
 
     // Switch back to view mode
     editMode.classList.add('d-none');
     viewMode.classList.remove('d-none');
+    profilePicContainer.classList.remove('d-none')
+    picEdit.classList.add("d-none")
 }
 
 function handleProfilePicChange(event) {
@@ -310,14 +316,17 @@ function handleProfilePicChange(event) {
     // Preview the image
     const reader = new FileReader();
     reader.onload = (e) => {
-        const profilePicContainer = document.getElementById('profilePicContainer');
-        profilePicContainer.textContent = '';
+        const profilePicContainer = document.getElementById("profilePicContainer")
+        profilePicContainer.classList.add('d-none')
+        const picEdit = document.getElementById('picEdit');
+        picEdit.classList.remove("d-none")
+        picEdit.textContent = '';
         const img = document.createElement('img');
         img.src = e.target.result;
         img.style.width = '100%';
         img.style.height = '100%';
         img.style.objectFit = 'cover';
-        profilePicContainer.appendChild(img);
+        picEdit.appendChild(img);
     };
     reader.readAsDataURL(file);
 }
@@ -328,6 +337,8 @@ async function handleSaveProfile() {
         const addressInput = document.getElementById('addressInput');
         const contactInput = document.getElementById('contactInput');
         const profilePicInput = document.getElementById('profilePicInput');
+        const profilePicContainer = document.getElementById('profilePicContainer');
+
 
         saveBtn.disabled = true;
         saveBtn.textContent = 'Saving...';
@@ -356,7 +367,24 @@ async function handleSaveProfile() {
         if (profilePicUrl) {
             updateData.profilePic = profilePicUrl;
             // delete old profile pic from storage
-            await deleteObject(oldProfilePicRef);
+            if (oldProfilePicRef) {
+                await deleteObject(oldProfilePicRef);
+            }
+            // Update the oldProfilePicRef for future changes
+            oldProfilePicRef = ref(getStorage(), profilePicUrl);
+            currentProfilePic = profilePicUrl;
+
+            // Update the profile picture display
+            if (profilePicContainer) {
+                const img = profilePicContainer.querySelector('img');
+                if (img) {
+                    img.src = profilePicUrl;
+                } else {
+                    const newImg = document.createElement('img');
+                    newImg.src = profilePicUrl;
+                    profilePicContainer.appendChild(newImg);
+                }
+            }
         }
 
         // Update Firestore
