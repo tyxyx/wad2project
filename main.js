@@ -169,10 +169,10 @@ jQuery(window).on('load', function () {
     }
 
     // initial position on first === All 
-    // gsap.set(".filter-active", {
-    //     x: targets[0].offsetLeft,
-    //     width: targets[0].offsetWidth
-    // });
+    gsap.set(".filter-active", {
+        x: targets[0].offsetLeft,
+        width: targets[0].offsetWidth
+    });
 
     // Ensure that targets is not empty before accessing it
     const targets_arr = document.querySelectorAll(".filter-active");
