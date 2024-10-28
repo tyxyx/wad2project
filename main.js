@@ -64,6 +64,7 @@ $(document).ready(function ($) {
         },
     });
 
+    // new
     $(".main-navigation .nav-link").on("click", function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -77,6 +78,7 @@ $(document).ready(function ($) {
         window.location.href = href;
     });
 
+    //new
     // Your existing header menu click handler can be updated to:
     jQuery(".header-menu ul li a").click(function (e) {
         // Only handle non-nav-link items (your scroll items)
@@ -169,10 +171,10 @@ jQuery(window).on('load', function () {
     }
 
     // initial position on first === All 
-    // gsap.set(".filter-active", {
-    //     x: targets[0].offsetLeft,
-    //     width: targets[0].offsetWidth
-    // });
+    gsap.set(".filter-active", {
+        x: targets[0].offsetLeft,
+        width: targets[0].offsetWidth
+    });
 
     // Ensure that targets is not empty before accessing it
     const targets_arr = document.querySelectorAll(".filter-active");
