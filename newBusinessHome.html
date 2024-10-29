@@ -186,6 +186,75 @@
 .sec-btn:hover {
     background: var(--hover-color);
 }
+
+#menuItemsContainer .row {
+    padding: 1rem 0;
+}
+
+#menuItemsContainer .col-md-4 {
+    padding: 1rem;
+}
+
+#menuItemsContainer .card {
+    background: #f8f9fa;
+    border: none;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+#menuItemsContainer .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#menuItemsContainer .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+#menuItemsContainer .card:hover .card-img-top {
+    transform: scale(1.1);
+}
+
+#menuItemsContainer .card-body {
+    padding: 1.5rem;
+    background: #f8f9fa;
+}
+
+#menuItemsContainer .card-title {
+    color: var(--text-dark);
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+#menuItemsContainer .card-text {
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+/* Style the price information */
+#menuItemsContainer .card-text strong {
+    color: var(--text-dark);
+    display: inline-block;
+    margin-bottom: 0.25rem;
+}
+
+/* Style the discard button */
+#menuItemsContainer .btn-danger {
+    margin-top: 1rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1.5rem;
+}
+
+#menuItemsContainer .btn-danger:hover {
+    transform: translateY(-2px);
+}
         </style>
 </head>
 
