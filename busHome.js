@@ -43,6 +43,11 @@ onAuthStateChanged(auth, async(user) => {
                 profileContainer.appendChild(img)
                 img.src = businessFields.profilePic
             }
+            
+        setTimeout(() => {
+            window.dispatchEvent(new Event('resize'));
+        }, 100);
+
         } else {
             redirectToLogin();
         }
