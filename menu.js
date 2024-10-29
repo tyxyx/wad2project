@@ -14,6 +14,7 @@ import {
   ref,
   uploadBytes,
   getDownloadURL,
+  deleteObject
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
 // Initialize variables to store user details
@@ -214,19 +215,47 @@ async function discardMenuItem(itemName) {
 
   // Create a query against the collection
   const q = query(menuItemsRef, where("itemName", "==", itemName));
+  const storage = getStorage();
 
   try {
     const querySnapshot = await getDocs(q);
-    querySnapshot.forEach(async (doc) => {
-      const menuItemRef = doc.ref; //
 
-      // Delete the document
+    for (const doc of querySnapshot.docs) {
+      const menuItemData = doc.data();
+      const menuItemRef = doc.ref;
+      console.log(menuItemData.images)
+
+      // Delete images from Storage if they exist
+      if (menuItemData.images && Array.isArray(menuItemData.images)) {
+        const deleteImagePromises = menuItemData.images.map(async (imageUrl) => {
+          try {
+            // Extract the path from the URL
+            const decodedUrl = decodeURIComponent(imageUrl);
+            const urlObj = new URL(decodedUrl);
+            const imagePath = urlObj.pathname.split('/o/')[1].split('?')[0];
+            
+            // Create reference and delete the file
+            const imageRef = ref(storage, imagePath);
+            await deleteObject(imageRef);
+            console.log(`Deleted image: ${imagePath}`);
+          } catch (error) {
+            console.error(`Error deleting image ${imageUrl}:`, error);
+            // Continue with deletion even if some images fail to delete
+          }
+        });
+
+        // Wait for all image deletions to complete
+        await Promise.all(deleteImagePromises);
+      }
+
+      // Delete the Firestore document
       await deleteDoc(menuItemRef);
-      alert(`${itemName} is deleted`);
+      alert(`${itemName} has been deleted successfully`);
       location.reload();
-    });
+    }
   } catch (error) {
     console.error("Error deleting menu item: ", error);
+    alert(`Error deleting ${itemName}. Please try again.`);
   }
 }
 
@@ -377,12 +406,12 @@ function createModalForm() {
   discardModalBtn.type = "button";
   discardModalBtn.className = "btn btn-danger";
   discardModalBtn.setAttribute("data-bs-dismiss", "modal");
-  discardModalBtn.textContent = "Discard changes";
+  discardModalBtn.textContent = "Cancel";
 
   const saveButton = document.createElement("button");
   saveButton.type = "button";
   saveButton.className = "btn btn-primary";
-  saveButton.textContent = "Save changes";
+  saveButton.textContent = "Add Item";
 
   modalFooter.appendChild(discardModalBtn);
   modalFooter.appendChild(saveButton);
