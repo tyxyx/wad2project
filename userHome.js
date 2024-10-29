@@ -14,6 +14,12 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         try {
+          const overlay = document.createElement('div');
+          overlay.className = 'loading-overlay';
+          const spinner = document.createElement('div');
+          spinner.className = 'loading-spinner';
+          overlay.appendChild(spinner);
+          document.body.appendChild(overlay);
             userEmail = user.email;
             const userDoc = await fetchUserName(userEmail);
 
@@ -22,15 +28,20 @@ onAuthStateChanged(auth, async (user) => {
                 // Fetch and display businesses
                 await fetchBusinessCards();
             } else {
+                overlay.remove()
                 redirectToLogin();
             }
 
             setTimeout(() => {
               window.dispatchEvent(new Event('resize'));
-          }, 100);
+              overlay.remove();
+          }, 1000);
         } catch (error) {
             console.error("Error fetching user details:", error);
             alert("Failed to load user details. Please try again later.");
+            if (document.querySelector('.loading-overlay')) {
+              document.querySelector('.loading-overlay').remove();
+          }
             redirectToLogin();
         }
     } else {
