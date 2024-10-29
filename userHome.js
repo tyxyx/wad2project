@@ -24,6 +24,10 @@ onAuthStateChanged(auth, async (user) => {
             } else {
                 redirectToLogin();
             }
+
+            setTimeout(() => {
+              window.dispatchEvent(new Event('resize'));
+          }, 100);
         } catch (error) {
             console.error("Error fetching user details:", error);
             alert("Failed to load user details. Please try again later.");
@@ -54,9 +58,6 @@ async function fetchBusinessCards() {
 
             // Create a card for each business
             createBusinessCard(businessDoc.id, businessData);
-            setTimeout(() => {
-              window.dispatchEvent(new Event('resize'));
-          }, 100);
         });
     } catch (error) {
         console.error("Error fetching businesses:", error);
