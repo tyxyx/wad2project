@@ -1,6 +1,8 @@
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
+const businessUEN = JSON.parse(localStorage.getItem("businessId")) || [];
 
 window.onload = function () {
+  
   renderCart();
   // Update totals display
   updateTotals();

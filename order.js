@@ -1,5 +1,6 @@
 const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
+const businessUEN = JSON.parse(localStorage.getItem("businessId")) || [];
+console.log(businessUEN)
 // Function to render the order summary
 function renderOrderSummary() {
   const orderSummaryDiv = document.getElementById("order-summary");

@@ -134,7 +134,8 @@ function createBusinessCard(businessUEN, businessData) {
     // if (!businessContainer) {
     //     console.error("Business container not found");
     //     return;
-    // }
+  // }
+    
     const menuDish = document.getElementById("menu-dish")
     if (!menuDish) {
         console.error("Menu dish container not found");
@@ -242,7 +243,6 @@ function createBusinessCard(businessUEN, businessData) {
         // Update URL to include business ID to allow browser back
         history.pushState({ businessUEN, businessName: businessData.busName }, '', `?business=${businessUEN}`);
       fetchAndDisplayMenuItems(businessUEN, businessData.busName);
-      resetCart();
     });;
 
     // Append the card to the container
@@ -318,7 +318,7 @@ function createBusinessCard(businessUEN, businessData) {
 // Update the back button event listener in fetchAndDisplayMenuItems
 async function fetchAndDisplayMenuItems(businessUEN, businessName) {
   try {
-    
+    resetCart();
     const menuItemsSnapshot = await getDocs(
       collection(db, `businessLogin/${businessUEN}/menuItems`)
     );
@@ -355,7 +355,9 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     const orderNowButton = document.createElement("button");
     orderNowButton.textContent = "Order Now";
     orderNowButton.classList.add("btn", "btn-success");
-      orderNowButton.addEventListener("click", () => {
+    orderNowButton.addEventListener("click", () => {
+      localStorage.setItem("businessId", JSON.stringify(businessUEN));
+      localStorage.setItem("cart", JSON.stringify(cart));
         window.location.href = "cart.html";
     });
 
@@ -590,8 +592,7 @@ document.getElementById('logout').addEventListener('click', (event) => {
 
 // Function to load cart items and display them
 function loadCartItems() {
-  listGroup=document.getElementById("cartItems")
-  // Clear existing items in the list group
+  
     listGroup.innerHTML = "";
 
     cart.forEach((item) => {
