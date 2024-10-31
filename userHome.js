@@ -8,7 +8,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 let userEmail = null; 
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = [];
 
 // Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
@@ -350,10 +350,9 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     // Create Order Now button
     const orderNowButton = document.createElement("button");
     orderNowButton.textContent = "Order Now";
-    orderNowButton.classList.add("btn", "btn-success", "m-2");
-
-    orderNowButton.addEventListener("click", () => {
-      window.location.href = "cart.html";
+    orderNowButton.classList.add("btn", "btn-success");
+      orderNowButton.addEventListener("click", () => {
+        window.location.href = "cart.html";
     });
 
     // Add a back button to go back to the business list
@@ -596,41 +595,6 @@ function loadCartItems(listGroup) {
         listGroup.appendChild(listItem);
     });
   }
-
-
-
-// Function to create and append a cart item element
-function createCartItemElement(item, cartContainer) {
-  const itemElement = document.createElement("div");
-  itemElement.classList.add("cart-item");
-
-  // Item name and price
-  const itemInfo = document.createElement("span");
-  itemInfo.textContent = `${item.name}: $${item.price.toFixed(2)}`;
-
-  // Quantity input
-  const quantityInput = document.createElement("input");
-  quantityInput.type = "number";
-  quantityInput.value = item.quantity;
-  quantityInput.min = 0;
-  quantityInput.classList.add("quantity-input", "me-2");
-
-  // Update quantity event listener
-  quantityInput.addEventListener("change", () => {
-    const newQuantity = parseInt(quantityInput.value);
-    if (newQuantity >= 0) {
-      item.quantity = newQuantity;
-      localStorage.setItem("cart", JSON.stringify(cart)); // Update cart in localStorage
-      updateTotals(cart); // Update totals after changing quantity
-      }
-     
-  });
-
-  // Append elements to item element
-  itemElement.appendChild(itemInfo);
-  itemElement.appendChild(quantityInput);
-  cartContainer.appendChild(itemElement);
-}
 
 //horizontal listing
 function createFeaturedBusinessCard(businessUEN, businessData) {
