@@ -9,6 +9,7 @@ import {
 
 let userEmail = null; 
 let cart = [];
+let listGroup = [];
 
 // Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
@@ -100,7 +101,8 @@ async function fetchUserName(userEmail) {
 // Update your fetchBusinessCards function to clear containers first
 async function fetchBusinessCards() {
   try {
-      // Clear existing cards from both containers
+    // Clear existing cards from both containers
+    
       const menuDish = document.getElementById("menu-dish");
       const featuredCards = document.getElementById("featured-cards");
       
@@ -239,8 +241,9 @@ function createBusinessCard(businessUEN, businessData) {
     card.addEventListener("click", () => {
         // Update URL to include business ID to allow browser back
         history.pushState({ businessUEN, businessName: businessData.busName }, '', `?business=${businessUEN}`);
-        fetchAndDisplayMenuItems(businessUEN, businessData.busName);      
-    });
+      fetchAndDisplayMenuItems(businessUEN, businessData.busName);
+      resetCart();
+    });;
 
     // Append the card to the container
     // businessContainer.appendChild(card);
@@ -249,7 +252,6 @@ function createBusinessCard(businessUEN, businessData) {
     menuDish.appendChild(card);
 }
 
-let listGroup=[]
 // Function to fetch and display menu items for a specific business CHANGE HERE TO DISPLAY MENU
 // async function fetchAndDisplayMenuItems(businessUEN, businessName) {
 //   try {
@@ -316,6 +318,7 @@ let listGroup=[]
 // Update the back button event listener in fetchAndDisplayMenuItems
 async function fetchAndDisplayMenuItems(businessUEN, businessName) {
   try {
+    
     const menuItemsSnapshot = await getDocs(
       collection(db, `businessLogin/${businessUEN}/menuItems`)
     );
@@ -342,6 +345,7 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     // Create the list group
     listGroup = document.createElement("ul");
     listGroup.classList.add("list-group", "list-group-flush");
+    listGroup.setAttribute("id","cartItems")
 
     // Append the header and list group to the cart container
     cartContainer.appendChild(cardHeader);
@@ -364,13 +368,14 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       menuDish.innerHTML = "";
       // Re-fetch and display business cards
       await fetchBusinessCards();
+
     });
 
     // Append buttons to the menu dish
     menuDish.appendChild(cartContainer);
     menuDish.appendChild(orderNowButton);
     menuDish.appendChild(backButton);
-    loadCartItems(listGroup);
+    loadCartItems();
       
   } catch (error) {
     console.error("Error fetching menu items:", error);
@@ -389,6 +394,7 @@ window.addEventListener('popstate', async (event) => {
   const menuDish = document.getElementById("menu-dish");
   menuDish.innerHTML = "";
   await fetchBusinessCards();
+  
 });
 
 // Function to create a card for each menu item
@@ -490,8 +496,8 @@ function addToCart(itemName, quantity, price) {
   }
 
   // Store the updated cart back to localStorage
-    localStorage.setItem("cart", JSON.stringify(cart));
-    loadCartItems(listGroup)
+    // localStorage.setItem("cart", JSON.stringify(cart));
+    loadCartItems()
 }
 
 
@@ -583,8 +589,8 @@ document.getElementById('logout').addEventListener('click', (event) => {
 
 
 // Function to load cart items and display them
-function loadCartItems(listGroup) {
-  
+function loadCartItems() {
+  listGroup=document.getElementById("cartItems")
   // Clear existing items in the list group
     listGroup.innerHTML = "";
 
@@ -657,13 +663,19 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
               '', 
               `?business=${businessUEN}`
           );
-          fetchAndDisplayMenuItems(businessUEN, businessData.busName);
+        fetchAndDisplayMenuItems(businessUEN, businessData.busName);
+        
       });
 
       featuredCards.appendChild(card);
   } catch (error) {
       console.error("Error creating featured business card:", error);
   }
+}
+
+function resetCart() {
+  cart = [];
+  loadCartItems();
 }
 
 // Add horizontal scroll functionality
