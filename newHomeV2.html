@@ -7,7 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MealMate - Browse</title>
     <!-- for icons  -->
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release-pro/v4.0.0/css/line.css">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     
     <!-- swiper -->
     <!-- <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"> -->
@@ -104,223 +108,36 @@
                     </div>
                 </div>
             </section>
-            <!-- swiper-slider-3d-coverflow -->
-            <section id="tranding" style="background-image: url(assets/images/faq-bg.png);">
+
+            <section id="featured-businesses" class="section bg-light repeat-img" style="background-image: url(assets/images/menu-bg.png);">
                 <div class="container">
-                  <!-- <h3 class="text-center section-subheading">- Near You -</h3> -->
-                  <!-- <h1 class="text-center section-heading">Near You</h1> -->
-                  <div class="row">
-                    <div class="col-lg-12">
-                        <div class="sec-title text-center mb-5">
-                            <p class="sec-sub-title mb-3">Near You</p>
-                            <h2 class="h2-title">wake up early, <span>eat fresh & healthy</span></h2>
-                            <div class="sec-title-shape mb-4">
-                                <img src="assets/images/title-shape.svg" alt="">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="sec-title text-center mb-5">
+                                <h2 class="h2-title">Featured Businesses Near You</h2>
+                                <div class="sec-title-shape mb-4">
+                                    <img src="assets/images/title-shape.svg" alt="">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                </div>
-                <div class="container">
-                  <div class="swiper tranding-slider">
-                    <div class="swiper-wrapper">
-                      <!-- Slide-start -->
-                      <div class="swiper-slide tranding-slide">
-                        <div class="tranding-slide-img">
-                          <img src="swiper-slider-3d-coverflow/images swiper/tranding-food-1.png" alt="Tranding">
+                    
+                    <div class="horizontal-scroll-container">
+                        <button class="scroll-arrow prev-arrow">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        
+                        <div class="business-scroll-wrapper">
+                            <div id="featured-cards" class="business-cards"></div>
                         </div>
-                        <div class="tranding-slide-content">
-                          <h1 class="food-price">$20</h1>
-                          <div class="tranding-slide-content-bottom">
-                            <!-- <h2 class="food-name">
-                              Special Pizza
-                            </h2> -->
-                            <div class="details-container">
-                              <h2 class="food-name">
-                                Special Pizza
-                              </h2>
-                              <h3 class="food-rating">
-                                <span>Location</span>
-                              </h3>
-                              <h3 class="food-rating">
-                                <span>Contact</span>
-                              </h3>
-                            </div>
-                            <!-- <h3 class="food-rating">
-                              <span>Location</span>
-                            </h3>
-                            <h3 class="food-rating">
-                              <span>Contact</span>
-                            </h3> -->
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Slide-end -->
-                      <!-- Slide-start -->
-                      <div class="swiper-slide tranding-slide">
-                        <div class="tranding-slide-img">
-                          <img src="swiper-slider-3d-coverflow/images swiper/tranding-food-2.png" alt="Tranding">
-                        </div>
-                        <div class="tranding-slide-content">
-                          <h1 class="food-price">$20</h1>
-                          <div class="tranding-slide-content-bottom">
-                            <h2 class="food-name">
-                              Meat Ball
-                            </h2>
-                            <h3 class="food-rating">
-                              <span>4.5</span>
-                              <div class="rating">
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                              </div>
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Slide-end -->
-                      <!-- Slide-start -->
-                      <div class="swiper-slide tranding-slide">
-                        <div class="tranding-slide-img">
-                          <img src="swiper-slider-3d-coverflow/images swiper/tranding-food-3.png" alt="Tranding">
-                        </div>
-                        <div class="tranding-slide-content">
-                          <h1 class="food-price">$40</h1>
-                          <div class="tranding-slide-content-bottom">
-                            <h2 class="food-name">
-                              Burger
-                            </h2>
-                            <h3 class="food-rating">
-                              <span>4.5</span>
-                              <div class="rating">
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                              </div>
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Slide-end -->
-                      <!-- Slide-start -->
-                      <div class="swiper-slide tranding-slide">
-                        <div class="tranding-slide-img">
-                          <img src="swiper-slider-3d-coverflow/images swiper/tranding-food-4.png" alt="Tranding">
-                        </div>
-                        <div class="tranding-slide-content">
-                          <h1 class="food-price">$15</h1>
-                          <div class="tranding-slide-content-bottom">
-                            <h2 class="food-name">
-                              Frish Curry
-                            </h2>
-                            <h3 class="food-rating">
-                              <span>4.5</span>
-                              <div class="rating">
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                              </div>
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Slide-end -->
-                      <!-- Slide-start -->
-                      <div class="swiper-slide tranding-slide">
-                        <div class="tranding-slide-img">
-                          <img src="swiper-slider-3d-coverflow/images swiper/tranding-food-5.png" alt="Tranding">
-                        </div>
-                        <div class="tranding-slide-content">
-                          <h1 class="food-price">$15</h1>
-                          <div class="tranding-slide-content-bottom">
-                            <h2 class="food-name">
-                              Pane Cake
-                            </h2>
-                            <h3 class="food-rating">
-                              <span>4.5</span>
-                              <div class="rating">
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                              </div>
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Slide-end -->
-                      <!-- Slide-start -->
-                      <div class="swiper-slide tranding-slide">
-                        <div class="tranding-slide-img">
-                          <img src="swiper-slider-3d-coverflow/images swiper/tranding-food-6.png" alt="Tranding">
-                        </div>
-                        <div class="tranding-slide-content">
-                          <h1 class="food-price">$20</h1>
-                          <div class="tranding-slide-content-bottom">
-                            <h2 class="food-name">
-                              Vanilla cake
-                            </h2>
-                            <h3 class="food-rating">
-                              <span>4.5</span>
-                              <div class="rating">
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                              </div>
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Slide-end -->
-                      <!-- Slide-start -->
-                      <div class="swiper-slide tranding-slide">
-                        <div class="tranding-slide-img">
-                          <img src="swiper-slider-3d-coverflow/images swiper/tranding-food-7.png" alt="Tranding">
-                        </div>
-                        <div class="tranding-slide-content">
-                          <h1 class="food-price">$8</h1>
-                          <div class="tranding-slide-content-bottom">
-                            <h2 class="food-name">
-                              Straw Cake
-                            </h2>
-                            <h3 class="food-rating">
-                              <span>4.5</span>
-                              <div class="rating">
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                                <ion-icon name="star"></ion-icon>
-                              </div>
-                            </h3>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- Slide-end -->
+                        
+                        <button class="scroll-arrow next-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
-          
-                    <div class="tranding-slider-control">
-                      <div class="swiper-button-prev slider-arrow">
-                        <ion-icon name="arrow-back-outline"></ion-icon>
-                      </div>
-                      <div class="swiper-button-next slider-arrow">
-                        <ion-icon name="arrow-forward-outline"></ion-icon>
-                      </div>
-                      <div class="swiper-pagination"></div>
-                    </div>
-          
-                  </div>
                 </div>
             </section>
+            
             <section style="background-image: url(assets/images/menu-bg.png);"
                 class="our-menu section bg-light repeat-img" id="menu">
                 <div class="sec-wp">
@@ -443,7 +260,7 @@
                                     <div class="footer-info">
                                         <div class="footer-logo">
                                             <a href="index.html">
-                                                <img src="logo.png" alt="">
+                                                <img src="images/mealmate-logo-zip-file/png/logo-color.png" alt="">
                                             </a>
                                         </div>
                                         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia, tenetur.

@@ -171,53 +171,53 @@ jQuery(window).on('load', function () {
     }
 
     // initial position on first === All 
-    gsap.set(".filter-active", {
-        x: targets[0].offsetLeft,
-        width: targets[0].offsetWidth
-    });
+    // gsap.set(".filter-active", {
+    //     x: targets[0].offsetLeft,
+    //     width: targets[0].offsetWidth
+    // });
 
     // Ensure that targets is not empty before accessing it
-    const targets_arr = document.querySelectorAll(".filter-active");
+    // const targets_arr = document.querySelectorAll(".filter-active");
 
-    if (targets_arr.length > 0) {
-        gsap.set(targets[0], {
-            x: targets[0].offsetLeft,
-            width: targets[0].offsetWidth
-        });
-    } else {
-        console.warn("No elements found with the class 'filter-active'.");
-    }
+    // if (targets_arr.length > 0) {
+    //     gsap.set(targets[0], {
+    //         x: targets[0].offsetLeft,
+    //         width: targets[0].offsetWidth
+    //     });
+    // } else {
+    //     console.warn("No elements found with the class 'filter-active'.");
+    // }
 
 
-    function moveBar() {
-        if (this.index != activeTab) {
-            if (animation && animation.isActive()) {
-                animation.progress(1);
-            }
-            animation = gsap.timeline({
-                defaults: {
-                    duration: 0.4
-                }
-            });
-            old = activeTab;
-            activeTab = this.index;
-            animation.to(".filter-active", {
-                x: targets[activeTab].offsetLeft,
-                width: targets[activeTab].offsetWidth
-            });
+    // function moveBar() {
+    //     if (this.index != activeTab) {
+    //         if (animation && animation.isActive()) {
+    //             animation.progress(1);
+    //         }
+    //         animation = gsap.timeline({
+    //             defaults: {
+    //                 duration: 0.4
+    //             }
+    //         });
+    //         old = activeTab;
+    //         activeTab = this.index;
+    //         animation.to(".filter-active", {
+    //             x: targets[activeTab].offsetLeft,
+    //             width: targets[activeTab].offsetWidth
+    //         });
 
-            animation.to(targets[old], {
-                color: "#0d0d25",
-                ease: "none"
-            }, 0);
-            animation.to(targets[activeTab], {
-                color: "#fff",
-                ease: "none"
-            }, 0);
+    //         animation.to(targets[old], {
+    //             color: "#0d0d25",
+    //             ease: "none"
+    //         }, 0);
+    //         animation.to(targets[activeTab], {
+    //             color: "#fff",
+    //             ease: "none"
+    //         }, 0);
 
-        }
+    //     }
 
-    }    
+    // }    
 
     window.addEventListener("scroll", () => {
         const scrollButton = document.querySelector(".scrolltop");
