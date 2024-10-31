@@ -1,76 +1,101 @@
+const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
 window.onload = function () {
-  loadCartItems();
-  setupOrderNowButton();
+  renderCart();
+  // Update totals display
+  updateTotals();
+  
 };
 
-// Function to load cart items and display them
-function loadCartItems() {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const cartContainer = document.getElementById("cart-items");
-
-  // Clear previous items
-  cartContainer.innerHTML = "";
-
-  cart.forEach((item) => {
-    createCartItemElement(item, cartContainer);
-  });
-
-  // Update totals display
-  updateTotals(cart);
-}
-
 // Function to create and append a cart item element
-function createCartItemElement(item, cartContainer) {
-  const itemElement = document.createElement("div");
-  itemElement.classList.add("cart-item");
+function renderCart() {
+  
+  const cartDiv = document.getElementById('cart-items');
+    cartDiv.innerHTML = ''; // Clear previous cart items
 
-  // Item name and price
-  const itemInfo = document.createElement("span");
-  itemInfo.textContent = `${item.name}: $${item.price.toFixed(2)}`;
+    cart.forEach(item => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'cart-item';
 
-  // Quantity input
-  const quantityInput = document.createElement("input");
-  quantityInput.type = "number";
-  quantityInput.value = item.quantity;
-  quantityInput.min = 0;
-  quantityInput.classList.add("quantity-input", "me-2");
+     
+      
+      const itemContainer = document.createElement("div");
+      itemContainer.className = "item-container";
 
-  // Update quantity event listener
-  quantityInput.addEventListener("change", () => {
-    const newQuantity = parseInt(quantityInput.value);
-    if (newQuantity >= 0) {
-      item.quantity = newQuantity;
-      localStorage.setItem("cart", JSON.stringify(cart)); // Update cart in localStorage
-      updateTotals(cart); // Update totals after changing quantity
+      const name = document.createElement("span");
+      name.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+
+      const quantityDiv = document.createElement("div");
+      quantityDiv.className = "quantity-control";
+
+        const decreaseButton = document.createElement('button');
+        decreaseButton.textContent = '-';
+        decreaseButton.onclick = () => changeQuantity(item.name, -1);
+
+        const quantity = document.createElement('span');
+        quantity.textContent = item.quantity;
+
+        const increaseButton = document.createElement('button');
+        increaseButton.textContent = '+';
+        increaseButton.onclick = () => changeQuantity(item.name, 1);
+
+        quantityDiv.appendChild(decreaseButton);
+        quantityDiv.appendChild(quantity);
+        quantityDiv.appendChild(increaseButton);
+
+      
+      
+      itemContainer.appendChild(name);
+      itemContainer.appendChild(quantityDiv);
+      itemDiv.appendChild(itemContainer);
+      cartDiv.appendChild(itemDiv);
+    });
+}
+
+function changeQuantity(name, delta) {
+  const item = cart.find((item) => item.name === name);
+  const itemIndex = cart.findIndex((item) => item.name === name);
+  if (item) {
+    item.quantity += delta;
+
+    if ((item.quantity <= 0)) {
+      cart.splice(itemIndex, 1);
     }
-  });
 
-  // Append elements to item element
-  itemElement.appendChild(itemInfo);
-  itemElement.appendChild(quantityInput);
-  cartContainer.appendChild(itemElement);
-}
+  }
+      localStorage.setItem("cart", JSON.stringify(cart)); // Update localStorage
+      renderCart(); // Re-render the cart
+  updateTotals();
+  if (cart.length == 0) {
+    alert("Your cart is empty, returning you to homepage");
+    window.location.replace("home.html");
+  }
+    
+  }
 
-// Function to update total quantity and price
-function updateTotals(cart) {
-  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const totalPrice = cart.reduce(
-    (sum, item) => sum + item.quantity * item.price,
-    0
-  );
+  // Function to update total quantity and price
+  function updateTotals() {
+    const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const totalPrice = cart.reduce(
+      (sum, item) => sum + item.quantity * item.price,
+      0
+    );
 
-  document.getElementById(
-    "total-quantity"
-  ).textContent = `Total Items in Cart: ${totalQuantity}`;
-  document.getElementById(
-    "total-price"
-  ).textContent = `Total Price: $${totalPrice.toFixed(2)}`;
-}
+    document.getElementById(
+      "total-quantity"
+    ).textContent = `Total Items in Cart: ${totalQuantity}`;
+    document.getElementById(
+      "total-price"
+    ).textContent = `Total Price: $${totalPrice.toFixed(2)}`;
 
-// Function to set up the Order Now button
-function setupOrderNowButton() {
-  document.getElementById("order-now").addEventListener("click", () => {
-    // Logic for ordering can go here (e.g., redirecting to checkout page)
-    alert("Order placed!");
-  });
-}
+    setupOrderNowButton();
+  }
+
+  // Function to set up the Order Now button
+  function setupOrderNowButton() {
+    document.getElementById("order-btn").addEventListener("click", () => {
+      alert("Order placed!");
+      window.location.replace("order.html");
+    
+    });
+  }
