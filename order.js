@@ -12,8 +12,9 @@ function renderOrderSummary() {
 
   cart.forEach((item) => {
     const itemDiv = document.createElement("div");
-    itemDiv.textContent = `${item.name} - $${item.price.toFixed(2)} x ${item.quantity
-      }`;
+    itemDiv.textContent = `${item.name} - $${item.price.toFixed(2)} x ${
+      item.quantity
+    }`;
     orderSummaryDiv.appendChild(itemDiv);
   });
 
@@ -26,10 +27,16 @@ function renderOrderSummary() {
     "total-price"
   ).textContent = `Total Price: $${totalPrice.toFixed(2)}`;
 
-
   const uniqueOrderId =
     "ORD" + Date.now() + Math.random().toString(36).slice(2, 5);
-  document.getElementById("orderId").textContent ="Order Id : " +uniqueOrderId;
+  document.getElementById("orderId").textContent =
+    "Order Id : " + uniqueOrderId;
+
+  //cart alr in local storage, added total price and unique order
+  //to access local storage use this command 
+  //const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  localStorage.setItem("totalPrice", JSON.stringify(totalPrice));
+  localStorage.setItem("uniqueOrderId", JSON.stringify(uniqueOrderId));
 }
 
 // Set up event listener for the back to shop button
