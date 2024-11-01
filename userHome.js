@@ -10,17 +10,17 @@ import {
 let userEmail = null; 
 let cart = [];
 let listGroup = [];
-
+const overlay = document.createElement('div');
+overlay.className = 'loading-overlay';
+const spinner = document.createElement('div');
+spinner.className = 'loading-spinner';
+overlay.appendChild(spinner);
+document.body.appendChild(overlay);
 // Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         try {
-          const overlay = document.createElement('div');
-          overlay.className = 'loading-overlay';
-          const spinner = document.createElement('div');
-          spinner.className = 'loading-spinner';
-          overlay.appendChild(spinner);
-          document.body.appendChild(overlay);
+
             userEmail = user.email;
             const userDoc = await fetchUserName(userEmail);
 
@@ -322,6 +322,10 @@ function createBusinessCard(businessUEN, businessData) {
 // updated fetchAndDisplayMenuItems
 // Update the back button event listener in fetchAndDisplayMenuItems
 async function fetchAndDisplayMenuItems(businessUEN, businessName) {
+  setTimeout(() => {
+    window.dispatchEvent(new Event('resize'));
+    overlay.remove();
+  }, 1000);
   try {
     resetCart();
     const menuItemsSnapshot = await getDocs(
