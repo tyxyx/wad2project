@@ -115,10 +115,15 @@ async function fetchBusinessCards() {
           const businessData = businessDoc.data();
           
           // Create vertical card for "All businesses" section
-          createBusinessCard(businessDoc.id, businessData);
+          console.log(businessData)
+          if (businessData.profilePic && businessData.address && businessData.contactInfo) {
+            createBusinessCard(businessDoc.id, businessData);
+            createFeaturedBusinessCard(businessDoc.id, businessData);
+          }
+
           
           // Create horizontal card for "Featured businesses" section
-          createFeaturedBusinessCard(businessDoc.id, businessData);
+
       });
 
       // Initialize horizontal scroll functionality
