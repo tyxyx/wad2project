@@ -332,6 +332,36 @@
 #menuItemsContainer .btn-danger:hover {
     transform: translateY(-2px);
 }
+/* Add these styles to fix the layout */
+main {
+    padding-top: 80px; /* Adjust based on your header height */
+}
+
+.profile-section {
+    position: relative;
+    z-index: 1;
+    background: #fff; /* or your desired background color */
+    padding: 60px 0;
+}
+
+.our-menu {
+    position: relative;
+    z-index: 1;
+    margin-top: 0;
+    padding: 60px 0;
+}
+/* Ensure proper stacking context */
+.section {
+    position: relative;
+    width: 100%;
+}
+
+/* Fix for the main banner section */
+.main-banner {
+    position: relative;
+    z-index: 1;
+}
+
         </style>
 </head>
 
@@ -364,67 +394,69 @@
     </header>
     <!-- header ends  -->
     <!-- businessHome.html -->
-    <div class="section main-banner">
-        <!-- Business Profile Section -->
-        <div class="sec-wp">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="sec-title text-center mb-5">
-                            <h2 id="businessName" class="h2-title">Business Name</h2>
-                            <div class="sec-title-shape mb-4">
-                                <img src="assets/images/title-shape.svg" alt="title shape">
+     <main>
+        <div class="section main-banner">
+            <!-- Business Profile Section -->
+            <div class="sec-wp">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="sec-title text-center mb-5">
+                                <h2 id="businessName" class="h2-title">Business Name</h2>
+                                <div class="sec-title-shape mb-4">
+                                    <img src="assets/images/title-shape.svg" alt="title shape">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-lg-8 m-auto">
-                        <div class="profile-box">
-                            <div class="profile-header d-flex justify-content-between align-items-center">
-                                <div class="profile-info-wp">
-                                    <div id="profilePicContainer" class="profile-pic-circle">
-                                        <!-- Profile picture will be set via JavaScript -->
-                                    </div>
+                    <div class="row">
+                        <div class="col-lg-8 m-auto">
+                            <div class="profile-box">
+                                <div class="profile-header d-flex justify-content-between align-items-center">
+                                    <div class="profile-info-wp">
+                                        <div id="profilePicContainer" class="profile-pic-circle">
+                                            <!-- Profile picture will be set via JavaScript -->
+                                        </div>
 
-                                    <div id="picEdit" class="profile-pic-circle d-none">
+                                        <div id="picEdit" class="profile-pic-circle d-none">
 
+                                        </div>
+                                        <input type="file" id="profilePicInput" class="d-none" accept="image/*">
                                     </div>
-                                    <input type="file" id="profilePicInput" class="d-none" accept="image/*">
-                                </div>
-                                <!-- edit profile -->
-                                <button id="editProfileBtn" class="sec-btn">
-                                    <i class="bi bi-pencil"></i> Edit Profile
-                                </button>
-                            </div>
-
-                            <div class="profile-content mt-4">
-                                <!-- View mode -->
-                                <div id="viewMode">
-                                    <div class="info-box">
-                                        <h4 class="h4-title">Address</h4>
-                                        <p id="addressDisplay"></p>
-                                    </div>
-                                    <div class="info-box">
-                                        <h4 class="h4-title">Contact</h4>
-                                        <p id="contactDisplay"></p>
-                                    </div>
+                                    <!-- edit profile -->
+                                    <button id="editProfileBtn" class="sec-btn">
+                                        <i class="bi bi-pencil"></i> Edit Profile
+                                    </button>
                                 </div>
 
-                                <!-- Edit mode -->
-                                <div id="editMode" class="d-none">
-                                    <div class="mb-4">
-                                        <label class="form-label h4-title">Address</label>
-                                        <input type="text" class="form-control" id="addressInput">
+                                <div class="profile-content mt-4">
+                                    <!-- View mode -->
+                                    <div id="viewMode">
+                                        <div class="info-box">
+                                            <h4 class="h4-title">Address</h4>
+                                            <p id="addressDisplay"></p>
+                                        </div>
+                                        <div class="info-box">
+                                            <h4 class="h4-title">Contact</h4>
+                                            <p id="contactDisplay"></p>
+                                        </div>
                                     </div>
-                                    <div class="mb-4">
-                                        <label class="form-label h4-title">Contact</label>
-                                        <input type="text" class="form-control" id="contactInput">
-                                    </div>
-                                    <div class="d-flex justify-content-end gap-3">
-                                        <button id="cancelEditBtn" class="sec-btn">Cancel</button>
-                                        <button id="saveProfileBtn" class="sec-btn">Save Changes</button>
+
+                                    <!-- Edit mode -->
+                                    <div id="editMode" class="d-none">
+                                        <div class="mb-4">
+                                            <label class="form-label h4-title">Address</label>
+                                            <input type="text" class="form-control" id="addressInput">
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label h4-title">Contact</label>
+                                            <input type="text" class="form-control" id="contactInput">
+                                        </div>
+                                        <div class="d-flex justify-content-end gap-3">
+                                            <button id="cancelEditBtn" class="sec-btn">Cancel</button>
+                                            <button id="saveProfileBtn" class="sec-btn">Save Changes</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -432,11 +464,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-    <div id="viewport">
-        <div id="js-scroll-content">
-            <!-- Business Profile Section -->
+        
+    
+            
             
 
             <!-- Menu Items Section -->
@@ -474,7 +504,7 @@
                 </div>
             </section>
         </div>
-    </div>
+    </main>
 
     <!-- Onboarding Modal -->
     <div id="staticBackdrop" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
