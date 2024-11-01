@@ -219,5 +219,5 @@ onAuthStateChanged(auth, async (user) => {
 
 // Set up event listener for the back to shop button
 document.getElementById("back-to-shop").addEventListener("click", () => {
-    window.location.href = "index.html";
+    window.location.href = "home.html";
 });
