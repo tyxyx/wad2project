@@ -620,10 +620,10 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
       imgContainer.classList.add("featured-img-container");
       
       const img = document.createElement('img');
-      img.src = businessData.profilePic || '/images/mealmate-logo-zip-file/png/logo-color.png';
+      img.src = businessData.profilePic || './images/mealmate-logo-zip-file/png/logo-color.png';
       img.alt = businessData.busName || 'Business Image';
       img.onerror = function() {
-          this.src = '/images/mealmate-logo-zip-file/png/logo-color.png';
+          this.src = './images/mealmate-logo-zip-file/png/logo-color.png';
           console.log(`Failed to load profile picture for ${businessData.busName}, using placeholder`);
       };
       imgContainer.appendChild(img);
