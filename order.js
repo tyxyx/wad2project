@@ -37,7 +37,10 @@ class OrderQRGenerator {
         document.getElementById('displayCart').innerText = orderData.items.map(
             item => `${item.quantity} ${item.name}`
         ).join(', ');
-        document.getElementById('displayTimestamp').innerText = new Date().toLocaleString();
+        const date = new Date(Number(localStorage.getItem('orderCreationTime')))
+        document.getElementById('displayTimestamp').innerText = date.toLocaleString();
+        const valid = new Date(Number(localStorage.getItem('orderCreationTime')) + 7200000)
+        document.getElementById('displayValidity').innerText = valid.toLocaleString()
     }
 
     async updateDatabase(orderData) {
@@ -143,6 +146,7 @@ async function renderOrderSummary() {
 
     if (cart.length === 0) {
         orderSummaryDiv.innerText = "Your cart is empty.";
+        clearOrderId();
         return;
     }
 
@@ -157,7 +161,7 @@ async function renderOrderSummary() {
         0
     );
     
-    const uniqueOrderId = 'ORD' + Date.now() + Math.random().toString(36).slice(2, 5);
+    const uniqueOrderId = getOrderId();
 
     document.getElementById("total-price").innerText = 
         `Total Price: $${totalPrice.toFixed(2)}`;
@@ -216,6 +220,54 @@ onAuthStateChanged(auth, async (user) => {
         redirectToLogin();
     }
 });
+
+function getOrderId() {
+  // Check if we already have an order ID and its creation timestamp
+  let existingOrderId = localStorage.getItem("currentOrderId");
+  let creationTime = localStorage.getItem("orderCreationTime");
+  
+  // If no existing order ID, generate a new one and set creation time
+  if (!existingOrderId) {
+      existingOrderId = 'ORD' + Date.now() + Math.random().toString(36).slice(2, 5);
+      creationTime = Date.now();
+      localStorage.setItem("currentOrderId", existingOrderId);
+      localStorage.setItem("orderCreationTime", creationTime);
+      
+      setTimeout(() => {
+          clearOrderId();
+          alert("Order session expired. Please place another order.");
+          //location.reload();
+          window.location.href = './home.html';
+      }, 7200000);
+  } else {
+      // Check if the existing order is still valid
+      const currentTime = Date.now();
+      const elapsedTime = currentTime - creationTime;
+      
+      if (elapsedTime >= 7200000) {
+          // Order has expired
+          clearOrderId();
+          alert("Order session expired. Please place another order.");
+          window.location.href = './home.html';
+          return null;
+      } else {
+          // Order is still valid - set timeout for remaining time
+          setTimeout(() => {
+              clearOrderId();
+              alert("Order session expired. Please place another order.");
+              window.location.href = './home.html';
+          }, 7200000 - elapsedTime);
+      }
+  }
+  
+  return existingOrderId;
+}
+
+function clearOrderId() {
+  localStorage.removeItem("currentOrderId");
+  localStorage.removeItem("orderCreationTime");
+  localStorage.removeItem("cart")
+}
 
 // Set up event listener for the back to shop button
 document.getElementById("back-to-shop").addEventListener("click", () => {
