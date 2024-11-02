@@ -141,66 +141,69 @@ function createBusinessCard(businessUEN, businessData) {
     //     return;
   // }
     
-    const menuDish = document.getElementById("menu-dish")
-    if (!menuDish) {
-        console.error("Menu dish container not found");
-        return;
-    }
+  const menuDish = document.getElementById("menu-dish");
+  if (!menuDish) {
+      console.error("Menu dish container not found");
+      return;
+  }
 
-    // Create card element
-    // const card = document.createElement("div");
-    // card.classList.add("business-card", "card", "mb-4");
+  // Create card element
+  const card = document.createElement("div");
+  card.classList.add("col-lg-4", "col-sm-6", "dish-box-wp", "breakfast");
+  card.style.height = "450px"; // Ensure consistent card height
+  card.setAttribute("data-cat", "breakfast");
 
-    // Create card-like element
-    const card = document.createElement("div");
-    card.classList.add("col-lg-4", "col-sm-6", "dish-box-wp", "breakfast");
-    card.setAttribute("data-cat", "breakfast");
+  // Create dish-box
+  const dishBox = document.createElement("div");
+  dishBox.classList.add("dish-box", "text-center");
 
-    // Create dish-box
-    const dishBox = document.createElement("div");
-    dishBox.classList.add("dish-box", "text-center");
+  // Create distImg container for image
+  const distImg = document.createElement("div");
+  distImg.classList.add("dist-img");
+  distImg.style.width = "200px"; // Ensure container is square
+  distImg.style.height = "200px"; // Ensure container is square
+  distImg.style.borderRadius = "50%"; // Make the container circular
+  distImg.style.overflow = "hidden"; // Prevent overflow
+  distImg.style.margin = "0 auto"; // Center the image in the card
 
-    // Create distImg 
-    const distImg = document.createElement("div");
-    distImg.classList.add("dist-img");
+  // Create image element
+  const img = document.createElement('img');
+  img.src = businessData.profilePic || './images/default-profile.png'; // Fallback image
+  img.style.width = "100%";
+  img.style.height = "100%";
+  img.style.objectFit = "cover"; // Ensure the image covers the container
+  img.style.display = "block"; // Ensure no extra space below the image
 
-    // Create image element
-    // const img = document.createElement('img');
-    // img.src = `https://via.placeholder.com/250x150?text=${businessData.busName}`
-    // card.appendChild(img)
+  distImg.appendChild(img);
+  dishBox.appendChild(distImg);
 
-    // Create image element
-    const img = document.createElement('img');
-    img.src = businessData.profilePic;
-    distImg.appendChild(img);
-    dishBox.appendChild(distImg);
+  // Create dish title section
+  const dishTitle = document.createElement("div");
+  dishTitle.classList.add("dist-title");
+  const h3Title = document.createElement("h3");
+  h3Title.classList.add("h3-title");
+  h3Title.innerText = businessData.busName;
+  const locationP = document.createElement("p");
+  locationP.innerText = `📍 ${businessData.address}`;
+  const contactP = document.createElement("p");
+  contactP.innerText = `📞 ${businessData.contactInfo}`;
+  dishTitle.appendChild(h3Title);
+  dishTitle.appendChild(locationP);
+  dishTitle.appendChild(contactP);
+  dishBox.appendChild(dishTitle);
 
-    // Create dish title section
-    const dishTitle = document.createElement("div");
-    dishTitle.classList.add("dist-title");
-    const h3Title = document.createElement("h3");
-    h3Title.classList.add("h3-title");
-    h3Title.innerText = businessData.busName;
-    const locationP = document.createElement("p");
-    locationP.innerText = `📍 ${businessData.address}`;
-    const contactP = document.createElement("p");
-    contactP.innerText = `📞 ${businessData.contactInfo}`;
-    dishTitle.appendChild(h3Title);
-    dishTitle.appendChild(locationP);
-    dishTitle.appendChild(contactP);
-    dishBox.appendChild(dishTitle);
+  // Create view button section
+  const viewButtonSection = document.createElement("div");
+  viewButtonSection.classList.add("dist-bottom-row");
+  const viewButton = document.createElement("button");
+  viewButton.classList.add("dish-add-btn");
+  viewButton.innerText = "View";
+  viewButtonSection.appendChild(viewButton);
+  dishBox.appendChild(viewButtonSection);
 
-    // Create view button section
-    const viewButtonSection = document.createElement("div");
-    viewButtonSection.classList.add("dist-bottom-row");
-    const viewButton = document.createElement("button");
-    viewButton.classList.add("dish-add-btn");
-    viewButton.innerText = "View";
-    viewButtonSection.appendChild(viewButton);
-    dishBox.appendChild(viewButtonSection);
-
-    // Append dishBox into card-like elem
-    card.appendChild(dishBox);
+  // Append dishBox into card
+  card.appendChild(dishBox);
+  menuDish.appendChild(card);
 
     // Create card body
     // const cardBody = document.createElement("div")
@@ -609,7 +612,7 @@ function createMenuItemCard(menuItemData, container) {
   // Create image section
   const distImg = document.createElement("div");
   distImg.classList.add("dist-img");
-  
+ 
   // Use first image from array or fallback
   const img = document.createElement("img");
   img.src = menuItemData.images && menuItemData.images.length > 0 

@@ -2275,3 +2275,9 @@ body {
     transform: scale(1.05);
 }
 
+
+#home {
+    max-height: 600px; /* Set your desired fixed maximum height */
+    overflow-y: auto; /* Ensures content beyond max height is scrollable */
+}
+
