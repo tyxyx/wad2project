@@ -416,7 +416,7 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     menuDish.innerHTML = `
       <div class="col-lg-12">
         <div class="sec-title text-center mb-5">
-          <h2 class="h2-title">${businessName}'s Menu</h2>
+          <h2 class="h2-title" id='displayMenu'>${businessName}'s Menu</h2>
           <div class="sec-title-shape mb-4">
             <img src="assets/images/title-shape.svg">
           </div>
@@ -496,6 +496,15 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     menuDish.appendChild(cartSection);
 
     loadCartItems();
+    const targetElement = document.getElementById('displayMenu');
+    const offset = 90; // Adjust this value as needed
+    
+    // Get the position of the element and scroll to slightly above it
+    window.scrollTo({
+        top: targetElement.getBoundingClientRect().top + window.pageYOffset - offset,
+        behavior: 'smooth'
+    });
+
       
   } catch (error) {
     console.error("Error fetching menu items:", error);
