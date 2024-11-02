@@ -892,6 +892,37 @@ main {
     });
 });
         </script>
+        <script>
+            async function updateDisplayAfterSubmit(event) {
+                event.preventDefault();
+                
+                const address = document.getElementById('location').value;
+                const contact = document.getElementById('contact').value;
+                const addressDisplay = document.getElementById('addressDisplay');
+                const contactDisplay = document.getElementById('contactDisplay');
+            
+                // Update the displays immediately
+                addressDisplay.textContent = address;
+                contactDisplay.textContent = contact;
+            
+                // Let the original form submission continue
+                document.getElementById('onboardingForm').submit();
+            }
+            
+            // Add event listener for input changes
+            document.addEventListener('DOMContentLoaded', function() {
+                const locationInput = document.getElementById('location');
+                const contactInput = document.getElementById('contact');
+            
+                locationInput.addEventListener('input', function(e) {
+                    document.getElementById('addressDisplay').textContent = e.target.value;
+                });
+            
+                contactInput.addEventListener('input', function(e) {
+                    document.getElementById('contactDisplay').textContent = e.target.value;
+                });
+            });
+            </script>
 </body>
 
 </html>
