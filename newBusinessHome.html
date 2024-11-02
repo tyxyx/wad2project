@@ -405,6 +405,64 @@ main {
 .sec-title-shape {
     margin: 1.5rem 0 !important;
 }
+#staticBackdrop .profile-pic-wrapper {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#staticBackdrop .profile-pic-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f8f9fa;
+    position: relative;
+}
+
+#staticBackdrop #preview-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2; /* Higher than input when image is shown */
+}
+
+#staticBackdrop .avatar-icon {
+    width: 60px;
+    height: 60px;
+    color: #FF6B35;
+    cursor: pointer;
+}
+
+#staticBackdrop .profile-pic-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 1; /* Lower z-index when preview is shown */
+}
+
+#staticBackdrop .preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Prevent image from being clickable */
+}
+
+/* Add this class when image is selected */
+#staticBackdrop .profile-pic-wrapper.has-image .profile-pic-input {
+    z-index: -1; /* Move input behind when image is selected */
+}
         </style>
 </head>
 
@@ -587,9 +645,12 @@ main {
                             <label class="form-label">Profile Picture</label>
                             <div class="profile-pic-wrapper">
                                 <div class="profile-pic-circle">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="avatar-icon">
-                                        <path d="M12 2a5 5 0 015 5v2a5 5 0 01-10 0V7a5 5 0 015-5zM2 20a10 10 0 0120 0v1H2v-1z"/>
-                                    </svg>
+                                    <!-- This is where the preview will go -->
+                                    <div id="preview-placeholder">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="avatar-icon">
+                                            <path d="M12 2a5 5 0 015 5v2a5 5 0 01-10 0V7a5 5 0 015-5zM2 20a10 10 0 0120 0v1H2v-1z"/>
+                                        </svg>
+                                    </div>
                                 </div>
                                 <input type="file" id="profilePic" class="profile-pic-input" accept="image/*" required>
                             </div>
@@ -793,6 +854,44 @@ main {
     <script src="./main.js"></script>
     <script type="module" src="./busHome.js"></script>
     <script type="module" src="./menu.js"></script>
+    <script>
+        // Add this event listener after the document loads
+        document.addEventListener('DOMContentLoaded', function() {
+    const profilePicInput = document.getElementById('profilePic');
+    const previewPlaceholder = document.getElementById('preview-placeholder');
+    const wrapper = document.querySelector('.profile-pic-wrapper');
+    
+    profilePicInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        
+        if (file) {
+            // Check file size (5MB limit)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size must be less than 5MB');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // Clear the placeholder content
+                previewPlaceholder.innerHTML = '';
+                
+                // Create and add the preview image
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'preview-image';
+                previewPlaceholder.appendChild(img);
+                
+                // Add class to wrapper to change input behavior
+                wrapper.classList.add('has-image');
+            };
+            
+            reader.readAsDataURL(file);
+        }
+    });
+});
+        </script>
 </body>
 
 </html>
