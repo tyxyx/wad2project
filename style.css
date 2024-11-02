@@ -2173,3 +2173,105 @@ p {
         max-width: 250px;
     }
 }
+
+#ordersContainer {
+    max-height: 250px; /* Maximum height for overflow */
+    min-height: 250px; /* Minimum height to keep consistent height */
+    overflow-y: auto;  /* Enable scrolling if content exceeds max height */
+}
+
+
+/* General Body Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f5f7;
+    color: #333;
+}
+
+ /* Tabs Styling */
+/* Tabs Styling */
+#tabs {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.tab {
+    cursor: pointer;
+    padding: 12px 20px;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: #ccc !important; /* Grey background for inactive state */
+    border-color: #ccc !important;
+    color: #333 !important;
+    border: none;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.tab.active {
+    background-color: #ff8243 !important; /* Orange background for active state */
+    border-color: #ff8243 !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(255, 130, 67, 0.3);
+}
+
+
+
+
+/* Order List and Details Container Styling */
+#ordersContainer, #orderDetails {
+    max-height: 400px;
+    min-height: 400px;
+    overflow-y: auto;
+    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Order List Items */
+#ordersContainer .list-group-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    padding: 15px;
+    background-color: #ffffff;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+#ordersContainer .list-group-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+}
+
+/* Order Details Card */
+#orderDetails {
+    display: none;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#orderDetails h5, #orderDetails p {
+    margin-bottom: 10px;
+}
+
+/* Back to History Button */
+#showOrdersButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+#showOrdersButton:hover {
+    background-color: #5a6268;
+    transform: scale(1.05);
+}
+
