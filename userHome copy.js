@@ -408,6 +408,9 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       collection(db, `businessLogin/${businessUEN}/menuItems`)
     );
 
+    const ftb = document.getElementById("featured-businesses")
+    ftb.classList.add('d-none')
+
     // Clear existing cards to display menu
     const menuDish = document.getElementById("menu-dish");
     menuDish.innerHTML = `
@@ -510,6 +513,8 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
 window.addEventListener('popstate', async (event) => {
   const menuDish = document.getElementById("menu-dish");
   menuDish.innerHTML = "";
+  const ftb = document.getElementById("featured-businesses")
+  ftb.classList.remove("d-none")
   await fetchBusinessCards();
   
 });
