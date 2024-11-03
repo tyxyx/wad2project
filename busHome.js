@@ -20,10 +20,10 @@ let map;
 let autocomplete;
 let marker;
 let selectedAddress;
-
 let businessUEN = null;
 let currentProfilePic = '';
 let oldProfilePicRef = null;
+let place_id = '';
 
 // Listen for authentication state changes
 onAuthStateChanged(auth, async(user) => {
@@ -374,7 +374,8 @@ async function handleSaveProfile() {
         const updateData = {
             address: addressInput.value,
             contactInfo: contactInput.value,
-            updatedAt: new Date().toISOString()
+            updatedAt: new Date().toISOString(),
+            placeId: place_id
         };
 
         // Only add profilePic to update if a new one was uploaded
@@ -511,8 +512,8 @@ async function initMap() {
 
       // Save the selected address
       selectedAddress = place.formatted_address;
-      console.log("Selected Address:", selectedAddress); // Display the selected address in the console
-
+      console.log("Selected Address:", place); // Display the selected address in the console
+        place_id = place.place_id;
       // Add a click event listener to the marker
       marker.addListener("click", () => {
         alert("Address: " + selectedAddress); // Show an alert with the address
