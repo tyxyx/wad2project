@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MealMate - Browse</title>
+    <!-- for icons  -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release-pro/v4.0.0/css/line.css">
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    
+    <!-- swiper -->
+    <!-- <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"> -->
+     
+    <!-- fancy box  -->
+    <link rel="stylesheet" href="assets/css/jquery.fancybox.min.css">
+    <!-- custom css  -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+    <script type="module" src="./database.js"></script>
+    <style>
+        .main-navigation {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            display: none;
+            outline: none !important;
+            box-shadow: inset 6px 6px 7px #dadada, -6px -6px 10px #ffffff;
+            border-radius: 10px;
+            padding: 0 8px;
+        }
+        
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 4px;
+            background: #ff8243;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        
+        .menu-toggle span:last-child {
+            margin: 0;
+        }
+        
+        .toggled .menu-toggle span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 5px;
+            position: relative;
+        }
+        
+        .toggled .menu-toggle span:nth-child(2) {
+            transform: rotate(-45deg);
+            top: -4px;
+            position: relative;
+        }
+        
+        @media (max-width: 991px) {
+            .menu-toggle {
+                display: block;
+                z-index: 100;
+            }
+        
+            .header-menu {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background: #f3f3f5;
+                padding-top: 90px;
+                padding-left: 30px;
+                transform: translateY(-100%);
+                transition: 0.5s ease;
+            }
+        
+            .main-navigation.toggled .header-menu {
+                transform: translateY(0);
+            }
+        
+            .main-navigation .menu li {
+                display: block;
+                margin-bottom: 20px;
+            }
+        
+            .main-navigation .menu li a {
+                display: inline-block;
+                font-size: 18px;
+            }
+        }
+        @media (max-width: 767px) {
+    .dish-box {
+        margin: 80px 15px 30px; /* Add some horizontal margin */
+    }
+
+    .dist-bottom-row {
+        padding: 0 15px; /* Add padding to the bottom row */
+    }
+
+    .dist-bottom-row ul {
+        flex-wrap: wrap; /* Allow items to wrap */
+        gap: 10px; /* Add space between wrapped items */
+    }
+
+    .dist-bottom-row ul li {
+        width: 100%; /* Make each item take full width */
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dish-add-btn {
+        min-width: 120px; /* Ensure minimum width for the button */
+        height: auto; /* Allow height to adjust */
+        padding: 8px 12px; /* Add more padding */
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+
+    .dist-bottom-row ul li b {
+        font-size: 22px; /* Slightly reduce font size */
+    }
+
+    /* Adjust padding for price and info sections */
+    .dish-info, 
+    .dish-title {
+        padding: 0 15px;
+    }
+}
+@media (max-width: 375px) {
+    .dish-box {
+        padding-bottom: 30px;
+    }
+
+    .dist-bottom-row ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dist-bottom-row ul li {
+        margin-bottom: 10px;
+    }
+}
+.sec-sub-title {
+    font-size: 2rem !important;
+    font-weight: 500 !important;
+    text-transform: uppercase;
+    color: #FF7747;
+    background: #f3f3f5; 
+    display: inline-block;
+    padding: 15px 45px;
+    border-radius: 60px;
+    box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff; 
+}
+
+
+
+.faq-sec .sec-sub-title {
+    font-size: 2rem !important;
+    font-weight: 500 !important;
+    text-transform: uppercase;
+    color: #FF7747;
+    background: #f3f3f5;
+    display: inline-block;
+    padding: 15px 45px;
+    border-radius: 60px;
+    box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff;
+}
+        </style>
+        
+</head>
+
+<body class="body-fixed">
+    <!-- start of header  -->
+    <header class="site-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="header-logo">
+                        <a href="index.html">
+                            <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" width="160" alt="Logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-10">
+                    <div class="main-navigation">
+                        <button class="menu-toggle"><span></span><span></span></button>
+                        <nav class="header-menu">
+                            <ul class="menu food-nav-menu">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="index.html#about">About</a></li>
+                                <li><a href="index.html#contact">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header ends  -->
+
+    <div id="viewport">
+        <div id="js-scroll-content">
+            <section class="main-banner" id="home">
+                <div class="js-parallax-scene">
+                    <div class="banner-shape-1 w-100" data-depth="0.30">
+                        <img src="assets/images/berry.png" alt="">
+                    </div>
+                    <div class="banner-shape-2 w-100" data-depth="0.25">
+                        <img src="assets/images/leaf.png" alt="">
+                    </div>
+                </div>
+                <div class="sec-wp">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="banner-text">
+                                    <h1 class="h1-title">
+                                        See what's
+                                        <span>cookin</span> today
+                                    </h1>
+                                    <p class="uil uil-location-point">
+                                        Customer's current location
+                                    </p>
+                                    <!-- <div class="banner-btn mt-4">
+                                        <a href="#menu" class="sec-btn">Check our Menu</a>
+                                    </div> -->
+                                </div>
+                            </div>
+                            <!-- <div class="col-lg-6">
+                                <div class="banner-img-wp">
+                                    <div class="banner-img" style="background-image: url(assets/images/main-b.jpg);">
+                                    </div>
+                                </div>
+                                <div class="banner-img-text mt-4 m-auto">
+                                    <h5 class="h5-title">Sushi</h5>
+                                    <p>this is Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="featured-businesses" class="section bg-light repeat-img" style="background-image: url(assets/images/menu-bg.png);">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="sec-title text-center mb-5">
+                                <h2 class="h2-title">Featured Businesses Near You</h2>
+                                <div class="sec-title-shape mb-4">
+                                    <img src="assets/images/title-shape.svg" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="horizontal-scroll-container">
+                        <button class="scroll-arrow prev-arrow">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        
+                        <div class="business-scroll-wrapper">
+                            <div id="featured-cards" class="business-cards"></div>
+                        </div>
+                        
+                        <button class="scroll-arrow next-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <section style="background-image: url(assets/images/menu-bg.png);"
+                class="our-menu section bg-light repeat-img" id="menu">
+                <div class="sec-wp">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="sec-title text-center mb-5">
+                                    <p class="sec-sub-title mb-3">All businesses</p>
+                                    <h2 class="h2-title">wake up early, <span>eat fresh & healthy</span></h2>
+                                    <div class="sec-title-shape mb-4">
+                                        <img src="assets/images/title-shape.svg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- selector end -->
+                        <div class="menu-list-row">
+                            <div class="row g-xxl-5 bydefault_show" id="menu-dish">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="faq-sec section-repeat-img" style="background-image: url(assets/images/faq-bg.png);">
+                <div class="sec-wp">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="sec-title text-center mb-5">
+                                    <p class="sec-sub-title mb-3">faqs</p>
+                                    <h2 class="h2-title">Frequently <span>asked questions</span></h2>
+                                    <div class="sec-title-shape mb-4">
+                                        <img src="assets/images/title-shape.svg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="faq-row">
+                            <div class="faq-box">
+                                <h4 class="h4-title">How does MealMate work?</h4>
+                                <p>MealMate connects you with local businesses offering discounted food that would otherwise go to waste. Browse available meals, place your order, and pick up during the specified time window.</p>
+                            </div>
+                            <div class="faq-box">
+                                <h4 class="h4-title">Is the food safe to eat?</h4>
+                                <p>Yes! All food offered through MealMate is perfectly safe for consumption. These are fresh, unsold items that businesses need to sell by the end of their business day due to inventory management.</p>
+                            </div>
+                            <div class="faq-box">
+                                <h4 class="h4-title">Can I see what's available before ordering?</h4>
+                                <p>Yes! Businesses list their available items with descriptions, photos, original prices, and discounted prices so you know exactly what you're getting.</p>
+                            </div>
+                            <div class="faq-box">
+                                <h4 class="h4-title">How do I pay for my order?</h4>
+                                <p>Reserve your meal on MealMate, then pay directly at the business when you collect your order within the specified pickup window.</p>
+                            </div>
+                            <div class="faq-box">
+                                <h4 class="h4-title">What if I miss my pickup window?</h4>
+                                <p>Orders not picked up during the specified window will be cancelled due to the time-sensitive nature of our deals. Please contact the business if you're running late.</p>
+                            </div>
+                            <div class="faq-box">
+                                <h4 class="h4-title">Are there any membership fees to use MealMate?</h4>
+                                <p>No! MealMate is completely free to use. You only pay for the discounted food items you purchase, with no hidden fees.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </section>
+
+
+            <div class="bg-pattern bg-light repeat-img"
+                style="background-image: url(assets/images/blog-pattern-bg.png);">
+
+                <section class="newsletter-sec section pt-0">
+                    <div class="sec-wp">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-8 m-auto">
+                                    <div class="newsletter-box text-center back-img white-text"
+                                        style="background-image: url(assets/images/news.jpg);">
+                                        <div class="bg-overlay dark-overlay"></div>
+                                        <div class="sec-wp">
+                                            <div class="newsletter-box-text">
+                                                <h2 class="h2-title">Subscribe our newsletter</h2>
+                                                <p>This is Lorem ipsum dolor sit amet consectetur adipisicing elit ad
+                                                    veritatis.</p>
+                                            </div>
+                                            <form action="#" class="newsletter-form">
+                                                <input type="email" class="form-input"
+                                                    placeholder="Enter your Email Here" required>
+                                                <button type="submit" class="sec-btn primary-btn">Submit</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- footer starts  -->
+            <footer class="site-footer" id="contact">
+                <div class="top-footer section">
+                    <div class="sec-wp">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="footer-info">
+                                        <div class="footer-logo">
+                                            <a href="index.html">
+                                                <img src="images/mealmate-logo-zip-file/png/logo-color.png" alt="">
+                                            </a>
+                                        </div>
+                                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia, tenetur.
+                                        </p>
+                                        <div class="social-icon">
+                                            <ul>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="uil uil-facebook-f"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="uil uil-instagram"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="uil uil-github-alt"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <i class="uil uil-youtube"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="footer-flex-box">
+                                        <div class="footer-table-info">
+                                            <h3 class="h3-title">open hours</h3>
+                                            <ul>
+                                                <li><i class="uil uil-clock"></i> Mon-Thurs : 9am - 22pm</li>
+                                                <li><i class="uil uil-clock"></i> Fri-Sun : 11am - 22pm</li>
+                                            </ul>
+                                        </div>
+                                        <div class="footer-menu food-nav-menu">
+                                            <h3 class="h3-title">Links</h3>
+                                            <ul class="column-2">
+                                                <li>
+                                                    <a href="#home" class="footer-active-menu">Home</a>
+                                                </li>
+                                                <li><a href="#about">About</a></li>
+                                                <li><a href="#menu">Menu</a></li>
+                                                <li><a href="#gallery">Gallery</a></li>
+                                                <li><a href="#blog">Blog</a></li>
+                                                <li><a href="#contact">Contact</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="footer-menu">
+                                            <h3 class="h3-title">Company</h3>
+                                            <ul>
+                                                <li><a href="#">Terms & Conditions</a></li>
+                                                <li><a href="#">Privacy Policy</a></li>
+                                                <li><a href="#">Cookie Policy</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-footer">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 text-center">
+                                <div class="copyright-text">
+                                    <p>Copyright &copy; 2021 <span class="name">TechieCoder.</span>All Rights Reserved.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="scrolltop"><i class="uil uil-angle-up"></i></button>
+                    </div>
+                </div>
+            </footer>
+
+
+
+        </div>
+    </div>
+
+
+
+
+
+    <!-- jquery  -->
+    <script src="assets/js/jquery-3.5.1.min.js"></script>
+    <!-- bootstrap -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+
+    <!-- fontawesome  -->
+    <script src="assets/js/font-awesome.min.js"></script>
+
+    <!-- swiper slider  -->
+    <!-- <script src="assets/js/swiper-bundle.min.js"></script> -->
+
+    <!-- mixitup -- filter  -->
+    <script src="assets/js/jquery.mixitup.min.js"></script>
+
+    <!-- fancy box  -->
+    <script src="assets/js/jquery.fancybox.min.js"></script>
+
+    <!-- parallax  -->
+    <script src="assets/js/parallax.min.js"></script>
+
+    <!-- gsap  -->
+    <script src="assets/js/gsap.min.js"></script>
+
+    <!-- scroll trigger  -->
+    <script src="assets/js/ScrollTrigger.min.js"></script>
+    <!-- scroll to plugin  -->
+    <script src="assets/js/ScrollToPlugin.min.js"></script>
+    <!-- rellax  -->
+    <!-- <script src="assets/js/rellax.min.js"></script> -->
+    <!-- <script src="assets/js/rellax-custom.js"></script> -->
+    <!-- smooth scroll  -->
+    <script src="assets/js/smooth-scroll-complete.js"></script>
+    <!-- custom js  -->
+    <script src="main.js"></script>
+    <!-- userHome.js -->
+    <script type="module" src="./userHome copy.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const mainNav = document.querySelector('.main-navigation');
+            
+            menuToggle.addEventListener('click', function() {
+                mainNav.classList.toggle('toggled');
+            });
+        
+            // Close menu when clicking a link
+            document.querySelectorAll('.header-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mainNav.classList.remove('toggled');
+                });
+            });
+        });
+        </script>
+</body>
+
+</html>
