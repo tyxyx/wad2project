@@ -443,6 +443,7 @@ ul {
     padding: 200px 0 300px;
     min-height: 100vh;
     position: relative;
+    overflow-x: hidden;
 }
 
 .js-parallax-scene {
