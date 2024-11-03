@@ -463,6 +463,10 @@ main {
 #staticBackdrop .profile-pic-wrapper.has-image .profile-pic-input {
     z-index: -1; /* Move input behind when image is selected */
 }
+
+#map {
+    height: 400px; 
+}
         </style>
 </head>
 
@@ -572,7 +576,10 @@ main {
                                     <div id="editMode" class="d-none">
                                         <div class="mb-4">
                                             <label class="form-label h4-title">Address</label>
-                                            <input type="text" class="form-control" id="addressInput">
+                                            <input type="text" class="form-control" id="addressInput" placeholder="Search for address...">
+                                            
+                                            <div id="map"></div>   
+
                                         </div>
                                         <div class="mb-4">
                                             <label class="form-label h4-title">Contact</label>

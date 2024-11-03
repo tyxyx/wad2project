@@ -14,6 +14,13 @@ import {
     deleteObject
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
+import { mapsApi } from "./configure";
+let apiKey = mapsApi.mapsApi;
+let map;
+let autocomplete;
+let marker;
+let selectedAddress;
+
 let businessUEN = null;
 let currentProfilePic = '';
 let oldProfilePicRef = null;
@@ -250,7 +257,7 @@ function handleEditClick() {
     const editMode = document.getElementById('editMode');
     const addressInput = document.getElementById('addressInput');
     const contactInput = document.getElementById('contactInput');
-
+    
     // Get current values
     const currentAddress = document.getElementById('addressDisplay').textContent;
     const currentContact = document.getElementById('contactDisplay').textContent;
@@ -281,6 +288,8 @@ function handleEditClick() {
     // Switch modes
     viewMode.classList.add('d-none');
     editMode.classList.remove('d-none');
+
+    loadGoogleMapsApi();
 }
 
 function handleCancelEdit() {
@@ -451,4 +460,65 @@ async function handleSaveProfile() {
         saveBtn.disabled = false;
         saveBtn.textContent = 'Save Changes';
     }
+}
+
+
+
+async function loadGoogleMapsApi() {
+  const script = document.createElement("script");
+  script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+  script.async = true;
+  script.onload = initMap;
+  document.head.appendChild(script);
+}
+
+async function initMap() {
+  // Import the Map and Autocomplete classes
+  const { Map, Autocomplete } = await google.maps.importLibrary("maps");
+
+  // Initialize the map
+  map = new Map(document.getElementById("map"), {
+    center: { lat: 1.3521, lng: 103.8198 }, // Center on Singapore
+    zoom: 12,
+  });
+
+  // Set up the autocomplete feature
+    const input = document.getElementById("addressInput");
+  autocomplete = new google.maps.places.Autocomplete(input);
+  autocomplete.setComponentRestrictions({
+    country: ["sg"],
+  });
+
+  autocomplete.setFields(["place_id", "name", "geometry", "formatted_address"]);
+  autocomplete.bindTo("bounds", map);
+  autocomplete.setTypes(["restaurant", "food"]);
+
+  // Listen for the place changed event
+  autocomplete.addListener("place_changed", () => {
+    const place = autocomplete.getPlace();
+    if (place.geometry) {
+      map.setCenter(place.geometry.location);
+      map.setZoom(20); // Zoom in on the selected place
+
+      if (marker) {
+        marker.setMap(null); // Remove the previous marker if it exists
+      }
+      marker = new google.maps.Marker({
+        position: place.geometry.location,
+        map: map,
+        title: place.name,
+      });
+
+      // Save the selected address
+      selectedAddress = place.formatted_address;
+      console.log("Selected Address:", selectedAddress); // Display the selected address in the console
+
+      // Add a click event listener to the marker
+      marker.addListener("click", () => {
+        alert("Address: " + selectedAddress); // Show an alert with the address
+      });
+    } else {
+      document.getElementById("addressInput").placeholder = "Enter a place";
+    }
+  });
 }
