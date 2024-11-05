@@ -165,6 +165,219 @@
           gap: 20px;
         }
       }
+
+/* Base styles for all icons */
+.why-icon {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5em;
+    z-index: 1;
+}
+
+/* Smiley Face - Sunshine background */
+#why1::after {
+    content: '';
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    background: radial-gradient(circle at center, 
+        #FFD700 0%, 
+        #FFF3B0 50%, 
+        #FFFFFF 100%);
+    border-radius: 50%;
+    z-index: -1;
+    animation: glow 3s ease-in-out infinite;
+}
+
+#why1::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px dashed #FFD700;
+    border-radius: 50%;
+    animation: danceRotate 4s ease-in-out infinite;
+}
+
+/* Bowl of Soup - Steam swirl background */
+#why2::after {
+    content: '';
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    background: repeating-conic-gradient(
+        from 0deg,
+        #FFF5E6 0deg 30deg,
+        #FFE0B2 30deg 60deg
+    );
+    border-radius: 50%;
+    z-index: -1;
+    animation: steamSwirl 4s linear infinite;
+}
+
+#why2::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px dashed #E67E22;
+    border-radius: 50%;
+    animation: steamRise 3s ease-in-out infinite;
+}
+
+/* Earth - Globe background */
+#why3::after {
+    content: '';
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    background: linear-gradient(120deg, 
+        #87CEEB 0%, 
+        #3498DB 25%, 
+        #2ECC71 50%, 
+        #3498DB 75%, 
+        #87CEEB 100%);
+    border-radius: 50%;
+    z-index: -1;
+    animation: globeRotate 6s linear infinite;
+}
+
+#why3::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px dashed #3498DB;
+    border-radius: 50%;
+    animation: orbit 6s linear infinite;
+}
+
+/* Animations */
+@keyframes glow {
+    0%, 100% { 
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        transform: scale(1.05);
+    }
+}
+
+@keyframes danceRotate {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(90deg) scale(1.1); }
+    50% { transform: rotate(180deg) scale(1); }
+    75% { transform: rotate(270deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes steamSwirl {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes steamRise {
+    0% { 
+        transform: rotate(0deg);
+        border-color: #E67E22;
+        opacity: 0.5;
+    }
+    50% { 
+        transform: rotate(180deg);
+        border-color: #D35400;
+        opacity: 1;
+    }
+    100% { 
+        transform: rotate(360deg);
+        border-color: #E67E22;
+        opacity: 0.5;
+    }
+}
+
+@keyframes globeRotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes orbit {
+    0% {
+        transform: rotate(0deg) scale(1);
+        border-color: #3498DB;
+    }
+    50% {
+        transform: rotate(180deg) scale(1.1);
+        border-color: #2ECC71;
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+        border-color: #3498DB;
+    }
+}
+
+/* Enhanced hover effects */
+#why1:hover::after {
+    animation-play-state: paused;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+}
+
+#why2:hover::after {
+    animation-play-state: paused;
+    filter: brightness(1.1);
+}
+
+#why3:hover::after {
+    animation-play-state: paused;
+    filter: saturate(1.2);
+}
+
+/* Card styles */
+.why-card {
+    position: relative;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: white;
+    transition: transform 0.3s ease;
+}
+
+.why-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Specific emoji styles */
+#why1 {
+    color: #FFD700;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#why2 {
+    color: #E67E22;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#why3 {
+    color: #3498DB;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.about-video-img iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    object-fit: cover;
+}
     </style>
   
     <!-- Bootstrap CSS -->
@@ -302,6 +515,18 @@
                         <div class="row">
                             <div class="col-lg-8 m-auto">
                                 <div class="about-video">
+                                    <div class="about-video-img">
+                                        <iframe id="youtubeVideo" width="640" height="360" src="https://www.youtube.com/embed/ishA6kry8nc" title="Food Waste: The Hidden Cost of the Food We Throw Out I ClimateScience #9" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                    </div>
+
+                                    <div class="play-btn-wp">
+                                        <a class="play-btn" onclick="playVideo()">
+                                            <i class="uil uil-play"></i>
+                                        </a>
+                                        <span>Food Waste: The Hidden Cost of the Food We Throw Out</span>
+                                    </div>
+                                </div>
+                                <!-- <div class="about-video">
                                     <div class="about-video-img" style="background-image: url(assets/images/about.jpg);">
                                     </div>
                                     <div class="play-btn-wp">
@@ -311,7 +536,7 @@
                                         </a>
                                         <span>Watch The Recipe</span>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -327,7 +552,7 @@
                         <!-- Card 1 -->
                         <div class="col-md-4 p-3">
                           <div class="why-card">
-                            <div class="why-icon">😊</div>
+                            <div class="why-icon" id="why1">😊</div>
                             <h3 class="why-card-title">Browse & Purchase Discounted Meals</h3>
                             <p class="why-card-description">
                               Discover irresistible deals on delicious meals from food-related businesses, helping you save while enjoying a variety of options.
@@ -338,7 +563,7 @@
                         <!-- Card 2 -->
                         <div class="col-md-4 p-3">
                           <div class="why-card">
-                            <div class="why-icon">🍲</div>
+                            <div class="why-icon" id="why2">🍲</div>
                             <h3 class="why-card-title">Facilitate Excess Food Sales</h3>
                             <p class="why-card-description">
                               Help businesses reduce waste by purchasing their unsold food, ensuring it goes to good use instead of being discarded.
@@ -349,7 +574,7 @@
                         <!-- Card 3 -->
                         <div class="col-md-4 p-3">
                           <div class="why-card">
-                            <div class="why-icon">🌍</div>
+                            <div class="why-icon" id="why3">🌍</div>
                             <h3 class="why-card-title">Contribute to SG's Food Waste Reduction Efforts</h3>
                             <p class="why-card-description">
                               Be part of Singapore's mission to minimize food wastage by making conscious, eco-friendly food choices through MealMate.
@@ -1379,6 +1604,24 @@
     <script src="./main.js"></script>
     <!-- userHome.js -->
     <!-- <script type="module" src="./userHome.js"></script> -->
+
+    <script>
+        function playVideo() {
+            const videoContainer = document.querySelector('.about-video');
+            const iframe = document.querySelector('#youtubeVideo');
+            
+            // Add autoplay=1 to the iframe src
+            let src = iframe.src;
+            if (src.indexOf('?') > -1) {
+                iframe.src = src + '&autoplay=1';
+            } else {
+                iframe.src = src + '?autoplay=1';
+            }
+            
+            // Add playing class to container
+            videoContainer.classList.add('playing');
+        }
+        </script>
 
 </body>
 
