@@ -1,4 +1,4 @@
-import { db, auth } from "./database.js";
+import { db, auth, logOut } from "./database.js";
 import {
     collection,
     doc,
@@ -239,6 +239,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (saveBtn) {
         saveBtn.addEventListener('click', handleSaveProfile);
     }
+
+    const logout = document.getElementById('logout')
+    logout.addEventListener("click", logOut)
 
     // Set up profile picture change handler
     const profilePicContainer = document.getElementById('profilePicContainer');

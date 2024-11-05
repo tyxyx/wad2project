@@ -16,114 +16,227 @@
   <!-- Custom CSS -->
   <style>
     body {
-      background-color: #F2E6D8;
-      font-family: 'Arial', sans-serif;
-      color: #A17C55;
+        background-image: url(assets/images/menu-bg.png);
+        background-repeat: repeat;
     }
 
-    .navbar {
-      background-color: #6C9A8B !important;
+    /* Header styles matching index.html */
+    .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    transition: 0.5s;
+    border-bottom: 1px solid transparent;
+    background: rgb(255 255 255 / 80%);
+    backdrop-filter: blur(20px);
+    padding: 20px 0;
+}
+
+    .header-logo img {
+        max-width: 160px;
+    }
+    
+
+    .main-navigation {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: flex-end;
+    align-items: center;
+}
+.main-navigation .menu li {
+    display: inline-block;
+    position: relative;
+    margin: 0 6px;
+}
+.main-navigation .menu li:first-child {
+    margin-left: 0;
+}
+.main-navigation .menu li:last-child {
+    margin-right: 0;
+}
+.main-navigation .menu li a {
+    display: flex;
+    transition: 0.3s;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    color: #0d0d25;
+    text-transform: capitalize;
+    font-weight: 500;
+    padding: 5px 18px;
+    border-radius: 30px;
+}
+.main-navigation .menu li a:hover {
+    color: #ff8243;
+    background: #f3f3f5;
+    box-shadow: inset 8px 8px 12px #e2e2e2, inset -8px -8px 12px #ffffff;
+}
+
+    .menu.food-nav-menu {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
     }
 
-    .container {
-      max-width: 800px;
+    .menu.food-nav-menu li a {
+        color: #666;
+        text-decoration: none;
+        transition: color 0.3s ease;
     }
+    .menu-toggle {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    border: none;
+    outline: none !important;
+    background: transparent;
+    width: 40px;
+    height: 40px;
+    transform: translate(0, -50%);
+    z-index: 100;
+    box-shadow: inset 6px 6px 7px #dadada, -6px -6px 10px #ffffff;
+    border-radius: 10px;
+    padding: 0 8px;
+    display: none;
+}
+.menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: #ff8243;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    position: relative;
+}
 
+    /* Login Form Styles */
     .container-wrapper {
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      padding: 2rem;
-      max-width: 800px;
-      margin: 2rem auto;
-    }
-
-    #header {
-      margin-top: 2rem;
-    }
-
-    #pageTitle {
-      color: black;
-      font-size: 3rem;
-      /* font-weight:; */
-      margin-bottom: 3rem;
+        max-width: 800px;
+        margin: 6rem auto; /* Increased top margin to account for fixed header */
+        padding: 2rem;
     }
 
     .user-type-container {
-      background-color: #ff8243;
-      border-radius: 50px;
-      padding: 0.5rem;
-      margin-bottom: 2rem;
-      width: 400px;
-      margin-left: auto;
-      margin-right: auto;
-      display: flex;
-      justify-content: space-evenly;
+        background: rgba(255, 119, 71, 0.1);
+        border-radius: 50px;
+        padding: 0.5rem;
+        margin-bottom: 2rem;
+        width: 400px;
+        margin: 0 auto 2rem;
+        display: flex;
+        justify-content: space-evenly;
     }
 
     .user-type {
-      flex: 1;
-      text-align: center;
-      cursor: pointer;
-      padding: 0.5rem 2rem;
-      border-radius: 50px;
-      transition: background-color 0.3s, color 0.3s;
-      color: #F2E6D8;
-      margin: 0 5px;
+        flex: 1;
+        text-align: center;
+        cursor: pointer;
+        padding: 0.5rem 2rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        color: #FF7747;
     }
 
     .user-type.active {
-      background-color: gray;
-      color: #F2E6D8;
-    }
-
-    .user-type strong{
-      color: inherit;
+        background: #FF7747;
+        color: white;
     }
 
     #formContainer {
-      background-color: #F2E6D8;
-      border-radius: 10px;
-      padding: 2rem;
-      box-shadow: 0 4px 6px rgba(161, 124, 85, 0.1);
+        background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
 
     .form-control {
-      border-radius: 20px;
-      border-color: #A17C55;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        padding: 0.75rem;
     }
 
     .form-control:focus {
-      border-color: #6C9A8B;
-      box-shadow: 0 0 0 0.2rem rgba(108, 154, 139, 0.25);
+        border-color: #FF7747;
+        box-shadow: 0 0 0 0.2rem rgba(255, 119, 71, 0.25);
     }
 
     .btn-primary {
-      background-color: #ff8243;
-      border-color: #ff8243;
-      border-radius: 20px;
-      padding: 0.5rem 2rem;
-      color: #F2E6D8;
+        background: #FF7747;
+        border: none;
+        border-radius: 25px;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.3s ease;
     }
 
     .btn-primary:hover {
-      background-color: #D55D63;
-      border-color: #D55D63;
+        background: #ff8659;
+        transform: translateY(-2px);
     }
 
     #toggleMode {
-      color: #6C9A8B;
-      text-decoration: none;
+        color: #FF7747;
+        text-decoration: none;
+        transition: all 0.3s ease;
     }
 
     #toggleMode:hover {
-      color: #D55D63;
-      text-decoration: underline;
+        color: #ff8659;
+    }
+
+    #pageTitle {
+        color: #1A1A1A;
+        margin-bottom: 2rem;
+    }
+    @media (max-width: 991px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .header-menu {
+        height: 100vh;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding-top: max(9vh, 30px);
+        padding-left: max(6vh, 30px);
+        z-index: 99;
+        transition: 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+        overflow-y: auto;
+        transform: translateY(-100%);
+        background-image: url(assets/images/blog-pattern-bg.png);
+        background-position: center;
+        background-color: #f3f3f5;
+    }
+
+    .main-navigation.toggled .header-menu {
+        transform: translateY(0);
+    }
+
+    .main-navigation .menu li {
+        display: block;
+        margin: 0 0 20px 0;
+    }
+
+    .main-navigation .menu li a {
+        display: inline-block;
+        font-size: max(16px, 2vh);
+    }
+}
+    .bg-pattern {
+        min-height: 100vh;
+        padding-top: 80px; /* Account for fixed header */
     }
 
     .status-popup {
       position: fixed;
-      top: 20px;
+      top: 30px;
       left: 50%;
       transform: translateX(-50%);
       padding: 15px 20px;
@@ -146,61 +259,82 @@
     .status-popup.show {
       opacity: 1;
     }
-  </style>
+</style>
 </head>
 
-<body>
-  <!-- Main Navbar -->
-  <nav class="navbar navbar-expand-md" style="background-color: #6C9A8B;">
-    <div class="container-fluid">
-      <div class="col-2 d-flex align-items-center">
-        <a href="./index.html"><img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" alt="MealMate Logo" class="me-2" style="height: 40px;"></a>
-      </div>
-      <div class="col-8 col-md-4 d-flex justify-content-center justify-content-md-start"></div>
-      <div class="col-md-2 d-flex justify-content-end text-nowrap">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle text-white d-block d-md-none" viewBox="0 0 16 16" data-bs-toggle="modal" data-bs-target="#profileModal" style="cursor: pointer;">
-          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-        </svg>
-      </div>
-    </div>
-  </nav>
-
-  <div class="container-wrapper">
-    <div class="container">
-      <div class="row">
-        <div id="header" class="col-12 text-center">
-          <h1 id="pageTitle"></h1>
-        </div>
-      </div>
-
-      <!-- pill section -->
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="user-type-container">
-            <div id="generateFormIndiv" class="user-type active">
-              <strong id="indiv">Individual</strong>
+<body class="body-fixed">
+    <!-- Header section matching index.html -->
+    <header class="site-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="header-logo">
+                        <a href="index.html">
+                            <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" width="160" alt="Logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-10">
+                    <div class="main-navigation">
+                        <button class="menu-toggle"><span></span><span></span></button>
+                        <nav class="header-menu">
+                            <ul class="menu food-nav-menu">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="index.html#about">About</a></li>
+                                <li><a href="index.html#contact">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </div>
-            <div id="generateFormBusiness" class="user-type">
-              <strong id="business">Business</strong>
+        </div>
+    </header>
+    <!-- header ends  -->
+
+    <!-- Rest of your login form content -->
+    <div id="viewport">
+        <div id="js-scroll-content">
+            <!-- Main Content with Background -->
+            <div class="bg-pattern bg-light repeat-img" style="background-image: url(assets/images/menu-bg.png);">
+                <section class="main-banner" id="home">
+                    <div class="sec-wp">
+                        <div class="container-wrapper">
+                            <div class="container justify-content-center">
+                                <div class="row">
+                                    <div id="header" class="col-12 text-center">
+                                        <h1 id="pageTitle"></h1>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-md-8">
+                                        <div class="user-type-container">
+                                            <div id="generateFormIndiv" class="user-type active">
+                                                <strong id="indiv">Individual</strong>
+                                            </div>
+                                            <div id="generateFormBusiness" class="user-type">
+                                                <strong id="business">Business</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="formContainer" class="row justify-content-center">
+                                    <!-- Form will be dynamically inserted here -->
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-12 text-center">
+                                        <a id="toggleMode" href="#"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             </div>
-          </div>
         </div>
-      </div>
-
-      <!-- form section -->
-      <div id="formContainer" class="row justify-content-center">
-        <!-- Form will be dynamically inserted here -->
-      </div>
-
-      <!-- Sign up Sign In toggle -->
-      <div class="row mt-3">
-        <div class="col-12 text-center">
-          <a id="toggleMode" href="#"></a>
-        </div>
-      </div>
     </div>
-  </div>
 
   <!-- scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
