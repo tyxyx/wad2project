@@ -14,7 +14,7 @@ import {
     deleteObject
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
 
-import { mapsApi } from "./configure";
+import { mapsApi } from "./configure.js";
 let apiKey = mapsApi.mapsApi;
 let map;
 let autocomplete;
