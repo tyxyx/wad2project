@@ -1178,12 +1178,65 @@ p {
     text-transform: capitalize;
 }
 
+/* Base state for paragraph */
 .testimonials-box-text p {
     margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    position: relative;
+    transition: all 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
+}
+
+/* Hover state styles */
+.testimonials-box:hover .testimonials-box-text p {
+    display: block;
+    -webkit-line-clamp: unset;
+    -webkit-box-orient: unset;
+    overflow: visible;
+}
+
+/* Medium and smaller screens */
+@media (max-width: 991px) {
+    .testimonials-box-text p {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 0;
+    }
+    
+    .testimonials-box {
+        height: auto;
+        min-height: 200px;
+        transition: all 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
+    }
+    
+    .testimonials-box:hover {
+        height: auto;
+        min-height: fit-content;
+        padding-bottom: 30px;
+    }
+    
+    .testimonials-box:hover .testimonials-box-text p {
+        margin-bottom: 15px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 575px) {
+    .testimonials-box {
+        min-height: 180px;
+        padding: 20px;
+        padding-top: 0;
+    }
+    
+    .testimonials-box-img {
+        min-width: 80px;
+        min-height: 80px;
+        margin-top: -40px;
+    }
+    
+    .testimonial-box-top {
+        margin-bottom: 15px;
+    }
 }
 
 .star-rating-wp {
