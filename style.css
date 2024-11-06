@@ -1367,23 +1367,24 @@ p {
     position: absolute;
     color: #800020;
     opacity: 0;
-    transition: all 0.3s ease;
+    transition: opacity 2s ease; /* Just fade in over 2s */
 }
 
 .star-rating-wp::before {
-    top: 0;
+    top: 5px;
     right: -15px;
 }
 
 .star-rating-wp::after {
-    bottom: 0;
-    left: -15px;
+    bottom: -20px;
+    left: -25px;
 }
 
 .testimonials-box:hover .star-rating-wp::before,
 .testimonials-box:hover .star-rating-wp::after {
     opacity: 1;
     animation: float-star 3s ease-in-out infinite;
+    animation-delay: 2s; /* Start floating after fade in */
 }
 
 @keyframes float-star {
