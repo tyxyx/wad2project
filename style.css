@@ -1241,6 +1241,8 @@ p {
 
 .star-rating-wp {
     display: block;
+    position: relative;
+    perspective: 100px;
 }
 
 .star-rating {
@@ -1248,6 +1250,7 @@ p {
     position: relative;
     margin-top: 20px;
     display: inline-block;
+    transition: transform 0.3s ease;
 }
 
 .star-rating::before {
@@ -1274,11 +1277,150 @@ p {
     font-weight: 900;
     color: #ff8243;
     letter-spacing: 4px;
+    background: linear-gradient(90deg, #ff8243, #ffb067);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 4px rgba(255, 130, 67, 0.3));
 }
 
+/* Hover Effects */
+.testimonials-box:hover .star-rating {
+    transform: translateZ(10px);
+}
+
+.testimonials-box:hover .star-rating__fill::after {
+    animation: star-shimmer 2s infinite;
+}
+
+/* Individual star hover effect */
+.star-rating::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle at center, 
+        rgba(255, 130, 67, 0.1),
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.testimonials-box:hover .star-rating::after {
+    opacity: 1;
+}
+
+/* Star animations */
 @keyframes fill-star {
     0% {
         width: 0;
+        filter: drop-shadow(0 0 0 rgba(255, 130, 67, 0));
+    }
+    100% {
+        width: 100%;
+        filter: drop-shadow(0 2px 4px rgba(255, 130, 67, 0.3));
+    }
+}
+
+@keyframes star-shimmer {
+    0%, 100% {
+        filter: drop-shadow(0 2px 4px rgba(255, 130, 67, 0.3));
+        transform: scale(1);
+    }
+    50% {
+        filter: drop-shadow(0 3px 6px rgba(255, 130, 67, 0.5));
+        transform: scale(1.05);
+    }
+}
+
+/* Floating stars decoration */
+.star-rating-wp::before,
+.star-rating-wp::after {
+    content: "\f005";
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
+    font-size: 12px;
+    position: absolute;
+    color: #800020;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.star-rating-wp::before {
+    top: 0;
+    right: -15px;
+}
+
+.star-rating-wp::after {
+    bottom: 0;
+    left: -15px;
+}
+
+.testimonials-box:hover .star-rating-wp::before,
+.testimonials-box:hover .star-rating-wp::after {
+    opacity: 1;
+    animation: float-star 3s ease-in-out infinite;
+}
+
+@keyframes float-star {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-10px) rotate(15deg);
+        opacity: 0.7;
+    }
+}
+
+/* Star trail effect */
+.star-rating__fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.8),
+        transparent
+    );
+    transform: skewX(-25deg);
+    animation: star-trail 3s infinite;
+    opacity: 0;
+}
+
+.testimonials-box:hover .star-rating__fill::before {
+    opacity: 1;
+}
+
+@keyframes star-trail {
+    0% {
+        left: -100%;
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        left: 200%;
+        opacity: 0;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .star-rating {
+        font-size: 18px;
+    }
+    
+    .star-rating-wp::before,
+    .star-rating-wp::after {
+        font-size: 10px;
     }
 }
 
