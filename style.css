@@ -1193,6 +1193,28 @@ p {
     overflow: visible;
 }
 
+@media (min-width: 992px) {
+    .testimonials-box {
+        height: 300px; /* Fixed height for larger screens */
+    }
+
+    .testimonials-box-text p {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .testimonials-box:hover {
+        height: auto;
+    }
+
+    .testimonials-box:hover .testimonials-box-text p {
+        -webkit-line-clamp: unset;
+        overflow: visible;
+    }
+}
+
 /* Medium and smaller screens */
 @media (max-width: 991px) {
     .testimonials-box-text p {
@@ -1426,30 +1448,194 @@ p {
 
 /* *********** */
 
+/* Container for FAQ row */
 .faq-row {
-    column-count: 3;
+    display: grid;
+    gap: 30px;
     margin: 0 -5px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.8s ease forwards;
 }
 
+/* Base FAQ box styles */
 .faq-box {
     border: 1px solid #bfbfbf;
     border-radius: 30px;
     background-image: linear-gradient(145deg, #e4e4e4, #ffffff);
-    break-inside: avoid;
-    margin: 0 5px 30px;
+    margin: 0 5px;
     box-shadow: 10px 10px 30px rgb(207 207 208 / 20%), -10px -10px 30px rgb(255 255 255 / 90%);
+    transition: all 0.4s cubic-bezier(0.22, 0.78, 0.45, 1.02);
+    position: relative;
+    height: 250px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
 }
 
+/* Stagger animation for boxes */
+.faq-box:nth-child(1) { animation-delay: 0.1s; }
+.faq-box:nth-child(2) { animation-delay: 0.2s; }
+.faq-box:nth-child(3) { animation-delay: 0.3s; }
+.faq-box:nth-child(4) { animation-delay: 0.4s; }
+.faq-box:nth-child(5) { animation-delay: 0.5s; }
+.faq-box:nth-child(6) { animation-delay: 0.6s; }
+
+/* Hover effects */
+.faq-box:hover {
+    transform: translateY(-5px);
+    height: auto;
+    min-height: 250px;
+    z-index: 1;
+    box-shadow: 15px 15px 40px rgb(207 207 208 / 30%), -15px -15px 40px rgb(255 255 255 / 95%);
+}
+
+/* Glowing sweep effect */
+.faq-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(212, 163, 115, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.faq-box:hover::before {
+    left: 100%;
+}
+
+/* Title styles */
 .faq-box .h4-title {
     padding: 16px 30px;
     border-bottom: 1px solid #bfbfbf;
     text-transform: capitalize;
     font-weight: 600;
+    position: relative;
+    transition: color 0.3s ease;
 }
 
+/* Title hover effect */
+.faq-box:hover .h4-title {
+    color: #D4A373;
+}
+
+/* Question mark indicator */
+.faq-box .h4-title::after {
+    content: '?';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #D4A373;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+}
+
+.faq-box:hover .h4-title::after {
+    opacity: 1;
+    transform: translateY(-50%) rotate(10deg);
+}
+
+/* Content styles */
 .faq-box p {
     padding: 8px 30px 20px;
     margin: 0;
+    line-height: 1.6;
+    color: #666;
+    transition: all 0.3s ease;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.faq-box:hover p {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+    color: #333;
+}
+
+/* Gradient bottom line */
+.faq-box::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(to top, #ffffff, transparent);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.faq-box:hover::after {
+    opacity: 0;
+}
+
+/* Bottom accent line */
+.faq-box::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #D4A373, #E6CCB2);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: 2;
+}
+
+.faq-box:hover::before {
+    transform: scaleX(1);
+}
+
+/* Responsive grid layouts */
+@media (min-width: 992px) {
+    .faq-row {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 991px) {
+    .faq-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/* for extra small screen size */
+/* @media (max-width: 575px) {
+    .faq-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .faq-box {
+        margin: 0;
+    }
+} */
+
+/* Animations */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
 }
 
 /* *************** */
