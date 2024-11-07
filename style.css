@@ -1611,9 +1611,15 @@ p {
     }
 }
 
-@media (max-width: 991px) {
+@media (min-width: 576px) {
     .faq-row {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 575px) {
+        .faq-row {
+        grid-template-columns: 1fr;
     }
 }
 
