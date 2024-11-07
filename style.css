@@ -440,14 +440,8 @@ ul {
 }
 
 .main-banner {
-    /* padding: 200px 0 300px;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden; */
-    min-height: calc(100vh - 200px); /* Adjust for padding */
-    height: 100vh; /* Occupy full viewport height */
-    overflow: hidden; /* Disable scrolling for this section */
-    padding: 100px 0; /* Adjust padding to prevent overflow */
+    padding-top: 150px;
+    margin-bottom: 100px;
 }
 
 .js-parallax-scene {
@@ -2670,11 +2664,6 @@ body {
     transform: scale(1.05);
 }
 
-
-#home {
-    max-height: 600px; /* Set your desired fixed maximum height */
-    overflow-y: auto; /* Ensures content beyond max height is scrollable */
-}
 
 /* Featured Business Card */
 .featured-business-card {
