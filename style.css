@@ -880,7 +880,7 @@ p {
     font-size: 30px;
 }
 
-.dish-add-btn {
+/* .dish-add-btn {
     width: 60px;
     height: 40px;
     border: none;
@@ -889,7 +889,7 @@ p {
     transition: 0.3s;
     background: linear-gradient(145deg, #ffc954, #ffbc00);
     box-shadow: inset 4px 4px 8px #d6a029, inset -4px -4px 8px #ffd837;
-}
+} */
 
 .dish-add-btn i {
     color: #ffffff;
@@ -2386,9 +2386,9 @@ p {
 }
 
 /* Individual featured business card */
-.featured-business-card {
-    width: 300px;
-    min-width: 300px;
+/* .featured-business-card {
+    width: 200px;
+    min-width: 200px;
     border-radius: 30px;
     background: linear-gradient(145deg, #ececec, #ffffff);
     box-shadow: 28px 28px 45px #d4d4d4, -28px -28px 45px #ffffff;
@@ -2396,9 +2396,10 @@ p {
     white-space: normal;
     vertical-align: top;
     padding: 0 30px 40px;
+    padding: 10px;
     cursor: pointer;
     transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
-}
+} */
 
 .featured-business-card:hover {
     transform: scale(1.03);
@@ -2407,7 +2408,7 @@ p {
 /* Featured card image container */
 .featured-img-container {
     margin-top: -130px;
-    margin-bottom: 30px;
+    /* margin-bottom: 10px; */
     text-align: center;
 }
 
@@ -2422,22 +2423,23 @@ p {
 /* Featured card content */
 .featured-content {
     text-align: center;
+    
 }
 
-.featured-title {
+/* .featured-title {
     text-transform: capitalize;
     margin-bottom: 5px;
     font-family: 'Playfair Display', serif;
     font-weight: 900;
     color: #0d0d25;
     font-size: 24px;
-}
+} */
 
-.featured-info {
+/* .featured-info {
     color: #bfbfbf;
     margin-bottom: 15px;
     font-size: 16px;
-}
+} */
 
 /* View button styling to match dish-add-btn */
 .featured-content .dish-add-btn {
@@ -2676,23 +2678,42 @@ body {
 
 /* Featured Business Card */
 .featured-business-card {
-    background-color: #ffffff;
-    border-radius: 15px;
+    background: linear-gradient(145deg, #ececec, #ffffff);
+    /* border-radius: 15px; */
+    border-radius: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
-    width: 280px;
+    /* width: 280px; */
+    width: 300px;
+    min-width: 300px;
     margin: 0 15px; /* Spacing between cards */
     display: flex;
     flex-direction: column;
     align-items: center;
+    white-space: normal;
+    vertical-align: top;
+    cursor: pointer;
+
+    /* width: 200px;
+    min-width: 200px;
+    border-radius: 30px;
+    background: linear-gradient(145deg, #ececec, #ffffff);
+    box-shadow: 28px 28px 45px #d4d4d4, -28px -28px 45px #ffffff;
+    display: inline-block;
+    white-space: normal;
+    vertical-align: top;
+    padding: 0 30px 40px;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02); */
 }
 
 /* Circular Image Container */
 .featured-img-container {
-    width: 200px; /* Set the desired width for the circle */
-    height: 200px; /* Ensure height equals width for a perfect circle */
+    width: 150px; /* Set the desired width for the circle */
+    height: 150px; /* Ensure height equals width for a perfect circle */
     border-radius: 50%; /* Makes the container circular */
     overflow: hidden; /* Ensures the image doesn't overflow outside the circle */
     margin-top: 15px; /* Add some space above the image if needed */
@@ -2724,16 +2745,24 @@ body {
 
 .featured-title {
     font-size: 1.2rem;
+    /* font-size: 24px; */
     color: #333;
     font-weight: 600;
-    margin-bottom: 10px;
+    /* font-weight: 900; */
+    margin-bottom: 0px;
     text-transform: capitalize;
+    /* margin-bottom: 5px; */
+    font-family: 'Playfair Display', serif;
 }
 
 .featured-info {
     font-size: 0.9rem;
     color: #777;
-    margin: 5px 0;
+    margin: 0px;
+
+    /* color: #bfbfbf;
+    margin-bottom: 15px;
+    font-size: 16px; */
 }
 
 .dish-add-btn {
@@ -2746,7 +2775,7 @@ body {
     transition: background-color 0.3s ease;
     font-size: 0.9rem;
     font-weight: 500;
-    margin-top: 15px;
+    /* margin-top: 15px; */
 }
 
 .dish-add-btn:hover {
