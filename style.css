@@ -440,10 +440,14 @@ ul {
 }
 
 .main-banner {
-    padding: 200px 0 300px;
+    /* padding: 200px 0 300px;
     min-height: 100vh;
     position: relative;
-    overflow-x: hidden;
+    overflow-x: hidden; */
+    min-height: calc(100vh - 200px); /* Adjust for padding */
+    height: 100vh; /* Occupy full viewport height */
+    overflow: hidden; /* Disable scrolling for this section */
+    padding: 100px 0; /* Adjust padding to prevent overflow */
 }
 
 .js-parallax-scene {
@@ -2757,6 +2761,8 @@ body {
     scroll-behavior: smooth;
     padding-bottom: 10px;
 }
+
+
 
 
 
