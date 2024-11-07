@@ -21,6 +21,9 @@ onAuthStateChanged(auth, async (user) => {
     if (user) {
         try {
 
+            const logout = document.getElementById('logout')
+            logout.addEventListener('click', logOut)
+
             userEmail = user.email;
             const userDoc = await fetchUserName(userEmail);
 

@@ -488,7 +488,7 @@ main {
                         <button class="menu-toggle"><span></span><span></span></button>
                         <nav class="header-menu">
                             <ul class="menu food-nav-menu">
-                                <li><a href="#contact" onclick="scrollToSection('contact')">Contact</a></li>
+                                <li><a href="javascript:void(0)" id="contactLink">Contact</a></li>
                                 <li><a href="./index.html" id="logout" class="nav-link">Log Out</a></li>
                             </ul>
                         </nav>
@@ -929,6 +929,30 @@ main {
                     document.getElementById('contactDisplay').textContent = e.target.value;
                 });
             });
+            document.addEventListener('DOMContentLoaded', function() {
+    const contactLink = document.getElementById('contactLink');
+    
+    if (contactLink) {
+        contactLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Get the footer element
+            const footer = document.querySelector('.site-footer');
+            
+            if (footer) {
+                // Calculate position accounting for fixed header
+                const headerHeight = document.querySelector('.site-header').offsetHeight;
+                const footerPosition = footer.getBoundingClientRect().top + window.pageYOffset;
+                
+                // Scroll with offset
+                window.scrollTo({
+                    top: footerPosition - headerHeight,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+});
             </script>
 </body>
 
