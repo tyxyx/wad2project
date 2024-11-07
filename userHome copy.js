@@ -1,56 +1,54 @@
 import { db, auth, logOut } from "./database.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 import {
-    collection,
-    doc,
-    getDoc,
-    getDocs,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-let userEmail = null; 
+let userEmail = null;
 let cart = [];
 let listGroup = [];
-const overlay = document.createElement('div');
-overlay.className = 'loading-overlay';
-const spinner = document.createElement('div');
-spinner.className = 'loading-spinner';
+const overlay = document.createElement("div");
+overlay.className = "loading-overlay";
+const spinner = document.createElement("div");
+spinner.className = "loading-spinner";
 overlay.appendChild(spinner);
 document.body.appendChild(overlay);
 // Listen for authentication state changes
 onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        try {
+  if (user) {
+    try {
+      const logout = document.getElementById("logout");
+      logout.addEventListener("click", logOut);
 
-            const logout = document.getElementById('logout')
-            logout.addEventListener('click', logOut)
+      userEmail = user.email;
+      const userDoc = await fetchUserName(userEmail);
 
-            userEmail = user.email;
-            const userDoc = await fetchUserName(userEmail);
-
-            if (userDoc.exists()) {
-                
-                // Fetch and display businesses
-                await fetchBusinessCards();
-            } else {
-                overlay.remove()
-                redirectToLogin();
-            }
-
-            setTimeout(() => {
-              window.dispatchEvent(new Event('resize'));
-              overlay.remove();
-          }, 1000);
-        } catch (error) {
-            console.error("Error fetching user details:", error);
-            alert("Failed to load user details. Please try again later.");
-            if (document.querySelector('.loading-overlay')) {
-              document.querySelector('.loading-overlay').remove();
-          }
-            redirectToLogin();
-        }
-    } else {
+      if (userDoc.exists()) {
+        // Fetch and display businesses
+        await fetchBusinessCards();
+      } else {
+        overlay.remove();
         redirectToLogin();
+      }
+
+      setTimeout(() => {
+        window.dispatchEvent(new Event("resize"));
+        overlay.remove();
+      }, 1000);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+      alert("Failed to load user details. Please try again later.");
+      if (document.querySelector(".loading-overlay")) {
+        document.querySelector(".loading-overlay").remove();
+      }
+      redirectToLogin();
     }
+  } else {
+    redirectToLogin();
+  }
 });
 
 function redirectToLogin() {
@@ -59,17 +57,16 @@ function redirectToLogin() {
 
 // Function to fetch user details
 async function fetchUserName(userEmail) {
-    return await getDoc(doc(db, "userLogin", userEmail));
+  return await getDoc(doc(db, "userLogin", userEmail));
 }
 
 // Function to fetch businesses and display them as cards
 // async function fetchBusinessCards() {
 //     try {
 //         const businessQuerySnapshot = await getDocs(collection(db, "businessLogin"));
-        
+
 //         businessQuerySnapshot.forEach((businessDoc) => {
 //             const businessData = businessDoc.data();
-            
 
 //             // Create a card for each business
 //             createBusinessCard(businessDoc.id, businessData);
@@ -83,13 +80,13 @@ async function fetchUserName(userEmail) {
 // async function fetchBusinessCards() {
 //   try {
 //       const businessQuerySnapshot = await getDocs(collection(db, "businessLogin"));
-      
+
 //       businessQuerySnapshot.forEach((businessDoc) => {
 //           const businessData = businessDoc.data();
-          
+
 //           // Create vertical card for "All businesses" section
 //           createBusinessCard(businessDoc.id, businessData);
-          
+
 //           // Create horizontal card for "Featured businesses" section
 //           createFeaturedBusinessCard(businessDoc.id, businessData);
 //       });
@@ -105,49 +102,53 @@ async function fetchUserName(userEmail) {
 async function fetchBusinessCards() {
   try {
     // Clear existing cards from both containers
-    
-      const menuDish = document.getElementById("menu-dish");
-      const featuredCards = document.getElementById("featured-cards");
-      
-      if (menuDish) menuDish.innerHTML = "";
-      if (featuredCards) featuredCards.innerHTML = "";
-      
-      const businessQuerySnapshot = await getDocs(collection(db, "businessLogin"));
-      
-      businessQuerySnapshot.forEach((businessDoc) => {
-          const businessData = businessDoc.data();
-          
-          // Create vertical card for "All businesses" section
-          console.log(businessData)
-          if (businessData.profilePic && businessData.address && businessData.contactInfo) {
-            createBusinessCard(businessDoc.id, businessData);
-            createFeaturedBusinessCard(businessDoc.id, businessData);
-          }
 
-          
-          // Create horizontal card for "Featured businesses" section
+    const menuDish = document.getElementById("menu-dish");
+    const featuredCards = document.getElementById("featured-cards");
 
-      });
+    if (menuDish) menuDish.innerHTML = "";
+    if (featuredCards) featuredCards.innerHTML = "";
 
-      // Initialize horizontal scroll functionality
-      initializeHorizontalScroll();
+    const businessQuerySnapshot = await getDocs(
+      collection(db, "businessLogin")
+    );
+
+    businessQuerySnapshot.forEach((businessDoc) => {
+      const businessData = businessDoc.data();
+
+      // Create vertical card for "All businesses" section
+      console.log(businessData);
+      if (
+        businessData.profilePic &&
+        businessData.address &&
+        businessData.contactInfo
+      ) {
+        createBusinessCard(businessDoc.id, businessData);
+        createFeaturedBusinessCard(businessDoc.id, businessData);
+      }
+
+      // Create horizontal card for "Featured businesses" section
+    });
+
+    // Initialize horizontal scroll functionality
+    initializeHorizontalScroll();
   } catch (error) {
-      console.error("Error fetching businesses:", error);
+    console.error("Error fetching businesses:", error);
   }
 }
 
 // Function to create a business card CHANGE THE DATA HERE FOR THE OUTPUT
 function createBusinessCard(businessUEN, businessData) {
-    // const businessContainer = document.getElementById("business-container")
-    // if (!businessContainer) {
-    //     console.error("Business container not found");
-    //     return;
+  // const businessContainer = document.getElementById("business-container")
+  // if (!businessContainer) {
+  //     console.error("Business container not found");
+  //     return;
   // }
-    
+
   const menuDish = document.getElementById("menu-dish");
   if (!menuDish) {
-      console.error("Menu dish container not found");
-      return;
+    console.error("Menu dish container not found");
+    return;
   }
 
   // Create card element
@@ -170,8 +171,8 @@ function createBusinessCard(businessUEN, businessData) {
   distImg.style.margin = "0 auto"; // Center the image in the card
 
   // Create image element
-  const img = document.createElement('img');
-  img.src = businessData.profilePic || './images/default-profile.png'; // Fallback image
+  const img = document.createElement("img");
+  img.src = businessData.profilePic || "./images/default-profile.png"; // Fallback image
   img.style.width = "100%";
   img.style.height = "100%";
   img.style.objectFit = "cover"; // Ensure the image covers the container
@@ -208,59 +209,62 @@ function createBusinessCard(businessUEN, businessData) {
   card.appendChild(dishBox);
   menuDish.appendChild(card);
 
-    // Create card body
-    // const cardBody = document.createElement("div")
-    // cardBody.classList.add("card-body");
-    // cardBody.style.position = "relative";
-    // card.appendChild(cardBody)
+  // Create card body
+  // const cardBody = document.createElement("div")
+  // cardBody.classList.add("card-body");
+  // cardBody.style.position = "relative";
+  // card.appendChild(cardBody)
 
-    // Create business name element
-    // const businessName = document.createElement("h3");
-    // businessName.innerText = businessData.busName; // Using innerText to set the business name
-    // businessName.classList.add("card-title", "d-inline")
-    // cardBody.appendChild(businessName);
+  // Create business name element
+  // const businessName = document.createElement("h3");
+  // businessName.innerText = businessData.busName; // Using innerText to set the business name
+  // businessName.classList.add("card-title", "d-inline")
+  // cardBody.appendChild(businessName);
 
-    // Create Ratings and review element
-    // const ratingReviews = document.createElement("span");
-    // ratingReviews.style.position = "absolute";
-    // ratingReviews.style.right = "20px"
-    // ratingReviews.innerText = `⭐${businessData.ratings} ${businessData.reviews}`
-    // cardBody.appendChild(ratingReviews)
+  // Create Ratings and review element
+  // const ratingReviews = document.createElement("span");
+  // ratingReviews.style.position = "absolute";
+  // ratingReviews.style.right = "20px"
+  // ratingReviews.innerText = `⭐${businessData.ratings} ${businessData.reviews}`
+  // cardBody.appendChild(ratingReviews)
 
-    // const cardText = document.createElement('p')
-    // cardText.classList.add('card-text')
-    // cardBody.appendChild(cardText)
+  // const cardText = document.createElement('p')
+  // cardText.classList.add('card-text')
+  // cardBody.appendChild(cardText)
 
-    // Create contact info element
-    // const contactInfo = document.createElement("p");
-    // contactInfo.innerText = `Contact: ${businessData.contactInfo}`; // Using innerText to set contact info
-    // cardText.appendChild(contactInfo);
+  // Create contact info element
+  // const contactInfo = document.createElement("p");
+  // contactInfo.innerText = `Contact: ${businessData.contactInfo}`; // Using innerText to set contact info
+  // cardText.appendChild(contactInfo);
 
-    // Create location element
-    // const location = document.createElement("p");
-    // location.innerText = `Location: ${businessData.address}`; // Using innerText to set the address
-    // cardText.appendChild(location);
+  // Create location element
+  // const location = document.createElement("p");
+  // location.innerText = `Location: ${businessData.address}`; // Using innerText to set the address
+  // cardText.appendChild(location);
 
-    
-    // Add event listener to the card
-    // card.addEventListener("click", () => {
-    //     // Update URL to include business ID to allow browser back
-    //     history.pushState({ businessUEN, businessName: businessData.busName }, '', `?business=${businessUEN}`);
-    //     fetchAndDisplayMenuItems(businessUEN, businessData.busName);
-    // });
+  // Add event listener to the card
+  // card.addEventListener("click", () => {
+  //     // Update URL to include business ID to allow browser back
+  //     history.pushState({ businessUEN, businessName: businessData.busName }, '', `?business=${businessUEN}`);
+  //     fetchAndDisplayMenuItems(businessUEN, businessData.busName);
+  // });
 
-    // Add event listener to the card-like element
-    card.addEventListener("click", () => {
-        // Update URL to include business ID to allow browser back
-        history.pushState({ businessUEN, businessName: businessData.busName }, '', `?business=${businessUEN}`);
-      fetchAndDisplayMenuItems(businessUEN, businessData.busName);
-    });;
+  // Add event listener to the card-like element
+  card.addEventListener("click", () => {
+    // Update URL to include business ID to allow browser back
+    history.pushState(
+      { businessUEN, businessName: businessData.busName },
+      "",
+      `?business=${businessUEN}`
+    );
+    fetchAndDisplayMenuItems(businessUEN, businessData.busName);
+  });
 
-    // Append the card to the container
-    // businessContainer.appendChild(card);
-    
-    // Append the card-like elem into the container
-    menuDish.appendChild(card);
+  // Append the card to the container
+  // businessContainer.appendChild(card);
+
+  // Append the card-like elem into the container
+  menuDish.appendChild(card);
 }
 
 // Function to fetch and display menu items for a specific business CHANGE HERE TO DISPLAY MENU
@@ -319,11 +323,11 @@ function createBusinessCard(businessUEN, businessData) {
 //     menuDish.appendChild(orderNowButton);
 //       menuDish.appendChild(backButton);
 //       loadCartItems(listGroup);
-      
+
 //   } catch (error) {
 //     console.error("Error fetching menu items:", error);
 //   }
-// } 
+// }
 
 // updated fetchAndDisplayMenuItems
 // Update the back button event listener in fetchAndDisplayMenuItems
@@ -393,7 +397,7 @@ function createBusinessCard(businessUEN, businessData) {
 //     menuDish.appendChild(orderNowButton);
 //     menuDish.appendChild(backButton);
 //     loadCartItems();
-      
+
 //   } catch (error) {
 //     console.error("Error fetching menu items:", error);
 //   }
@@ -402,7 +406,7 @@ function createBusinessCard(businessUEN, businessData) {
 //new  fetchAndDisplayMenuItems
 async function fetchAndDisplayMenuItems(businessUEN, businessName) {
   setTimeout(() => {
-    window.dispatchEvent(new Event('resize'));
+    window.dispatchEvent(new Event("resize"));
     overlay.remove();
   }, 1000);
   try {
@@ -411,8 +415,8 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       collection(db, `businessLogin/${businessUEN}/menuItems`)
     );
 
-    const ftb = document.getElementById("featured-businesses")
-    ftb.classList.add('d-none')
+    const ftb = document.getElementById("featured-businesses");
+    ftb.classList.add("d-none");
 
     // Clear existing cards to display menu
     const menuDish = document.getElementById("menu-dish");
@@ -440,18 +444,18 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     // Create cart section with same styling
     const cartSection = document.createElement("div");
     cartSection.classList.add("col-lg-12", "mt-5");
-    
+
     const cartBox = document.createElement("div");
     cartBox.classList.add("dish-box");
     cartBox.style.maxWidth = "500px";
     cartBox.style.margin = "0 auto";
-    
+
     const cartTitle = document.createElement("div");
     cartTitle.classList.add("dist-title", "text-center");
     cartTitle.innerHTML = `
       <h3 class="h3-title">Your Cart</h3>
     `;
-    
+
     // Create cart list
     listGroup = document.createElement("ul");
     listGroup.classList.add("list-group", "list-group-flush");
@@ -474,6 +478,8 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     orderNowButton.addEventListener("click", () => {
       localStorage.setItem("businessId", JSON.stringify(businessUEN));
       localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.removeItem("currentOrderId");
+      localStorage.removeItem("orderCreationTime");
       window.location.href = "cart.html";
     });
 
@@ -499,16 +505,15 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     menuDish.appendChild(cartSection);
 
     loadCartItems();
-    const targetElement = document.getElementById('displayMenu');
+    const targetElement = document.getElementById("displayMenu");
     const offset = 90; // Adjust this value as needed
-    
+
     // Get the position of the element and scroll to slightly above it
     window.scrollTo({
-        top: targetElement.getBoundingClientRect().top + window.pageYOffset - offset,
-        behavior: 'smooth'
+      top:
+        targetElement.getBoundingClientRect().top + window.pageYOffset - offset,
+      behavior: "smooth",
     });
-
-      
   } catch (error) {
     console.error("Error fetching menu items:", error);
   }
@@ -522,13 +527,12 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
 // });
 // updated popstate
 // Also update the popstate event handler
-window.addEventListener('popstate', async (event) => {
+window.addEventListener("popstate", async (event) => {
   const menuDish = document.getElementById("menu-dish");
   menuDish.innerHTML = "";
-  const ftb = document.getElementById("featured-businesses")
-  ftb.classList.remove("d-none")
+  const ftb = document.getElementById("featured-businesses");
+  ftb.classList.remove("d-none");
   await fetchBusinessCards();
-  
 });
 
 // Function to create a card for each menu item
@@ -629,37 +633,38 @@ function createMenuItemCard(menuItemData, container) {
   // Create image section
   const distImg = document.createElement("div");
   distImg.classList.add("dist-img");
- 
+
   // Use first image from array or fallback
   const img = document.createElement("img");
-  img.src = menuItemData.images && menuItemData.images.length > 0 
-    ? menuItemData.images[0] 
-    : './images/mealmate-logo-zip-file/png/logo-color.png';
+  img.src =
+    menuItemData.images && menuItemData.images.length > 0
+      ? menuItemData.images[0]
+      : "./images/mealmate-logo-zip-file/png/logo-color.png";
   img.onerror = () => {
-    img.src = './images/mealmate-logo-zip-file/png/logo-color.png';
+    img.src = "./images/mealmate-logo-zip-file/png/logo-color.png";
   };
-  
+
   distImg.appendChild(img);
   dishBox.appendChild(distImg);
 
   // Create title section
   const dishTitle = document.createElement("div");
   dishTitle.classList.add("dist-title");
-  
+
   const title = document.createElement("h3");
   title.classList.add("h3-title");
   title.textContent = menuItemData.itemName;
-  
+
   const description = document.createElement("p");
   description.textContent = menuItemData.description;
-  
+
   const price = document.createElement("p");
   price.classList.add("price");
   price.style.fontSize = "1.2em";
   price.style.fontWeight = "bold";
   price.style.color = "#ff8243";
   price.textContent = `$${Number(menuItemData.price).toFixed(2)}`;
-  
+
   dishTitle.appendChild(title);
   dishTitle.appendChild(description);
   dishTitle.appendChild(price);
@@ -716,8 +721,8 @@ function createMenuItemCard(menuItemData, container) {
 
 // Function to add item to cart
 function addToCart(itemName, quantity, price) {
-    // Check if the item is already in the cart
-  
+  // Check if the item is already in the cart
+
   const existingItemIndex = cart.findIndex((item) => item.name === itemName);
 
   if (existingItemIndex !== -1) {
@@ -729,179 +734,183 @@ function addToCart(itemName, quantity, price) {
   }
 
   // Store the updated cart back to localStorage
-    // localStorage.setItem("cart", JSON.stringify(cart));
-    loadCartItems()
+  // localStorage.setItem("cart", JSON.stringify(cart));
+  loadCartItems();
 }
-
-
 
 function createCarousel(containerId, imageUrls) {
-    const container = document.getElementById(containerId);
-    
-    // Create main carousel div
-    const carousel = document.createElement("div");
-    carousel.classList.add("carousel", "slide", "carousel-fade");
-    carousel.id = `${containerId}-inner`;
-    carousel.setAttribute("data-bs-ride", "carousel");
-    
-    // Create carousel-inner div
-    const carouselInner = document.createElement("div");
-    carouselInner.classList.add("carousel-inner");
-    
-    // Add images to carousel
-    imageUrls.forEach((url, index) => {
-        const item = document.createElement("div");
-        item.classList.add("carousel-item");
-        if (index === 0) item.classList.add("active");
-        
-        // Create image wrapper for consistent sizing
-        const imgWrapper = document.createElement("div");
-        imgWrapper.classList.add("carousel-image-wrapper");
-        
-        const img = document.createElement("img");
-        img.classList.add("d-block", "w-100");
-        img.src = url;
-        img.alt = `Food image ${index + 1}`;
-        
-        imgWrapper.appendChild(img);
-        item.appendChild(imgWrapper);
-        carouselInner.appendChild(item);
-    });
-    
-    carousel.appendChild(carouselInner);
-    
-    // Only add controls if there are multiple images
-    if (imageUrls.length > 1) {
-        // Previous button
-        const prevButton = document.createElement("button");
-        prevButton.classList.add("carousel-control-prev");
-        prevButton.type = "button";
-        prevButton.setAttribute("data-bs-target", `#${containerId}-inner`);
-        prevButton.setAttribute("data-bs-slide", "prev");
-        
-        const prevIcon = document.createElement("span");
-        prevIcon.classList.add("carousel-control-prev-icon");
-        prevIcon.setAttribute("aria-hidden", "true");
-        
-        const prevText = document.createElement("span");
-        prevText.classList.add("visually-hidden");
-        prevText.textContent = "Previous";
-        
-        prevButton.appendChild(prevIcon);
-        prevButton.appendChild(prevText);
-        carousel.appendChild(prevButton);
-        
-        // Next button
-        const nextButton = document.createElement("button");
-        nextButton.classList.add("carousel-control-next");
-        nextButton.type = "button";
-        nextButton.setAttribute("data-bs-target", `#${containerId}-inner`);
-        nextButton.setAttribute("data-bs-slide", "next");
-        
-        const nextIcon = document.createElement("span");
-        nextIcon.classList.add("carousel-control-next-icon");
-        nextIcon.setAttribute("aria-hidden", "true");
-        
-        const nextText = document.createElement("span");
-        nextText.classList.add("visually-hidden");
-        nextText.textContent = "Next";
-        
-        nextButton.appendChild(nextIcon);
-        nextButton.appendChild(nextText);
-        carousel.appendChild(nextButton);
-    }
-    
-    container.appendChild(carousel);
+  const container = document.getElementById(containerId);
+
+  // Create main carousel div
+  const carousel = document.createElement("div");
+  carousel.classList.add("carousel", "slide", "carousel-fade");
+  carousel.id = `${containerId}-inner`;
+  carousel.setAttribute("data-bs-ride", "carousel");
+
+  // Create carousel-inner div
+  const carouselInner = document.createElement("div");
+  carouselInner.classList.add("carousel-inner");
+
+  // Add images to carousel
+  imageUrls.forEach((url, index) => {
+    const item = document.createElement("div");
+    item.classList.add("carousel-item");
+    if (index === 0) item.classList.add("active");
+
+    // Create image wrapper for consistent sizing
+    const imgWrapper = document.createElement("div");
+    imgWrapper.classList.add("carousel-image-wrapper");
+
+    const img = document.createElement("img");
+    img.classList.add("d-block", "w-100");
+    img.src = url;
+    img.alt = `Food image ${index + 1}`;
+
+    imgWrapper.appendChild(img);
+    item.appendChild(imgWrapper);
+    carouselInner.appendChild(item);
+  });
+
+  carousel.appendChild(carouselInner);
+
+  // Only add controls if there are multiple images
+  if (imageUrls.length > 1) {
+    // Previous button
+    const prevButton = document.createElement("button");
+    prevButton.classList.add("carousel-control-prev");
+    prevButton.type = "button";
+    prevButton.setAttribute("data-bs-target", `#${containerId}-inner`);
+    prevButton.setAttribute("data-bs-slide", "prev");
+
+    const prevIcon = document.createElement("span");
+    prevIcon.classList.add("carousel-control-prev-icon");
+    prevIcon.setAttribute("aria-hidden", "true");
+
+    const prevText = document.createElement("span");
+    prevText.classList.add("visually-hidden");
+    prevText.textContent = "Previous";
+
+    prevButton.appendChild(prevIcon);
+    prevButton.appendChild(prevText);
+    carousel.appendChild(prevButton);
+
+    // Next button
+    const nextButton = document.createElement("button");
+    nextButton.classList.add("carousel-control-next");
+    nextButton.type = "button";
+    nextButton.setAttribute("data-bs-target", `#${containerId}-inner`);
+    nextButton.setAttribute("data-bs-slide", "next");
+
+    const nextIcon = document.createElement("span");
+    nextIcon.classList.add("carousel-control-next-icon");
+    nextIcon.setAttribute("aria-hidden", "true");
+
+    const nextText = document.createElement("span");
+    nextText.classList.add("visually-hidden");
+    nextText.textContent = "Next";
+
+    nextButton.appendChild(nextIcon);
+    nextButton.appendChild(nextText);
+    carousel.appendChild(nextButton);
+  }
+
+  container.appendChild(carousel);
 }
 
-
 // Logout function
-document.getElementById('logout').addEventListener('click', (event) => {
-    logOut();
-})
-
+document.getElementById("logout").addEventListener("click", (event) => {
+  logOut();
+});
 
 // Function to load cart items and display them
 function loadCartItems() {
-  
-    listGroup.innerHTML = "";
+  listGroup.innerHTML = "";
 
-    cart.forEach((item) => {
-        const listItem = document.createElement("li");
-        listItem.classList.add("list-group-item");
-        listItem.textContent = `${item.name}: ${item.quantity} @ $${item.price.toFixed(2)}`;
-        listGroup.appendChild(listItem);
-    });
-  }
+  cart.forEach((item) => {
+    const listItem = document.createElement("li");
+    listItem.classList.add("list-group-item");
+    listItem.textContent = `${item.name}: ${
+      item.quantity
+    } @ $${item.price.toFixed(2)}`;
+    listGroup.appendChild(listItem);
+  });
+}
 
 //horizontal listing
 function createFeaturedBusinessCard(businessUEN, businessData) {
-  const featuredCards = document.getElementById('featured-cards');
+  const featuredCards = document.getElementById("featured-cards");
   if (!featuredCards) {
-      console.error("Featured cards container not found");
-      return;
+    console.error("Featured cards container not found");
+    return;
   }
 
   const card = document.createElement("div");
   card.classList.add("featured-business-card");
 
   try {
-      // Create image container
-      const imgContainer = document.createElement("div");
-      imgContainer.classList.add("featured-img-container");
-      
-      const img = document.createElement('img');
-      img.src = businessData.profilePic || './images/mealmate-logo-zip-file/png/logo-color.png';
-      img.alt = businessData.busName || 'Business Image';
-      img.onerror = function() {
-          this.src = './images/mealmate-logo-zip-file/png/logo-color.png';
-          console.log(`Failed to load profile picture for ${businessData.busName}, using placeholder`);
-      };
-      imgContainer.appendChild(img);
+    // Create image container
+    const imgContainer = document.createElement("div");
+    imgContainer.classList.add("featured-img-container");
 
-      // Create view button section similar to your existing cards
-      const viewButton = document.createElement("button");
-      viewButton.classList.add("dish-add-btn");
-      viewButton.innerText = "View";
-      
-      // Create content container
-      const content = document.createElement("div");
-      content.classList.add("featured-content");
-      
-      const title = document.createElement("h3");
-      title.classList.add("featured-title");
-      title.innerText = businessData.busName || 'Unnamed Business';
-      
-      const locationP = document.createElement("p");
-      locationP.classList.add("featured-info");
-      locationP.innerText = businessData.address ? `📍 ${businessData.address}` : '📍 Address not available';
-      
-      const contactP = document.createElement("p");
-      contactP.classList.add("featured-info");
-      contactP.innerText = businessData.contactInfo ? `📞 ${businessData.contactInfo}` : '📞 Contact not available';
+    const img = document.createElement("img");
+    img.src =
+      businessData.profilePic ||
+      "./images/mealmate-logo-zip-file/png/logo-color.png";
+    img.alt = businessData.busName || "Business Image";
+    img.onerror = function () {
+      this.src = "./images/mealmate-logo-zip-file/png/logo-color.png";
+      console.log(
+        `Failed to load profile picture for ${businessData.busName}, using placeholder`
+      );
+    };
+    imgContainer.appendChild(img);
 
-      // Assemble the card
-      content.appendChild(title);
-      content.appendChild(locationP);
-      content.appendChild(contactP);
-      content.appendChild(viewButton);
-      card.appendChild(imgContainer);
-      card.appendChild(content);
+    // Create view button section similar to your existing cards
+    const viewButton = document.createElement("button");
+    viewButton.classList.add("dish-add-btn");
+    viewButton.innerText = "View";
 
-      // Add click event
-      card.addEventListener("click", () => {
-          history.pushState(
-              { businessUEN, businessName: businessData.busName },
-              '', 
-              `?business=${businessUEN}`
-          );
-        fetchAndDisplayMenuItems(businessUEN, businessData.busName);
-        
-      });
+    // Create content container
+    const content = document.createElement("div");
+    content.classList.add("featured-content");
 
-      featuredCards.appendChild(card);
+    const title = document.createElement("h3");
+    title.classList.add("featured-title");
+    title.innerText = businessData.busName || "Unnamed Business";
+
+    const locationP = document.createElement("p");
+    locationP.classList.add("featured-info");
+    locationP.innerText = businessData.address
+      ? `📍 ${businessData.address}`
+      : "📍 Address not available";
+
+    const contactP = document.createElement("p");
+    contactP.classList.add("featured-info");
+    contactP.innerText = businessData.contactInfo
+      ? `📞 ${businessData.contactInfo}`
+      : "📞 Contact not available";
+
+    // Assemble the card
+    content.appendChild(title);
+    content.appendChild(locationP);
+    content.appendChild(contactP);
+    content.appendChild(viewButton);
+    card.appendChild(imgContainer);
+    card.appendChild(content);
+
+    // Add click event
+    card.addEventListener("click", () => {
+      history.pushState(
+        { businessUEN, businessName: businessData.busName },
+        "",
+        `?business=${businessUEN}`
+      );
+      fetchAndDisplayMenuItems(businessUEN, businessData.busName);
+    });
+
+    featuredCards.appendChild(card);
   } catch (error) {
-      console.error("Error creating featured business card:", error);
+    console.error("Error creating featured business card:", error);
   }
 }
 
@@ -913,24 +922,24 @@ function resetCart() {
 // Add horizontal scroll functionality
 // Update the horizontal scroll functionality
 function initializeHorizontalScroll() {
-  const scrollWrapper = document.querySelector('.business-scroll-wrapper');
-  const container = document.querySelector('.horizontal-scroll-container');
+  const scrollWrapper = document.querySelector(".business-scroll-wrapper");
+  const container = document.querySelector(".horizontal-scroll-container");
   if (!scrollWrapper || !container) return;
 
   // Create arrows if they don't exist
-  let prevButton = container.querySelector('.prev-arrow');
-  let nextButton = container.querySelector('.next-arrow');
+  let prevButton = container.querySelector(".prev-arrow");
+  let nextButton = container.querySelector(".next-arrow");
 
   if (!prevButton) {
-    prevButton = document.createElement('button');
-    prevButton.className = 'scroll-arrow prev-arrow';
+    prevButton = document.createElement("button");
+    prevButton.className = "scroll-arrow prev-arrow";
     prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
     container.insertBefore(prevButton, scrollWrapper);
   }
 
   if (!nextButton) {
-    nextButton = document.createElement('button');
-    nextButton.className = 'scroll-arrow next-arrow';
+    nextButton = document.createElement("button");
+    nextButton.className = "scroll-arrow next-arrow";
     nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
     container.appendChild(nextButton);
   }
@@ -941,40 +950,42 @@ function initializeHorizontalScroll() {
   // Remove existing event listeners (if any) to prevent duplicates
   prevButton.replaceWith(prevButton.cloneNode(true));
   nextButton.replaceWith(nextButton.cloneNode(true));
-  
+
   // Get the fresh references after replacing
-  prevButton = container.querySelector('.prev-arrow');
-  nextButton = container.querySelector('.next-arrow');
+  prevButton = container.querySelector(".prev-arrow");
+  nextButton = container.querySelector(".next-arrow");
 
   // Add click event listeners
-  prevButton.addEventListener('click', () => {
+  prevButton.addEventListener("click", () => {
     scrollWrapper.scrollBy({
       left: -scrollAmount,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   });
 
-  nextButton.addEventListener('click', () => {
+  nextButton.addEventListener("click", () => {
     scrollWrapper.scrollBy({
       left: scrollAmount,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
   });
 
   // Function to update arrow visibility
   const updateArrowVisibility = () => {
     const isAtStart = scrollWrapper.scrollLeft <= 0;
-    const isAtEnd = scrollWrapper.scrollLeft >= (scrollWrapper.scrollWidth - scrollWrapper.clientWidth - 10);
-    
-    prevButton.style.display = isAtStart ? 'none' : 'flex';
-    nextButton.style.display = isAtEnd ? 'none' : 'flex';
+    const isAtEnd =
+      scrollWrapper.scrollLeft >=
+      scrollWrapper.scrollWidth - scrollWrapper.clientWidth - 10;
+
+    prevButton.style.display = isAtStart ? "none" : "flex";
+    nextButton.style.display = isAtEnd ? "none" : "flex";
   };
 
   // Add scroll event listener
-  scrollWrapper.addEventListener('scroll', updateArrowVisibility);
+  scrollWrapper.addEventListener("scroll", updateArrowVisibility);
 
   // Add resize event listener to handle window resizing
-  window.addEventListener('resize', updateArrowVisibility);
+  window.addEventListener("resize", updateArrowVisibility);
 
   // Initial visibility check
   // Wait for a short moment to ensure content is loaded
