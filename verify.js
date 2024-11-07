@@ -83,7 +83,7 @@ onAuthStateChanged(auth, async(user) => {
 });
 
 function redirectToLogin() {
-    window.location.href = "./login.html?mode=login&type=business";
+    window.location.href = "./login.html?mode=login&type=business&action=verify";
 }
 
 async function fetchBusinessName(businessUEN) {
@@ -145,6 +145,9 @@ function showStatusPopup(message, success = true) {
 
     closeButton.addEventListener('click', () => {
         document.body.removeChild(overlay);
+        if (success) {
+            window.location.href = './businessHome.html';
+        }
     });
 
     popup.appendChild(closeButton);
@@ -155,6 +158,9 @@ function showStatusPopup(message, success = true) {
     setTimeout(() => {
         if (document.body.contains(overlay)) {
             document.body.removeChild(overlay);
+            if (success) {
+                window.location.href = './businessHome.html';
+            }
         }
     }, 5000);
 }
