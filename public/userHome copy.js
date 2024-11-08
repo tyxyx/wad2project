@@ -601,6 +601,7 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
       : "📍 Address not available";
 
     const stars = document.createElement("p");
+    stars.classList.add("featured-info-rating");
     stars.innerText = businessData.avgRating
       ? `⭐ ${businessData.avgRating}/5.0`
       : "⭐ Rating not available";
@@ -612,11 +613,13 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
       : "📞 Contact not available";
 
     // Assemble the card
+    // content.appendChild(stars);
     content.appendChild(title);
     content.appendChild(locationP);
+    // content.appendChild(stars);
+    // content.appendChild(contactP);
+    // content.appendChild(viewButton);
     content.appendChild(stars);
-    content.appendChild(contactP);
-    content.appendChild(viewButton);
     card.appendChild(imgContainer);
     card.appendChild(content);
 

@@ -611,6 +611,7 @@ p {
     position: relative;
 }
 
+
 .sec-sub-title {
     text-transform: uppercase;
     display: inline-block;
@@ -777,7 +778,7 @@ p {
     display: flow-root;
     padding: 0 30px 40px;
     padding-top: 0;
-    margin: 130px 0 30px;
+    margin: 0px 0 30px;
     transition: 0.8s cubic-bezier(0.22, 0.78, 0.45, 1.02);
 }
 
@@ -2349,13 +2350,13 @@ p {
 }
 
 /* Container for the horizontal scroll section */
-.horizontal-scroll-container {
+/* .horizontal-scroll-container {
     position: relative;
     width: 100%;
     padding: 0 60px;
     margin: 0;
     overflow: hidden;
-}
+} */
 
 /* Wrapper for the scrollable content */
 .business-scroll-wrapper {
@@ -2365,7 +2366,9 @@ p {
     scrollbar-width: none;
     -ms-overflow-style: none;
     scroll-behavior: smooth;
-    padding: 130px 0 30px; /* Match dish-box margin */
+    /* Match dish-box margin */
+    padding: 10px 0 30px; 
+    /* padding: ; */
 }
 
 .business-scroll-wrapper::-webkit-scrollbar {
@@ -2400,19 +2403,19 @@ p {
 }
 
 /* Featured card image container */
-.featured-img-container {
+/* .featured-img-container {
     margin-top: -130px;
-    /* margin-bottom: 10px; */
+    margin-bottom: 10px;
     text-align: center;
-}
+} */
 
-.featured-img-container img {
+/* .featured-img-container img {
     box-shadow: 28px 28px 45px #d4d4d4, -28px -28px 45px #ffffff;
     border-radius: 50%;
     width: 220px;
     height: 220px;
     object-fit: cover;
-}
+} */
 
 /* Featured card content */
 .featured-content {
@@ -2676,6 +2679,7 @@ body {
     text-align: center;
     /* width: 280px; */
     width: 300px;
+    height: 300px;
     min-width: 300px;
     margin: 0 15px; /* Spacing between cards */
     display: flex;
@@ -2684,6 +2688,7 @@ body {
     white-space: normal;
     vertical-align: top;
     cursor: pointer;
+    margin-bottom: 0px;
 
     /* width: 200px;
     min-width: 200px;
@@ -2701,15 +2706,17 @@ body {
 
 /* Circular Image Container */
 .featured-img-container {
-    width: 150px; /* Set the desired width for the circle */
-    height: 150px; /* Ensure height equals width for a perfect circle */
-    border-radius: 50%; /* Makes the container circular */
+    width: 100%;
+    height: 150px;  
+    /*width: 150px; /* Set the desired width for the circle */
+    /*height: 150px; /* Ensure height equals width for a perfect circle */
+    /*border-radius: 100%; /* Makes the container circular */
     overflow: hidden; /* Ensures the image doesn't overflow outside the circle */
-    margin-top: 15px; /* Add some space above the image if needed */
+    /* margin-top: 15px; /* Add some space above the image if needed */
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid #f0f0f0; /* Optional: add a border around the circle */
+    /*border: 2px solid #f0f0f0; /* Optional: add a border around the circle */
     position: relative;
     z-index: 1;
 }
@@ -2729,6 +2736,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
 
@@ -2748,6 +2756,20 @@ body {
     font-size: 0.9rem;
     color: #777;
     margin: 0px;
+
+    /* color: #bfbfbf;
+    margin-bottom: 15px;
+    font-size: 16px; */
+}
+
+.featured-info-rating {
+    font-size: 0.9rem;
+    color: #333;
+    margin: 0px;
+    /* position: absolute;
+    right: 28px;
+    top: 11px; */
+
 
     /* color: #bfbfbf;
     margin-bottom: 15px;
@@ -2777,7 +2799,7 @@ body {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    padding: 20px 0;
+    padding: 0px 0;
 }
 
 .business-scroll-wrapper {
