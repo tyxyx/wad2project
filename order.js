@@ -53,21 +53,19 @@ class OrderQRGenerator {
     try {
       // Create an order document with a custom ID
       const orderRef = doc(db, "orders", orderData.orderId);
-      const customerRef = doc(db, "userLogin", userEmail);
       const businessRef = doc(db, "businessLogin", localStorage.businessId);
       console.log(orderData.items);
+      console.log(businessRef);
       // Prepare the order data
       const orderDocument = {
         orderId: orderData.orderId,
-        customerRef: customerRef,
-        businessRef: businessRef,
+        businessName: localStorage.businessName,
         customerName: orderData.customerName,
         amount: orderData.amount,
         items: orderData.items.map((item) => ({
           name: item.name,
           price: item.price,
           quantity: item.quantity,
-          businessId: localStorage.businessId,
         })),
         status: false, // Initial status
         createdAt: serverTimestamp(),

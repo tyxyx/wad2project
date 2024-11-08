@@ -20,6 +20,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   
     <script type="module" src="./database.js"></script>
+        <script src='https://unpkg.com/axios/dist/axios.min.js'></script>
+
 </head>
 <body>
     <!-- Navbar Section -->
@@ -87,7 +89,12 @@
 
                                     <!-- Order Details Container (initially hidden) -->
                                     <div id="orderDetails" class="card ms-3 flex-grow-1" style="display:none;">
-                                        <div class="card-body" id="orderDetailsContent"></div>
+                                        <div class="card-body" id="orderDetailsContent"> 
+                                                <h1 class="mb-4">QR code</h1>
+                                                <div class="qr-wrapper">
+                                                <img id="qrCodeImage" class="qr-image" alt="QR Code" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +102,7 @@
                     </div>
                 </div>
             </section>
-
+            
             <!-- Footer Section -->
             <footer class="site-footer" id="contact">
                 <div class="top-footer section">
@@ -180,7 +187,7 @@
     <script src="assets/js/gsap.min.js"></script>
     <script src="assets/js/ScrollTrigger.min.js"></script>
     <script src="assets/js/ScrollToPlugin.min.js"></script>
-    <script src="main.js"></script>
-    <script type="module" src="orderhistory.js"></script>
+    <script src="./main.js"></script>
+    <script type="module" src="./orderhistory.js"></script>
 </body>
 </html>

@@ -5,11 +5,13 @@ import {
   doc,
   getDoc,
   getDocs,
+  setDoc,
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 let userEmail = null;
 let cart = [];
 let listGroup = [];
+let placeId = "";
 const overlay = document.createElement("div");
 overlay.className = "loading-overlay";
 const spinner = document.createElement("div");
@@ -60,45 +62,6 @@ async function fetchUserName(userEmail) {
   return await getDoc(doc(db, "userLogin", userEmail));
 }
 
-// Function to fetch businesses and display them as cards
-// async function fetchBusinessCards() {
-//     try {
-//         const businessQuerySnapshot = await getDocs(collection(db, "businessLogin"));
-
-//         businessQuerySnapshot.forEach((businessDoc) => {
-//             const businessData = businessDoc.data();
-
-//             // Create a card for each business
-//             createBusinessCard(businessDoc.id, businessData);
-//         });
-//     } catch (error) {
-//         console.error("Error fetching businesses:", error);
-//     }
-// }
-
-// Update your existing fetchBusinessCards function #1
-// async function fetchBusinessCards() {
-//   try {
-//       const businessQuerySnapshot = await getDocs(collection(db, "businessLogin"));
-
-//       businessQuerySnapshot.forEach((businessDoc) => {
-//           const businessData = businessDoc.data();
-
-//           // Create vertical card for "All businesses" section
-//           createBusinessCard(businessDoc.id, businessData);
-
-//           // Create horizontal card for "Featured businesses" section
-//           createFeaturedBusinessCard(businessDoc.id, businessData);
-//       });
-
-//       // Initialize horizontal scroll functionality
-//       initializeHorizontalScroll();
-//   } catch (error) {
-//       console.error("Error fetching businesses:", error);
-//   }
-// }
-
-// Update your fetchBusinessCards function to clear containers first
 async function fetchBusinessCards() {
   try {
     // Clear existing cards from both containers
@@ -117,12 +80,13 @@ async function fetchBusinessCards() {
       const businessData = businessDoc.data();
 
       // Create vertical card for "All businesses" section
-      console.log(businessData);
+      // console.log(businessData);
       if (
         businessData.profilePic &&
         businessData.address &&
         businessData.contactInfo
       ) {
+        getAvgRating(businessData.uen, businessData.placeId);
         createBusinessCard(businessDoc.id, businessData);
         createFeaturedBusinessCard(businessDoc.id, businessData);
       }
@@ -138,13 +102,7 @@ async function fetchBusinessCards() {
 }
 
 // Function to create a business card CHANGE THE DATA HERE FOR THE OUTPUT
-function createBusinessCard(businessUEN, businessData) {
-  // const businessContainer = document.getElementById("business-container")
-  // if (!businessContainer) {
-  //     console.error("Business container not found");
-  //     return;
-  // }
-
+async function createBusinessCard(businessUEN, businessData) {
   const menuDish = document.getElementById("menu-dish");
   if (!menuDish) {
     console.error("Menu dish container not found");
@@ -189,10 +147,15 @@ function createBusinessCard(businessUEN, businessData) {
   h3Title.innerText = businessData.busName;
   const locationP = document.createElement("p");
   locationP.innerText = `📍 ${businessData.address}`;
+  const stars = document.createElement("p");
+  stars.innerText = businessData.avgRating
+    ? `⭐ ${businessData.avgRating}/5.0`
+    : "⭐ Rating not available";
   const contactP = document.createElement("p");
   contactP.innerText = `📞 ${businessData.contactInfo}`;
   dishTitle.appendChild(h3Title);
   dishTitle.appendChild(locationP);
+  dishTitle.appendChild(stars);
   dishTitle.appendChild(contactP);
   dishBox.appendChild(dishTitle);
 
@@ -209,46 +172,6 @@ function createBusinessCard(businessUEN, businessData) {
   card.appendChild(dishBox);
   menuDish.appendChild(card);
 
-  // Create card body
-  // const cardBody = document.createElement("div")
-  // cardBody.classList.add("card-body");
-  // cardBody.style.position = "relative";
-  // card.appendChild(cardBody)
-
-  // Create business name element
-  // const businessName = document.createElement("h3");
-  // businessName.innerText = businessData.busName; // Using innerText to set the business name
-  // businessName.classList.add("card-title", "d-inline")
-  // cardBody.appendChild(businessName);
-
-  // Create Ratings and review element
-  // const ratingReviews = document.createElement("span");
-  // ratingReviews.style.position = "absolute";
-  // ratingReviews.style.right = "20px"
-  // ratingReviews.innerText = `⭐${businessData.ratings} ${businessData.reviews}`
-  // cardBody.appendChild(ratingReviews)
-
-  // const cardText = document.createElement('p')
-  // cardText.classList.add('card-text')
-  // cardBody.appendChild(cardText)
-
-  // Create contact info element
-  // const contactInfo = document.createElement("p");
-  // contactInfo.innerText = `Contact: ${businessData.contactInfo}`; // Using innerText to set contact info
-  // cardText.appendChild(contactInfo);
-
-  // Create location element
-  // const location = document.createElement("p");
-  // location.innerText = `Location: ${businessData.address}`; // Using innerText to set the address
-  // cardText.appendChild(location);
-
-  // Add event listener to the card
-  // card.addEventListener("click", () => {
-  //     // Update URL to include business ID to allow browser back
-  //     history.pushState({ businessUEN, businessName: businessData.busName }, '', `?business=${businessUEN}`);
-  //     fetchAndDisplayMenuItems(businessUEN, businessData.busName);
-  // });
-
   // Add event listener to the card-like element
   card.addEventListener("click", () => {
     // Update URL to include business ID to allow browser back
@@ -260,148 +183,9 @@ function createBusinessCard(businessUEN, businessData) {
     fetchAndDisplayMenuItems(businessUEN, businessData.busName);
   });
 
-  // Append the card to the container
-  // businessContainer.appendChild(card);
-
   // Append the card-like elem into the container
   menuDish.appendChild(card);
 }
-
-// Function to fetch and display menu items for a specific business CHANGE HERE TO DISPLAY MENU
-// async function fetchAndDisplayMenuItems(businessUEN, businessName) {
-//   try {
-//     const menuItemsSnapshot = await getDocs(
-//       collection(db, `businessLogin/${businessUEN}/menuItems`)
-//     );
-
-//     // Clear existing cards to display menu
-//     const menuDish = document.getElementById("menu-dish");
-//     menuDish.innerHTML = `<h2>Menu for ${businessName}</h2>`;
-
-//     menuItemsSnapshot.forEach((menuItemDoc) => {
-//       const menuItemData = menuItemDoc.data();
-
-//       createMenuItemCard(menuItemData);
-//     });
-
-//     // Create a container for cart items
-//     const cartContainer = document.createElement("div");
-//     cartContainer.classList.add("card", "mt-4");
-//     cartContainer.style.width = "18rem";
-
-//     // Create the card header
-//     const cardHeader = document.createElement("div");
-//     cardHeader.classList.add("card-header");
-//     cardHeader.innerText = "Your Cart";
-
-//     // Create the list group
-//     listGroup = document.createElement("ul");
-//     listGroup.classList.add("list-group", "list-group-flush");
-
-//     // Append the header and list group to the cart container
-//     cartContainer.appendChild(cardHeader);
-//     cartContainer.appendChild(listGroup);
-
-//     // Create Order Now button
-//     const orderNowButton = document.createElement("button");
-//     orderNowButton.textContent = "Order Now";
-//     orderNowButton.classList.add("btn", "btn-success");
-//       orderNowButton.addEventListener("click", () => {
-//         window.location.href = "cart.html";
-//     });
-
-//     // Add a back button to go back to the business list
-//     const backButton = document.createElement("button");
-//     backButton.textContent = "Back to Businesses";
-//     backButton.addEventListener("click", () => {
-//       // Clear the menu and show the business cards again
-//       menuDish.innerText = "";
-//       fetchBusinessCards();
-//     });
-//     // Append buttons to the menu dish
-//     menuDish.appendChild(cartContainer);
-//     menuDish.appendChild(orderNowButton);
-//       menuDish.appendChild(backButton);
-//       loadCartItems(listGroup);
-
-//   } catch (error) {
-//     console.error("Error fetching menu items:", error);
-//   }
-// }
-
-// updated fetchAndDisplayMenuItems
-// Update the back button event listener in fetchAndDisplayMenuItems
-// async function fetchAndDisplayMenuItems(businessUEN, businessName) {
-//   setTimeout(() => {
-//     window.dispatchEvent(new Event('resize'));
-//     overlay.remove();
-//   }, 1000);
-//   try {
-//     resetCart();
-//     const menuItemsSnapshot = await getDocs(
-//       collection(db, `businessLogin/${businessUEN}/menuItems`)
-//     );
-
-//     // Clear existing cards to display menu
-//     const menuDish = document.getElementById("menu-dish");
-//     menuDish.innerHTML = `<h2>Menu for ${businessName}</h2>`;
-
-//     menuItemsSnapshot.forEach((menuItemDoc) => {
-//       const menuItemData = menuItemDoc.data();
-//       createMenuItemCard(menuItemData);
-//     });
-
-//     // Create a container for cart items
-//     const cartContainer = document.createElement("div");
-//     cartContainer.classList.add("card", "mt-4");
-//     cartContainer.style.width = "18rem";
-
-//     // Create the card header
-//     const cardHeader = document.createElement("div");
-//     cardHeader.classList.add("card-header");
-//     cardHeader.innerText = "Your Cart";
-
-//     // Create the list group
-//     listGroup = document.createElement("ul");
-//     listGroup.classList.add("list-group", "list-group-flush");
-//     listGroup.setAttribute("id","cartItems")
-
-//     // Append the header and list group to the cart container
-//     cartContainer.appendChild(cardHeader);
-//     cartContainer.appendChild(listGroup);
-
-//     // Create Order Now button
-//     const orderNowButton = document.createElement("button");
-//     orderNowButton.textContent = "Order Now";
-//     orderNowButton.classList.add("btn", "btn-success");
-//     orderNowButton.addEventListener("click", () => {
-//       localStorage.setItem("businessId", JSON.stringify(businessUEN));
-//       localStorage.setItem("cart", JSON.stringify(cart));
-//         window.location.href = "cart.html";
-//     });
-
-//     // Add a back button to go back to the business list
-//     const backButton = document.createElement("button");
-//     backButton.textContent = "Back to Businesses";
-//     backButton.classList.add("btn", "btn-secondary", "m-2");
-//     backButton.addEventListener("click", async () => {
-//       // Clear the menu
-//       menuDish.innerHTML = "";
-//       // Re-fetch and display business cards
-//       await fetchBusinessCards();
-
-//     });
-
-//     // Append buttons to the menu dish
-//     menuDish.appendChild(cartContainer);
-//     menuDish.appendChild(orderNowButton);
-//     menuDish.appendChild(backButton);
-//     loadCartItems();
-
-//   } catch (error) {
-//     console.error("Error fetching menu items:", error);
-//   }
-// }
 
 //new  fetchAndDisplayMenuItems
 async function fetchAndDisplayMenuItems(businessUEN, businessName) {
@@ -414,6 +198,15 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     const menuItemsSnapshot = await getDocs(
       collection(db, `businessLogin/${businessUEN}/menuItems`)
     );
+
+    const docSnap = await getDoc(doc(db, `businessLogin/${businessUEN}`));
+
+    if (docSnap.exists()) {
+      placeId = docSnap.data().placeId;
+      await fetchPlaceReviews(placeId);
+    } else {
+      alert("error getting reviews");
+    }
 
     const ftb = document.getElementById("featured-businesses");
     ftb.classList.add("d-none");
@@ -478,6 +271,7 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     orderNowButton.addEventListener("click", () => {
       localStorage.setItem("businessId", JSON.stringify(businessUEN));
       localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem("businessName", JSON.stringify(businessName));
       localStorage.removeItem("currentOrderId");
       localStorage.removeItem("orderCreationTime");
       window.location.href = "cart.html";
@@ -492,6 +286,10 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     backButton.style.background = "linear-gradient(145deg, #e26a2c, #ff8243)";
     backButton.addEventListener("click", async () => {
       menuDish.innerHTML = "";
+      document.getElementById("reviews").innerHTML = "";
+      const header = document.getElementById("review-subheader");
+      header.firstChild.textContent = "Click on a business to discover";
+      header.querySelector("span").textContent = "what others think";
       await fetchBusinessCards();
     });
 
@@ -519,14 +317,6 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
   }
 }
 
-// This is for browser back button, root level to prevent duplicates
-// window.addEventListener('popstate', (event) => {
-//     const menuDish = document.getElementById("menu-dish");
-//     menuDish.innerHTML = "";
-//     fetchBusinessCards();
-// });
-// updated popstate
-// Also update the popstate event handler
 window.addEventListener("popstate", async (event) => {
   const menuDish = document.getElementById("menu-dish");
   menuDish.innerHTML = "";
@@ -534,91 +324,6 @@ window.addEventListener("popstate", async (event) => {
   ftb.classList.remove("d-none");
   await fetchBusinessCards();
 });
-
-// Function to create a card for each menu item
-// function createMenuItemCard(menuItemData) {
-//   const menuDish = document.getElementById("menu-dish");
-
-//   // Create food card
-//   const menuItemCard = document.createElement("div");
-//   menuItemCard.classList.add("menu-item-card", "card", "mb-4");
-
-//   // Create carousel container first
-//   const carouselContainer = document.createElement("div");
-//   carouselContainer.classList.add("carousel-container", "mb-3");
-//   const carouselId = `carousel-${menuItemData.itemName
-//     .replace(/\s+/g, "-")
-//     .toLowerCase()}`;
-//   carouselContainer.id = carouselId;
-
-//   // Add carousel container to card
-//   menuItemCard.appendChild(carouselContainer);
-
-//   // Create card body for content
-//   const cardBody = document.createElement("div");
-//   cardBody.classList.add("card-body");
-
-//   // Create title
-//   const title = document.createElement("h4");
-//   title.classList.add("card-title", "mb-2");
-//   title.textContent = menuItemData.itemName;
-
-//   // Create description
-//   const description = document.createElement("p");
-//   description.classList.add("card-text", "mb-2");
-//   description.textContent = menuItemData.description;
-
-//   // Create price with proper formatting
-//   const price = document.createElement("p");
-//   price.classList.add("card-text", "fw-bold");
-//   price.textContent = `$${Number(menuItemData.price).toFixed(2)}`;
-
-//   // Create quantity counter
-//   const quantityContainer = document.createElement("div");
-//   quantityContainer.classList.add("quantity-container", "mb-2");
-
-//   const quantityInput = document.createElement("input");
-//   quantityInput.type = "number";
-//   quantityInput.value = 0; // Starting quantity
-//   quantityInput.min = 0; // Prevent negative numbers
-//   quantityInput.classList.add("quantity-input", "form-control", "me-2");
-
-//   const addToCartButton = document.createElement("button");
-//   addToCartButton.textContent = "Add to Cart";
-//   addToCartButton.classList.add("btn", "btn-primary");
-
-//   // Add event listener to update cart on button click
-//   addToCartButton.addEventListener("click", () => {
-//     const quantity = parseInt(quantityInput.value);
-//     if (quantity > 0) {
-//       // Add item to cart logic here
-//       addToCart(menuItemData.itemName, quantity, menuItemData.price);
-//       alert(`${quantity} ${menuItemData.itemName}(s) added to cart!`);
-//       quantityInput.value = 0; // Reset counter to 0
-//     } else {
-//       alert("Please select a quantity to add to the cart.");
-//     }
-//   });
-
-//   // Append input and button to the quantity container
-//   quantityContainer.appendChild(quantityInput);
-//   quantityContainer.appendChild(addToCartButton);
-
-//   // Assemble the card body
-//   cardBody.appendChild(title);
-//   cardBody.appendChild(description);
-//   cardBody.appendChild(price);
-//   cardBody.appendChild(quantityContainer);
-
-//   // Add card body to card
-//   menuItemCard.appendChild(cardBody);
-
-//   // Add the completed card to the container
-//   menuDish.appendChild(menuItemCard);
-
-//   // Create carousel only after the container is in the DOM
-//   createCarousel(carouselId, menuItemData.images);
-// }
 
 // new createMenuItemCard
 function createMenuItemCard(menuItemData, container) {
@@ -884,6 +589,11 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
       ? `📍 ${businessData.address}`
       : "📍 Address not available";
 
+    const stars = document.createElement("p");
+    stars.innerText = businessData.avgRating
+      ? `⭐ ${businessData.avgRating}/5.0`
+      : "⭐ Rating not available";
+
     const contactP = document.createElement("p");
     contactP.classList.add("featured-info");
     contactP.innerText = businessData.contactInfo
@@ -893,6 +603,7 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
     // Assemble the card
     content.appendChild(title);
     content.appendChild(locationP);
+    content.appendChild(stars);
     content.appendChild(contactP);
     content.appendChild(viewButton);
     card.appendChild(imgContainer);
@@ -992,4 +703,115 @@ function initializeHorizontalScroll() {
   setTimeout(() => {
     updateArrowVisibility();
   }, 100);
+}
+
+async function fetchPlaceReviews(placeId) {
+  const url = `../api/reviews?placeId=${placeId}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.log(response);
+      throw new Error("Network response was not ok " + response.statusText);
+    }
+    const data = await response.json();
+    const reviews = data.reviews;
+
+    displayReviews(reviews);
+  } catch (error) {
+    console.error("Error fetching place reviews:", error);
+  }
+}
+
+async function getAvgRating(businessUEN, placeId) {
+  const url = `../api/reviews?placeId=${placeId}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      console.log(response);
+      throw new Error("Network response was not ok " + response.statusText);
+    }
+
+    const data = await response.json();
+    const avgRating = data.rating;
+
+    setAvgRating(businessUEN, avgRating);
+  } catch (error) {
+    console.error("Error fetching place reviews:", error);
+  }
+}
+
+async function setAvgRating(businessUEN, rating) {
+  try {
+    await setDoc(
+      doc(db, "businessLogin", businessUEN),
+      {
+        avgRating: rating,
+      },
+      { merge: true }
+    );
+  } catch (error) {
+    console.error("Error updating avg rating:", error);
+  }
+}
+
+function generateStars(rating) {
+  let stars = "";
+  for (let i = 0; i < 5; i++) {
+    stars += i < rating ? "⭐" : "☆";
+  }
+  return stars;
+}
+
+function displayReviews(reviews) {
+  const header = document.getElementById("review-subheader");
+  header.firstChild.textContent = "Check out what";
+  header.querySelector("span").textContent = "others think";
+
+  const reviewsList = document.getElementById("reviews");
+  reviewsList.innerHTML = "";
+  reviews.forEach((review) => {
+    const cardDiv = document.createElement("div");
+    cardDiv.classList.add("card", "mb-3");
+
+    const cardBodyDiv = document.createElement("div");
+    cardBodyDiv.classList.add("card-body");
+
+    const headerDiv = document.createElement("div");
+    headerDiv.classList.add("d-flex", "justify-content-between");
+
+    const authorName = document.createElement("h5");
+    authorName.classList.add("card-title");
+    authorName.textContent = review.author_name;
+
+    const ratingDiv = document.createElement("div");
+    ratingDiv.classList.add("d-flex", "align-items-center");
+    const ratingLabel = document.createElement("span");
+    ratingLabel.classList.add("me-2");
+    ratingLabel.textContent = "Rating:";
+    const ratingBadge = document.createElement("span");
+    ratingBadge.classList.add("badge", "bg-warning", "text-dark");
+    ratingBadge.textContent = generateStars(review.rating);
+
+    ratingDiv.appendChild(ratingLabel);
+    ratingDiv.appendChild(ratingBadge);
+
+    headerDiv.appendChild(authorName);
+    headerDiv.appendChild(ratingDiv);
+
+    const timeParagraph = document.createElement("p");
+    timeParagraph.classList.add("text-muted");
+    timeParagraph.textContent = `Posted ${review.relative_time_description}`;
+
+    const reviewTextParagraph = document.createElement("p");
+    reviewTextParagraph.classList.add("card-text");
+    reviewTextParagraph.textContent = review.text;
+
+    cardBodyDiv.appendChild(headerDiv);
+    cardBodyDiv.appendChild(timeParagraph);
+    cardBodyDiv.appendChild(reviewTextParagraph);
+
+    cardDiv.appendChild(cardBodyDiv);
+
+    reviewsList.appendChild(cardDiv);
+  });
 }
