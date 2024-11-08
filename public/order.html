@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Axios -->
+    <script src='https://unpkg.com/axios/dist/axios.min.js'></script>
+    
+
+</head>
+<body>
+    <h1>Order Summary</h1>
+    <div id="order-summary"></div>
+    <div id="total-price"></div>
+    <div id="orderId"></div>
+    <button id="back-to-shop">Back to Shop</button>
+
+
+    <div class="order-details" id="orderDetails">
+        <h3>Order Information</h3>
+        <p>Order ID: <span id="displayOrderId">-</span></p>
+        <p>Amount: $<span id="displayAmount">-</span></p>
+        <p>Customer: <span id="displayCustomer">-</span></p>
+        <p>Items: <span id="displayCart">-</span></p>
+        <p>Order Placed: <span id="displayTimestamp">-</span></p>
+        <p>Valid till: <span id="displayValidity">-</span></p>
+    </div>
+
+    <div class="qr-wrapper">
+        <img id="qrCodeImage" class="qr-image" alt="QR Code" />
+    </div>
+
+    <div class="status" id="status"></div>
+
+
+    <script type="module" src="order.js"></script>
+</body>
+</html>
