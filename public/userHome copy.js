@@ -270,10 +270,9 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     orderNowButton.style.padding = "0 20px";
     orderNowButton.addEventListener("click", () => {
       // Retrieve cart data from localStorage and parse it
-      const cart = JSON.parse(localStorage.getItem("cart"));
 
       // Check if the cart exists and contains items
-      if (cart && cart.length > 0) {
+      if (cart.length > 0) {
         // Proceed with saving business info and redirecting to the cart page
         localStorage.setItem("businessId", JSON.stringify(businessUEN));
         localStorage.setItem("cart", JSON.stringify(cart)); // Ensure cart is saved
