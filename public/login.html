@@ -76,21 +76,18 @@
 }
 
     .menu.food-nav-menu {
-        flex-direction: column;  /* Make items stack vertically */
-        align-items: flex-start; /* Align items to the left */
-        gap: 1.5rem;  /* Increase space between items */
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
     }
-    .main-navigation .menu li {
-        display: block;
-        width: 100%;        /* Take full width */
-        margin: 0;          /* Remove default margins */
-        padding: 0.5rem 0;  /* Add some vertical padding */
-    }
+
     .menu.food-nav-menu li a {
-        display: block;     /* Make link take full width */
-        font-size: 1.2rem;  /* Larger font size for mobile */
-        padding: 0.8rem 0;  /* Add padding to links */
-        width: fit-content; /* Allow hover effect to fit content */
+        color: #666;
+        text-decoration: none;
+        transition: color 0.3s ease;
     }
     .menu-toggle {
     position: absolute;
@@ -130,8 +127,7 @@
         border-radius: 50px;
         padding: 0.5rem;
         margin-bottom: 2rem;
-        width: 95%;
-        max-width: 400px;
+        width: 400px;
         margin: 0 auto 2rem;
         display: flex;
         justify-content: space-evenly;
@@ -141,7 +137,7 @@
         flex: 1;
         text-align: center;
         cursor: pointer;
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 2rem;
         border-radius: 50px;
         transition: all 0.3s ease;
         color: #FF7747;
@@ -150,13 +146,6 @@
     .user-type.active {
         background: #FF7747;
         color: white;
-    }
-
-    @media (max-width: 320px) {
-        .user-type {
-            padding: 0.5rem 0.75rem; /* Further reduce padding if needed */
-            font-size: 0.9rem; /* Slightly reduce font size */
-        }
     }
 
     #formContainer {
@@ -211,7 +200,7 @@
 
     .header-menu {
         height: 100vh;
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
@@ -391,22 +380,5 @@
       gsap.from("body", { opacity: 0, duration: 0.5, ease: "power2.out" });
     });
   </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const menuToggle = document.querySelector('.menu-toggle');
-        const mainNav = document.querySelector('.main-navigation');
-        
-        menuToggle.addEventListener('click', function() {
-            mainNav.classList.toggle('toggled');
-        });
-    
-        // Close menu when clicking a link
-        document.querySelectorAll('.header-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                mainNav.classList.remove('toggled');
-            });
-        });
-    });
-</script>
 </body>
 </html>
