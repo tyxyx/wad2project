@@ -55,6 +55,9 @@ class OrderQRGenerator {
       const orderRef = doc(db, "orders", orderData.orderId);
       const businessRef = doc(db, "businessLogin", localStorage.businessId);
       const customerRef = doc(db, "userLogin", userEmail);
+
+
+      console.log("ordeer  data : "+orderData)
       // Prepare the order data
       const orderDocument = {
         orderId: orderData.orderId,
@@ -62,6 +65,7 @@ class OrderQRGenerator {
         customerRef: customerRef,
         businessName: localStorage.businessName,
         customerName: orderData.customerName,
+        customerEmail: userEmail,
         amount: orderData.amount,
         items: orderData.items.map((item) => ({
           name: item.name,
@@ -215,6 +219,7 @@ onAuthStateChanged(auth, async (user) => {
 
       if (userDoc.exists()) {
         userData = userDoc.data(); // Store the user data
+        userEmail = userData.email;
         console.log("User data loaded:", userData.fullName);
         await renderOrderSummary();
       } else {
