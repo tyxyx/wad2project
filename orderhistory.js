@@ -217,54 +217,6 @@ class OrderQRGenerator {
       valid.toLocaleString();
   }
 
-  async updateDatabase(orderData) {
-    try {
-      // Create an order document with a custom ID
-      const orderRef = doc(db, "orders", orderData.orderId);
-      const businessRef = doc(db, "businessLogin", localStorage.businessId);
-      console.log(orderData.items);
-      console.log(businessRef);
-      // Prepare the order data
-      const orderDocument = {
-        orderId: orderData.orderId,
-        businessName: localStorage.businessName,
-        customerName: orderData.customerName,
-        amount: orderData.amount,
-        items: orderData.items.map((item) => ({
-          name: item.name,
-          price: item.price,
-          quantity: item.quantity,
-        })),
-        status: false, // Initial status
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
-      };
-
-      // Save the order to Firestore
-      await setDoc(orderRef, orderDocument);
-
-      // Also save to user's orders subcollection
-      const userOrderRef = doc(
-        db,
-        "userLogin",
-        userEmail,
-        "orderHistory",
-        orderData.orderId
-      );
-      await setDoc(userOrderRef, orderDocument);
-
-      console.log("Order successfully saved to database!");
-      return true;
-    } catch (error) {
-      console.error("Error saving order to database:", error);
-      if (this.status) {
-        this.status.innerText = "Error saving order to database";
-        this.status.className = "status error";
-      }
-      throw error;
-    }
-  }
-
   async generateQR(orderId) {
     try {
       const baseUrl = "https://deploymenttest-rose.vercel.app/verify.html";

@@ -54,11 +54,12 @@ class OrderQRGenerator {
       // Create an order document with a custom ID
       const orderRef = doc(db, "orders", orderData.orderId);
       const businessRef = doc(db, "businessLogin", localStorage.businessId);
-      console.log(orderData.items);
-      console.log(businessRef);
+      const customerRef = doc(db, "userLogin", userEmail);
       // Prepare the order data
       const orderDocument = {
         orderId: orderData.orderId,
+        businessRef: businessRef,
+        customerRef: customerRef,
         businessName: localStorage.businessName,
         customerName: orderData.customerName,
         amount: orderData.amount,
@@ -273,14 +274,11 @@ function getOrderId() {
       }, 7200000 - elapsedTime);
     }
   }
-
   return existingOrderId;
 }
 
 function clearOrderId() {
   localStorage.removeItem("currentOrderId");
-  //   localStorage.removeItem("orderCreationTime");
-  //   localStorage.removeItem("cart")
 }
 
 // Set up event listener for the back to shop button

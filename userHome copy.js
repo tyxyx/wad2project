@@ -269,12 +269,24 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     orderNowButton.style.width = "auto";
     orderNowButton.style.padding = "0 20px";
     orderNowButton.addEventListener("click", () => {
-      localStorage.setItem("businessId", JSON.stringify(businessUEN));
-      localStorage.setItem("cart", JSON.stringify(cart));
-      localStorage.setItem("businessName", JSON.stringify(businessName));
-      localStorage.removeItem("currentOrderId");
-      localStorage.removeItem("orderCreationTime");
-      window.location.href = "cart.html";
+      // Retrieve cart data from localStorage and parse it
+      const cart = JSON.parse(localStorage.getItem("cart"));
+
+      // Check if the cart exists and contains items
+      if (cart && cart.length > 0) {
+        // Proceed with saving business info and redirecting to the cart page
+        localStorage.setItem("businessId", JSON.stringify(businessUEN));
+        localStorage.setItem("cart", JSON.stringify(cart)); // Ensure cart is saved
+        localStorage.setItem("businessName", JSON.stringify(businessName));
+        localStorage.removeItem("currentOrderId");
+        localStorage.removeItem("orderCreationTime");
+        window.location.href = "cart.html";
+      } else {
+        // If cart is empty, show an alert or notify the user
+        alert(
+          "Your cart is empty. Please add items to the cart before ordering."
+        );
+      }
     });
 
     // Create Back button
