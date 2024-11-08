@@ -100,10 +100,18 @@ async function updateOrderStatus(orderID) {
         status: true,
         verificationTime: new Date().toISOString()
     }, { merge: true });
+    
+    const orderSnap = await getDoc(orderRef);
 
-    const userEmail = orderID.customerEmail;
+    if (!orderSnap.exists()) {
+      throw new Error("Order not found");
+    }
+
+    // Get the customerEmail from the order document
+    const userEmail = orderSnap.data().customerEmail;
+    console.log(userEmail);
+    
     const orderHistRef = doc(db, "userLogin", userEmail, "orderHistory", orderID);
-
     // Update the order status and verification time with merge
     await setDoc(
       orderHistRef,
