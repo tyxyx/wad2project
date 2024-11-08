@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="icon" type="image/svg+xml" href="./images/mealmate-logo-zip-file/svg icon 2/logo-color.svg">
+
+  <title>MealMate - Login</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <!-- Custom CSS -->
+  <style>
+    body {
+        background-image: url(assets/images/menu-bg.png);
+        background-repeat: repeat;
+    }
+
+    /* Header styles matching index.html */
+    .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    transition: 0.5s;
+    border-bottom: 1px solid transparent;
+    background: rgb(255 255 255 / 80%);
+    backdrop-filter: blur(20px);
+    padding: 20px 0;
+}
+
+    .header-logo img {
+        max-width: 160px;
+    }
+    
+
+    .main-navigation {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: flex-end;
+    align-items: center;
+}
+.main-navigation .menu li {
+    display: inline-block;
+    position: relative;
+    margin: 0 6px;
+}
+.main-navigation .menu li:first-child {
+    margin-left: 0;
+}
+.main-navigation .menu li:last-child {
+    margin-right: 0;
+}
+.main-navigation .menu li a {
+    display: flex;
+    transition: 0.3s;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    color: #0d0d25;
+    text-transform: capitalize;
+    font-weight: 500;
+    padding: 5px 18px;
+    border-radius: 30px;
+}
+.main-navigation .menu li a:hover {
+    color: #ff8243;
+    background: #f3f3f5;
+    box-shadow: inset 8px 8px 12px #e2e2e2, inset -8px -8px 12px #ffffff;
+}
+
+    .menu.food-nav-menu {
+        flex-direction: column;  /* Make items stack vertically */
+        align-items: flex-start; /* Align items to the left */
+        gap: 1.5rem;  /* Increase space between items */
+    }
+    .main-navigation .menu li {
+        display: block;
+        width: 100%;        /* Take full width */
+        margin: 0;          /* Remove default margins */
+        padding: 0.5rem 0;  /* Add some vertical padding */
+    }
+    .menu.food-nav-menu li a {
+        display: block;     /* Make link take full width */
+        font-size: 1.2rem;  /* Larger font size for mobile */
+        padding: 0.8rem 0;  /* Add padding to links */
+        width: fit-content; /* Allow hover effect to fit content */
+    }
+    .menu-toggle {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    border: none;
+    outline: none !important;
+    background: transparent;
+    width: 40px;
+    height: 40px;
+    transform: translate(0, -50%);
+    z-index: 100;
+    box-shadow: inset 6px 6px 7px #dadada, -6px -6px 10px #ffffff;
+    border-radius: 10px;
+    padding: 0 8px;
+    display: none;
+}
+.menu-toggle span {
+    display: block;
+    width: 100%;
+    height: 4px;
+    background: #ff8243;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    position: relative;
+}
+
+    /* Login Form Styles */
+    .container-wrapper {
+        max-width: 800px;
+        margin: 6rem auto; /* Increased top margin to account for fixed header */
+        padding: 2rem;
+    }
+
+    .user-type-container {
+        background: rgba(255, 119, 71, 0.1);
+        border-radius: 50px;
+        padding: 0.5rem;
+        margin-bottom: 2rem;
+        width: 95%;
+        max-width: 400px;
+        margin: 0 auto 2rem;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    .user-type {
+        flex: 1;
+        text-align: center;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        color: #FF7747;
+    }
+
+    .user-type.active {
+        background: #FF7747;
+        color: white;
+    }
+
+    @media (max-width: 320px) {
+        .user-type {
+            padding: 0.5rem 0.75rem; /* Further reduce padding if needed */
+            font-size: 0.9rem; /* Slightly reduce font size */
+        }
+    }
+
+    #formContainer {
+        background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        padding: 0.75rem;
+    }
+
+    .form-control:focus {
+        border-color: #FF7747;
+        box-shadow: 0 0 0 0.2rem rgba(255, 119, 71, 0.25);
+    }
+
+    .btn-primary {
+        background: #FF7747;
+        border: none;
+        border-radius: 25px;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: #ff8659;
+        transform: translateY(-2px);
+    }
+
+    #toggleMode {
+        color: #FF7747;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    #toggleMode:hover {
+        color: #ff8659;
+    }
+
+    #pageTitle {
+        color: #1A1A1A;
+        margin-bottom: 2rem;
+    }
+    @media (max-width: 991px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .header-menu {
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding-top: max(9vh, 30px);
+        padding-left: max(6vh, 30px);
+        z-index: 99;
+        transition: 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+        overflow-y: auto;
+        transform: translateY(-100%);
+        background-image: url(assets/images/blog-pattern-bg.png);
+        background-position: center;
+        background-color: #f3f3f5;
+    }
+
+    .main-navigation.toggled .header-menu {
+        transform: translateY(0);
+    }
+
+    .main-navigation .menu li {
+        display: block;
+        margin: 0 0 20px 0;
+    }
+
+    .main-navigation .menu li a {
+        display: inline-block;
+        font-size: max(16px, 2vh);
+    }
+}
+    .bg-pattern {
+        min-height: 100vh;
+        padding-top: 80px; /* Account for fixed header */
+    }
+
+    .status-popup {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 15px 20px;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      z-index: 1000;
+    }
+
+    .status-popup.success {
+      background-color: #4CAF50;
+    }
+
+    .status-popup.error {
+      background-color: #f44336;
+    }
+
+    .status-popup.show {
+      opacity: 1;
+    }
+</style>
+</head>
+
+<body class="body-fixed">
+    <!-- Header section matching index.html -->
+    <header class="site-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="header-logo">
+                        <a href="index.html">
+                            <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" width="160" alt="Logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-10">
+                    <div class="main-navigation">
+                        <button class="menu-toggle"><span></span><span></span></button>
+                        <nav class="header-menu">
+                            <ul class="menu food-nav-menu">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="index.html#about">About</a></li>
+                                <li><a href="index.html#contact">Contact</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header ends  -->
+
+    <!-- Rest of your login form content -->
+    <div id="viewport">
+        <div id="js-scroll-content">
+            <!-- Main Content with Background -->
+            <div class="bg-pattern bg-light repeat-img" style="background-image: url(assets/images/menu-bg.png);">
+                <section class="main-banner" id="home">
+                    <div class="sec-wp">
+                        <div class="container-wrapper">
+                            <div class="container justify-content-center">
+                                <div class="row">
+                                    <div id="header" class="col-12 text-center">
+                                        <h1 id="pageTitle"></h1>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-md-8">
+                                        <div class="user-type-container">
+                                            <div id="generateFormIndiv" class="user-type active">
+                                                <strong id="indiv">Individual</strong>
+                                            </div>
+                                            <div id="generateFormBusiness" class="user-type">
+                                                <strong id="business">Business</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="formContainer" class="row justify-content-center">
+                                    <!-- Form will be dynamically inserted here -->
+                                </div>
+
+                                <div class="row mt-3">
+                                    <div class="col-12 text-center">
+                                        <a id="toggleMode" href="#"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+  <!-- scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script type="module" src="./form.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Initial page load animation
+    gsap.from("#pageTitle", { opacity: 0, y: -50, duration: 1, ease: "power3.out" });
+    gsap.from(".user-type-container", { opacity: 0, y: 50, duration: 1, ease: "power3.out", delay: 0.3 });
+    gsap.from("#formContainer", { opacity: 0, y: 50, duration: 1, ease: "power3.out", delay: 0.6 });
+    
+    // Animation for switching between Individual and Business
+    document.querySelectorAll('.user-type').forEach(element => {
+      element.addEventListener('click', function() {
+        // Remove active class from all user types
+        document.querySelectorAll('.user-type').forEach(el => el.classList.remove('active'));
+        // Add active class to clicked element
+        this.classList.add('active');
+        
+        // Animate form container out
+        gsap.to("#formContainer", {
+          opacity: 0,
+          y: 20,
+          duration: 0.3,
+          ease: "power2.out",
+          onComplete: () => {
+            // After form fades out, animate it back in
+            gsap.to("#formContainer", {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+              ease: "power2.out",
+              delay: 0.1
+            });
+          }
+        });
+      });
+    });
+
+    // Animation for page load from index.html
+    window.addEventListener('load', () => {
+      gsap.from("body", { opacity: 0, duration: 0.5, ease: "power2.out" });
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mainNav = document.querySelector('.main-navigation');
+        
+        menuToggle.addEventListener('click', function() {
+            mainNav.classList.toggle('toggled');
+        });
+    
+        // Close menu when clicking a link
+        document.querySelectorAll('.header-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('toggled');
+            });
+        });
+    });
+</script>
+</body>
+</html>
