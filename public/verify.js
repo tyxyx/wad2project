@@ -101,7 +101,7 @@ async function updateOrderStatus(orderID) {
         verificationTime: new Date().toISOString()
     }, { merge: true });
 
-    const userEmail = orderID.userEmail;
+    const userEmail = orderID.customerEmail;
     const orderHistRef = doc(db, "userLogin", userEmail, "orderHistory", orderID);
 
     // Update the order status and verification time with merge
