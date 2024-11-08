@@ -13,13 +13,16 @@ import {
     getDownloadURL,
     deleteObject
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-storage.js";
-
 import { mapsApi } from "./configure.js";
 let apiKey = mapsApi.mapsApi;
 let map;
 let autocomplete;
 let marker;
 let selectedAddress;
+let autocomplete2;
+let map2;
+let marker2;
+let selectedAddress2;
 let businessUEN = null;
 let currentProfilePic = '';
 let oldProfilePicRef = null;
@@ -39,6 +42,7 @@ onAuthStateChanged(auth, async(user) => {
                 const bsModal = new bootstrap.Modal(myModal);
                 bsModal.show();
                 setupFormHandlers();
+                document.documentElement.style.overflow = "hidden";
             } else {
                 currentProfilePic = businessFields.profilePic
                 oldProfilePicRef = ref(getStorage(), businessFields.profilePic)
@@ -195,7 +199,6 @@ async function handleOnboardingSubmit(e) {
             successAlert.appendChild(successMessage);
             successAlert.appendChild(closeButton);
             document.getElementById('onboard').appendChild(successAlert);
-
             // Reload page after success
             setTimeout(() => {
                 window.location.reload();
@@ -253,6 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     profilePicInput.addEventListener('change', handleProfilePicChange);
 
+    loadGoogleMapsApi();
 });
 
 function handleEditClick() {
@@ -292,7 +296,6 @@ function handleEditClick() {
     viewMode.classList.add('d-none');
     editMode.classList.remove('d-none');
 
-    loadGoogleMapsApi();
 }
 
 function handleCancelEdit() {
@@ -472,7 +475,13 @@ async function loadGoogleMapsApi() {
   const script = document.createElement("script");
   script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
   script.async = true;
-  script.onload = initMap;
+
+  script.onload = function () {
+    initMap();
+    initMap2();
+
+  };
+
   document.head.appendChild(script);
 }
 
@@ -523,6 +532,66 @@ async function initMap() {
       });
     } else {
       document.getElementById("addressInput").placeholder = "Enter a place";
+    }
+  });
+}
+
+async function initMap2() {
+  // Import the Map and Autocomplete classes
+  const { Map, Autocomplete } = await google.maps.importLibrary("maps");
+
+  // Initialize the second map
+  map2 = new Map(document.getElementById("map2"), {
+    center: { lat: 1.3521, lng: 103.8198 }, // Center on Singapore (or adjust as needed)
+    zoom: 12,
+  });
+
+  // Set up the autocomplete feature for the second input field
+    const input2 = document.getElementById("location");
+    
+  autocomplete2 = new google.maps.places.Autocomplete(input2);
+  autocomplete2.setComponentRestrictions({
+    country: ["sg"], // Restrict autocomplete to Singapore
+  });
+
+  autocomplete2.setFields([
+    "place_id",
+    "name",
+    "geometry",
+    "formatted_address",
+  ]);
+  autocomplete2.bindTo("bounds", map2);
+    autocomplete2.setTypes(["restaurant", "food"]);
+    
+
+  // Listen for the place changed event for the second input
+    autocomplete2.addListener("place_changed", () => {
+      
+    const place2 = autocomplete2.getPlace();
+    if (place2.geometry) {
+      map2.setCenter(place2.geometry.location);
+      map2.setZoom(20); // Zoom in on the selected place
+
+      if (marker2) {
+        marker2.setMap(null); // Remove the previous marker if it exists
+      }
+      marker2 = new google.maps.Marker({
+        position: place2.geometry.location,
+        map: map2,
+        title: place2.name,
+      });
+
+      // Save the selected address for the second map
+      selectedAddress2 = place2.formatted_address;
+      console.log("Selected Address for Map 2:", place2); // Display the selected address in the console
+      place_id = place2.place_id;
+
+      // Add a click event listener to the marker for Map 2
+      marker2.addListener("click", () => {
+        alert("Address for Map 2: " + selectedAddress2); // Show an alert with the address
+      });
+    } else {
+      document.getElementById("location").placeholder = "Enter a place";
     }
   });
 }

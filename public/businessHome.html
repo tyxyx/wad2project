@@ -26,6 +26,7 @@
     --hover-color: #FF8659;  /* Lighter orange for hover */
 }
 
+
 .profile-section {
     padding: 60px 0;
     position: relative;
@@ -467,6 +468,15 @@ main {
 #map {
     height: 400px; 
 }
+#map2 {
+    height: 200px; 
+}
+
+.pac-container {
+    z-index: 10000 !important;
+}
+
+
         </style>
 </head>
 
@@ -640,7 +650,7 @@ main {
     </main>
 
     <!-- Onboarding Modal -->
-    <div id="staticBackdrop" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div id="staticBackdrop" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" cdkScrollable>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -669,6 +679,9 @@ main {
                         <div class="mb-3">
                             <label for="location" class="form-label">Store Address</label>
                             <input type="text" class="form-control" id="location" required>
+                        </input>
+                            
+                            <div id="map2"></div>
                             <div class="invalid-feedback">Please provide your store address.</div>
                         </div>
 
