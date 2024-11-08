@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Website</title>
+    <!-- for icons  -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <!-- bootstrap  -->
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <!-- for swiper slider  -->
+    <link rel="stylesheet" href="./assets/css/swiper-bundle.min.css">
+
+    <!-- fancy box  -->
+    <link rel="stylesheet" href="./assets/css/jquery.fancybox.min.css">
+    <!-- custom css  -->
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        :root {
+    --primary-color: #FF6B35; /* Orange */
+    --text-dark: #1A1A1A;    /* Black */
+    --text-light: #666666;   /* Gray */
+    --background: #FFFFFF;    /* White */
+    --hover-color: #FF8659;  /* Lighter orange for hover */
+}
+
+.profile-section {
+    padding: 60px 0;
+    position: relative;
+}
+
+.profile-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--background);
+    border-radius: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    padding: 2.5rem;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.profile-pic-wrapper {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    cursor: pointer;
+}
+
+.profile-pic-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: none;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-pic-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.profile-pic-overlay i {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.profile-pic-overlay span {
+    font-size: 14px;
+}
+
+#profilePicContainer:hover .profile-pic-overlay {
+    opacity: 1;
+}
+
+.profile-info-wp {
+    text-align: center;
+    width: 100%;
+}
+
+.profile-pic-circle {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f8f9fa;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.profile-pic-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+#picEdit {
+    width: 180px !important;
+    height: 180px !important;
+    border-radius: 50% !important;
+    overflow: hidden !important;
+}
+
+#picEdit img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+}
+
+#profilePicContainer {
+    position: relative;
+    width: 180px !important;
+    height: 180px !important;
+}
+
+#profilePicContainer img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+.edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* Make sure these buttons are aligned properly */
+#cancelEditBtn, #saveProfileBtn {
+    margin-left: 0.5rem;
+}
+.add-menu-btn {
+    padding: 10px 25px;  /* Increased padding */
+    background: rgba(255, 107, 53, 0.15);
+    color: var(--primary-color);
+    border: 1.5px solid var(--primary-color); /* Slightly thicker border */
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;  /* Smaller font size */
+    margin-top: 0;
+}
+
+.edit-profile-btn {
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 107, 53, 0.15); /* Very light orange background */
+    color: var(--primary-color); /* Orange text and icon */
+    border: 2px solid var(--primary-color); /* Orange border */
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+.add-menu-btn:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+.edit-profile-btn:hover{
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+.add-menu-btn i {
+    font-size: 17px;  /* Smaller icon */
+}
+
+.edit-profile-btn i {
+    font-size: 18px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.info-box {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    border: none; /* Removed the brown border */
+}
+
+.info-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.info-box h4 {
+    color: var(--text-dark);
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.info-box p {
+    color: var(--text-light);
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.info-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 107, 53, 0.1); /* Light orange background */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.info-icon svg {
+    stroke: #FF7747;
+}
+
+.info-icon i {
+    color: var(--primary-color);
+    font-size: 20px;
+}
+
+/* Edit mode styles */
+.edit-mode .form-control {
+    border: 1px solid #dee2e6;
+    padding: 0.75rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.edit-mode .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+}
+
+.avatar-icon {
+    width: 60px;
+    height: 60px;
+    color: var(--primary-color);
+}
+
+/* Button styles */
+.sec-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.sec-btn:hover {
+    background: var(--hover-color);
+}
+
+#menuItemsContainer .row {
+    padding: 1rem 0;
+}
+
+#menuItemsContainer .col-md-4 {
+    padding: 1rem;
+}
+
+#menuItemsContainer .card {
+    background: #f8f9fa;
+    border: none;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+#menuItemsContainer .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#menuItemsContainer .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+#menuItemsContainer .card:hover .card-img-top {
+    transform: scale(1.1);
+}
+
+#menuItemsContainer .card-body {
+    padding: 1.5rem;
+    background: #f8f9fa;
+}
+
+#menuItemsContainer .card-title {
+    color: var(--text-dark);
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+}
+
+#menuItemsContainer .card-text {
+    color: var(--text-light);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+/* Style the price information */
+#menuItemsContainer .card-text strong {
+    color: var(--text-dark);
+    display: inline-block;
+    margin-bottom: 0.25rem;
+}
+
+/* Style the discard button */
+#menuItemsContainer .btn-danger {
+    margin-top: 1rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1.5rem;
+}
+
+#menuItemsContainer .btn-danger:hover {
+    transform: translateY(-2px);
+}
+/* Add these styles to fix the layout */
+main {
+    padding-top: 80px; /* Adjust based on your header height */
+}
+
+.profile-section {
+    position: relative;
+    z-index: 1;
+    background: #fff; /* or your desired background color */
+    padding: 60px 0;
+}
+
+.our-menu {
+    font-weight: 500 !important;  /* Match the weight */
+    font-size: 2rem !important;   /* Match the size */
+    text-transform: uppercase;
+    color: #FF7747;
+}
+/* Ensure proper stacking context */
+.section {
+    position: relative;
+    width: 100%;
+}
+
+/* Fix for the main banner section */
+.main-banner {
+    position: relative;
+    z-index: 1;
+}
+.sec-sub-title {
+    font-size: 2rem !important;  /* Much bigger font size */
+    
+    padding: 15px 45px;  /* Increased padding for a bigger pill */
+    color: #FF7747;
+    display: inline-block;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 500 !important;  /* Reduced from 600 to match "OUR MENU" */
+    margin-bottom: 2rem !important;
+    
+}
+
+/* Add some spacing between the pill and the business name */
+.sec-title {
+    margin-bottom: 3rem !important;
+}
+
+.sec-title-shape {
+    margin: 1.5rem 0 !important;
+}
+#staticBackdrop .profile-pic-wrapper {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto;
+    position: relative;
+}
+
+#staticBackdrop .profile-pic-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f8f9fa;
+    position: relative;
+}
+
+#staticBackdrop #preview-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2; /* Higher than input when image is shown */
+}
+
+#staticBackdrop .avatar-icon {
+    width: 60px;
+    height: 60px;
+    color: #FF6B35;
+    cursor: pointer;
+}
+
+#staticBackdrop .profile-pic-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 1; /* Lower z-index when preview is shown */
+}
+
+#staticBackdrop .preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Prevent image from being clickable */
+}
+
+/* Add this class when image is selected */
+#staticBackdrop .profile-pic-wrapper.has-image .profile-pic-input {
+    z-index: -1; /* Move input behind when image is selected */
+}
+
+#map {
+    height: 400px; 
+}
+        </style>
+</head>
+
+<body class="body-fixed">
+    <!-- start of header  -->
+    <!-- start of header  -->
+    <header class="site-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="header-logo">
+                        <a href="index.html">
+                            <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" width="160" alt="Logo">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-10">
+                    <div class="main-navigation">
+                        <button class="menu-toggle"><span></span><span></span></button>
+                        <nav class="header-menu">
+                            <ul class="menu food-nav-menu">
+                                <li><a href="javascript:void(0)" id="contactLink">Contact</a></li>
+                                <li><a href="./index.html" id="logout" class="nav-link">Log Out</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- header ends  -->
+    
+    <!-- businessHome.html -->
+     <main>
+        <section class="section bg-light repeat-img" style="background-image: url(assets/images/menu-bg.png);">
+            <!-- Business Profile Section -->
+            <div class="sec-wp">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="sec-title text-center mb-5">
+                                <p class="sec-sub-title mb-3">BUSINESS PROFILE</p>
+                                <h2 id="businessName" class="h2-title">Business Name</h2>
+                                <div class="sec-title-shape mb-4">
+                                    <img src="assets/images/title-shape.svg" alt="title shape">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-8 m-auto">
+                            <div class="profile-box bg-white p-4 rounded-4 shadow-sm">
+                                <div class="text-center mb-4">
+                                    <div class="profile-info-wp d-flex flex-column align-items-center">
+                                        <div id="profilePicContainer" class="profile-pic-circle mb-4">
+                                            <!-- Profile picture will be set via JavaScript -->
+                                        </div>
+                                        <div id="picEdit" class="profile-pic-circle d-none"></div>
+                                        <input type="file" id="profilePicInput" class="d-none" accept="image/*">
+                                        <button id="editProfileBtn" class="edit-profile-btn mt-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                            </svg>
+                                            <i class="bi bi-pencil"></i> Edit Profile
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="profile-content mt-4">
+                                    <!-- View mode -->
+                                    <div id="viewMode" class="row g-4">
+                                        <div class="col-md-6">
+                                            <div class="info-box">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="info-icon me-3">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                                            <circle cx="12" cy="10" r="3"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="h4-title mb-2">Address</h4>
+                                                        <p id="addressDisplay" class="text-muted mb-0"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="info-box">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="info-icon me-3">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                                                        </svg>
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="h4-title mb-2">Contact</h4>
+                                                        <p id="contactDisplay" class="text-muted mb-0"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Edit mode -->
+                                    <div id="editMode" class="d-none">
+                                        <div class="mb-4">
+                                            <label class="form-label h4-title">Address</label>
+                                            <input type="text" class="form-control" id="addressInput" placeholder="Search for address...">
+                                            
+                                            <div id="map"></div>   
+
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label h4-title">Contact</label>
+                                            <input type="text" class="form-control" id="contactInput">
+                                        </div>
+                                        <div class="d-flex justify-content-end gap-3">
+                                            <button id="cancelEditBtn" class="sec-btn">Cancel</button>
+                                            <button id="saveProfileBtn" class="sec-btn">Save Changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    
+            
+            
+
+            <!-- Menu Items Section -->
+            <section class="our-menu section bg-light repeat-img" id="menu" style="background-image: url(assets/images/menu-bg.png);">
+                <div class="sec-wp">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="sec-title text-center mb-5">
+                                    <p class="sec-sub-title mb-3" style="color: #FF7747;">our menu</p>
+                                    <h2 class="h2-title">Menu Items</h2>
+                                    <div class="sec-title-shape mb-4">
+                                        <img src="assets/images/title-shape.svg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add Menu Button -->
+                        <div class="row justify-content-end mb-4">
+                            <div class="col-auto">
+                                <button id="addMenuItemBtn" class="add-menu-btn" data-bs-toggle="modal" data-bs-target="#menuItemModal">
+                                    <i class="uil uil-plus"></i> Add Menu Item
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Menu Items Grid -->
+                        <div class="menu-list-row">
+                            <div class="row g-xxl-5" id="menuItemsContainer">
+                                <!-- Menu items will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <!-- Onboarding Modal -->
+    <div id="staticBackdrop" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fs-5">Welcome to MealMate! Please complete the onboarding process to start listing items!</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="onboardingForm" class="needs-validation" novalidate enctype="multipart/form-data">
+                        <!-- Profile Picture -->
+                        <div class="mb-3">
+                            <label class="form-label">Profile Picture</label>
+                            <div class="profile-pic-wrapper">
+                                <div class="profile-pic-circle">
+                                    <!-- This is where the preview will go -->
+                                    <div id="preview-placeholder">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="avatar-icon">
+                                            <path d="M12 2a5 5 0 015 5v2a5 5 0 01-10 0V7a5 5 0 015-5zM2 20a10 10 0 0120 0v1H2v-1z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <input type="file" id="profilePic" class="profile-pic-input" accept="image/*" required>
+                            </div>
+                            <div class="invalid-feedback">Please choose a profile picture.</div>
+                        </div>
+
+                        <!-- Store Address -->
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Store Address</label>
+                            <input type="text" class="form-control" id="location" required>
+                            <div class="invalid-feedback">Please provide your store address.</div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="mb-3">
+                            <label for="contact" class="form-label">Contact Information</label>
+                            <input type="text" class="form-control" id="contact" required>
+                            <div class="invalid-feedback">Please provide your contact information.</div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="sec-btn" id="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Menu Item Modal -->
+    <div class="modal fade" id="menuItemModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="h5-title">Add Menu Item</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="menuItemForm">
+                        <div class="mb-3">
+                            <label for="itemName" class="form-label h4-title">Item Name</label>
+                            <input type="text" class="form-control" id="itemName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="itemPrice" class="form-label h4-title">Original Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="itemPrice" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="discountedPrice" class="form-label h4-title">Discounted Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="discountedPrice" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="itemDescription" class="form-label h4-title">Description</label>
+                            <textarea class="form-control" id="itemDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pickupTime" class="form-label h4-title">Pickup Time</label>
+                            <input type="time" class="form-control" id="pickupTime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="itemImage" class="form-label h4-title">Image</label>
+                            <input type="file" class="form-control" id="itemImage" accept="image/*" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="sec-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="sec-btn" id="saveMenuItemBtn">Save Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- footer starts  -->
+    <footer class="site-footer" id="contact">
+        <div class="top-footer section">
+            <div class="sec-wp">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="footer-info">
+                                <div class="footer-logo">
+                                    <a href="index.html">
+                                        <img src="logo.png" alt="">
+                                    </a>
+                                </div>
+                                <p>Connect with us on our socials!
+                                </p>
+                                <div class="social-icon">
+                                    <ul>
+                                        <li>
+                                            <a href="#">
+                                                <i class="uil uil-facebook-f"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="uil uil-instagram"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="uil uil-github-alt"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="uil uil-youtube"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="footer-flex-box">
+                                
+                                <div class="footer-menu food-nav-menu">
+                                    <h3 class="h3-title">Links</h3>
+                                    <ul class="column-2">
+                                        <li>
+                                            <a href="#home" class="footer-active-menu">Home</a>
+                                        </li>
+                                        <li><a href="#about">About</a></li>
+                                        <li><a href="#contact">Contact</a></li>
+                                    </ul>
+                                </div>
+                                <div class="footer-menu">
+                                    <h3 class="h3-title">Company</h3>
+                                    <ul>
+                                        <li><a href="#">Terms & Conditions</a></li>
+                                        <li><a href="#">Privacy Policy</a></li>
+                                        <li><a href="#">Cookie Policy</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <div class="copyright-text">
+                            <p>Copyright &copy; 2021 <span class="name">TechieCoder.</span>All Rights Reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <button class="scrolltop"><i class="uil uil-angle-up"></i></button>
+            </div>
+        </div>
+    </footer>
+    
+
+
+
+    <!-- userHome.js -->
+    <!-- <script type="module" src="./userHome.js"></script> -->
+    <!-- jquery  -->
+    <script src="assets/js/jquery-3.5.1.min.js"></script>
+    <!-- bootstrap -->
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+
+    <!-- fontawesome  -->
+    <script src="assets/js/font-awesome.min.js"></script>
+
+    <!-- swiper slider  -->
+    <script src="assets/js/swiper-bundle.min.js"></script>
+
+    <!-- mixitup -- filter  -->
+    <script src="assets/js/jquery.mixitup.min.js"></script>
+
+    <!-- fancy box  -->
+    <script src="assets/js/jquery.fancybox.min.js"></script>
+
+    <!-- parallax  -->
+    <script src="assets/js/parallax.min.js"></script>
+
+    <!-- gsap  -->
+    <script src="assets/js/gsap.min.js"></script>
+
+    <!-- scroll trigger  -->
+    <script src="assets/js/ScrollTrigger.min.js"></script>
+    <!-- scroll to plugin  -->
+    <script src="assets/js/ScrollToPlugin.min.js"></script>
+    <!-- rellax  -->
+    <!-- <script src="assets/js/rellax.min.js"></script> -->
+    <!-- <script src="assets/js/rellax-custom.js"></script> -->
+    <!-- smooth scroll  -->
+    <script src="assets/js/smooth-scroll.js"></script>
+    <!-- custom js  -->
+    <script src="./main.js"></script>
+    <script type="module" src="./busHome.js"></script>
+    <script type="module" src="./menu.js"></script>
+    <script>
+        // Add this event listener after the document loads
+        document.addEventListener('DOMContentLoaded', function() {
+    const profilePicInput = document.getElementById('profilePic');
+    const previewPlaceholder = document.getElementById('preview-placeholder');
+    const wrapper = document.querySelector('.profile-pic-wrapper');
+    
+    profilePicInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        
+        if (file) {
+            // Check file size (5MB limit)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size must be less than 5MB');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // Clear the placeholder content
+                previewPlaceholder.innerHTML = '';
+                
+                // Create and add the preview image
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'preview-image';
+                previewPlaceholder.appendChild(img);
+                
+                // Add class to wrapper to change input behavior
+                wrapper.classList.add('has-image');
+            };
+            
+            reader.readAsDataURL(file);
+        }
+    });
+});
+        </script>
+        <script>
+            async function updateDisplayAfterSubmit(event) {
+                event.preventDefault();
+                
+                const address = document.getElementById('location').value;
+                const contact = document.getElementById('contact').value;
+                const addressDisplay = document.getElementById('addressDisplay');
+                const contactDisplay = document.getElementById('contactDisplay');
+            
+                // Update the displays immediately
+                addressDisplay.textContent = address;
+                contactDisplay.textContent = contact;
+            
+                // Let the original form submission continue
+                document.getElementById('onboardingForm').submit();
+            }
+            
+            // Add event listener for input changes
+            document.addEventListener('DOMContentLoaded', function() {
+                const locationInput = document.getElementById('location');
+                const contactInput = document.getElementById('contact');
+            
+                locationInput.addEventListener('input', function(e) {
+                    document.getElementById('addressDisplay').textContent = e.target.value;
+                });
+            
+                contactInput.addEventListener('input', function(e) {
+                    document.getElementById('contactDisplay').textContent = e.target.value;
+                });
+            });
+            document.addEventListener('DOMContentLoaded', function() {
+    const contactLink = document.getElementById('contactLink');
+    
+    if (contactLink) {
+        contactLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Get the footer element
+            const footer = document.querySelector('.site-footer');
+            
+            if (footer) {
+                // Calculate position accounting for fixed header
+                const headerHeight = document.querySelector('.site-header').offsetHeight;
+                const footerPosition = footer.getBoundingClientRect().top + window.pageYOffset;
+                
+                // Scroll with offset
+                window.scrollTo({
+                    top: footerPosition - headerHeight,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
+});
+            </script>
+</body>
+
+</html>
