@@ -90,6 +90,7 @@ function setupFormHandlers() {
     // Form submission handler
     const form = document.getElementById('onboardingForm');
     form.addEventListener('submit', handleOnboardingSubmit);
+
 }
 
 function handleImagePreview(e) {
@@ -138,10 +139,12 @@ function handleImagePreview(e) {
 async function handleOnboardingSubmit(e) {
     e.preventDefault();
     e.stopPropagation();
-
+    
     const form = e.target;
+    
     if (form.checkValidity()) {
         const submitButton = document.getElementById('submit');
+        
         try {
             submitButton.disabled = true;
             submitButton.textContent = 'Saving...';
@@ -198,12 +201,13 @@ async function handleOnboardingSubmit(e) {
             
             successAlert.appendChild(successMessage);
             successAlert.appendChild(closeButton);
-            document.getElementById('onboard').appendChild(successAlert);
+            document.getElementById("onboardingForm").appendChild(successAlert);
             // Reload page after success
+            
             setTimeout(() => {
                 window.location.reload();
             }, 2000);
-
+            
         } catch (error) {
             console.error('Error saving business information:', error);
             
@@ -220,7 +224,7 @@ async function handleOnboardingSubmit(e) {
             submitButton.textContent = 'Submit';
         }
     }
-
+    
     form.classList.add('was-validated');
 }
 
@@ -566,8 +570,9 @@ async function initMap2() {
 
   // Listen for the place changed event for the second input
     autocomplete2.addListener("place_changed", () => {
-      
-    const place2 = autocomplete2.getPlace();
+        
+        const place2 = autocomplete2.getPlace();
+        
     if (place2.geometry) {
       map2.setCenter(place2.geometry.location);
       map2.setZoom(20); // Zoom in on the selected place
@@ -582,7 +587,8 @@ async function initMap2() {
       });
 
       // Save the selected address for the second map
-      selectedAddress2 = place2.formatted_address;
+        selectedAddress2 = place2.formatted_address;
+        document.getElementById("addressDisplay").innerText = selectedAddress2;
       console.log("Selected Address for Map 2:", place2); // Display the selected address in the console
       place_id = place2.place_id;
 
