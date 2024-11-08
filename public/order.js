@@ -100,7 +100,7 @@ class OrderQRGenerator {
 
   async generateQR(orderData) {
     try {
-      const baseUrl = "https://deploymenttest-rose.vercel.app/verify.html";
+      const baseUrl = "https://wad2project.vercel.app//verify.html";
       const verificationUrl = `${baseUrl}?orderID=${orderData.orderId}`;
 
       const response = await axios.get(
