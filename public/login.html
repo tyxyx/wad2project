@@ -234,16 +234,17 @@
     }
     .main-navigation .menu li {
         display: block;
-        margin: 0 0 20px 0;
-        width: 100%;
+        margin: 0;
+        text-align: left;
     }
 
     .main-navigation .menu li a {
-        display: block;
-        margin: 0 0 20px 0;
-        width: 100%;
-        font-size: 25px;
-        font-weight: 500;
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 18px;
+        border-radius: 30px;
+        transition: 0.3s;
+        margin-bottom: 10px;
     }
     .menu-toggle {
         position: fixed;
@@ -251,8 +252,9 @@
         right: 20px;
     }
     .main-navigation .menu li a:hover {
-        background-color: #FF7747;
-        color: white;
+        color: #ff8243;
+        background: #f3f3f5;
+        box-shadow: inset 4px 4px 6px #e2e2e2, inset -4px -4px 6px #ffffff;
     }
 }
     .bg-pattern {

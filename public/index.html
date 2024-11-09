@@ -91,7 +91,7 @@
         color: black !important; /* Change this to any color you like */
         text-decoration: underline; /* Optional: adds underline on hover */
       }
-
+      
       .sec-sub-title {
             font-size: 2rem !important;
             font-weight: 500 !important;
@@ -103,7 +103,7 @@
             border-radius: 60px;
             box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff;
         }
-  
+
       /* Overview Section Styles */
       .overview-section {
         /* background-color: #f9f9f9; */
@@ -393,6 +393,20 @@
     height: 100%;
     border: none;
     object-fit: cover;
+}
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.sec-sub-title {
+    animation: pulse 2s infinite;
 }
     </style>
   
