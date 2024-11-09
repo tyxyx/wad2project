@@ -108,83 +108,164 @@ async function createBusinessCard(businessUEN, businessData) {
     console.error("Menu dish container not found");
     return;
   }
+  
+  // Create outer column div with proper grid classes
+  const colDiv = document.createElement("div");
+  colDiv.classList.add("col-lg-4", "col-sm-6", "mb-4", "center-col");
+
+  // Create card
+  const card = document.createElement("div");
+  card.classList.add("featured-business-card"); // Use same class as horizontal cards
+
+  try {
+    // Create image container
+    const imgContainer = document.createElement("div");
+    imgContainer.classList.add("featured-img-container"); // Use same class as horizontal cards
+
+    const img = document.createElement("img");
+    img.src = businessData.profilePic || "./images/mealmate-logo-zip-file/png/logo-color.png";
+    img.alt = businessData.busName || "Business Image";
+    img.onerror = function() {
+      this.src = "./images/mealmate-logo-zip-file/png/logo-color.png";
+    };
+    imgContainer.appendChild(img);
+
+    // Create content container with same classes as horizontal cards
+    const content = document.createElement("div");
+    content.classList.add("featured-content");
+
+    const contentTitleAndRating = document.createElement("div");
+    contentTitleAndRating.classList.add("featured-content-title-and-rating");
+
+    const title = document.createElement("h3");
+    title.classList.add("featured-title");
+    if (businessData.busName.length > 20) {
+      const displayTitle = businessData.busName.slice(0, 20) + " ...";
+      title.innerText = displayTitle;
+    } else {
+      title.innerText = businessData.busName;
+    }
+
+    const locationP = document.createElement("p");
+    locationP.classList.add("featured-info");
+    if (businessData.address.length > 20) {
+      const displayAddress = businessData.address.slice(0, 20) + " ...";
+      locationP.innerText = `📍 ${displayAddress}`;
+    } else {
+      locationP.innerText = `📍 ${businessData.address}`;
+    }
+
+    const stars = document.createElement("p");
+    stars.classList.add("featured-info-rating");
+    stars.innerText = businessData.avgRating 
+      ? `⭐ ${businessData.avgRating}/5.0` 
+      : "⭐ Rating not available";
+
+    // Assemble the card
+    contentTitleAndRating.appendChild(title);
+    contentTitleAndRating.appendChild(stars);
+    content.appendChild(contentTitleAndRating);
+    content.appendChild(locationP);
+
+    card.appendChild(imgContainer);
+    card.appendChild(content);
+
+    // Add click event
+    card.addEventListener("click", () => {
+      history.pushState(
+        { businessUEN, businessName: businessData.busName },
+        "",
+        `?business=${businessUEN}`
+      );
+      fetchAndDisplayMenuItems(businessUEN, businessData.busName);
+    });
+
+    // Append card to column div and column to container
+    colDiv.appendChild(card);
+    menuDish.appendChild(colDiv);
+
+  } catch (error) {
+    console.error("Error creating business card:", error);
+  }
+
+  // new all biz cards END
 
   // Create card element
-  const card = document.createElement("div");
-  card.classList.add("col-lg-4", "col-sm-6", "dish-box-wp", "breakfast");
-  card.style.height = "450px"; // Ensure consistent card height
-  card.setAttribute("data-cat", "breakfast");
+  // const card = document.createElement("div");
+  // card.classList.add("col-lg-4", "col-sm-6", "dish-box-wp", "breakfast");
+  // card.style.height = "450px"; // Ensure consistent card height
+  // card.setAttribute("data-cat", "breakfast");
 
   // Create dish-box
-  const dishBox = document.createElement("div");
-  dishBox.classList.add("dish-box", "text-center");
+  // const dishBox = document.createElement("div");
+  // dishBox.classList.add("dish-box", "text-center");
 
   // Create distImg container for image
-  const distImg = document.createElement("div");
-  distImg.classList.add("dist-img");
-  distImg.style.width = "200px"; // Ensure container is square
-  distImg.style.height = "200px"; // Ensure container is square
-  distImg.style.borderRadius = "50%"; // Make the container circular
-  distImg.style.overflow = "hidden"; // Prevent overflow
-  distImg.style.margin = "0 auto"; // Center the image in the card
+  // const distImg = document.createElement("div");
+  // distImg.classList.add("dist-img");
+  //distImg.style.width = "200px"; // Ensure container is square
+  //distImg.style.height = "200px"; // Ensure container is square
+  //distImg.style.borderRadius = "50%"; // Make the container circular
+  //distImg.style.overflow = "hidden"; // Prevent overflow
+  //distImg.style.margin = "0 auto"; // Center the image in the card
 
   // Create image element
-  const img = document.createElement("img");
-  img.src = businessData.profilePic || "./images/default-profile.png"; // Fallback image
-  img.style.width = "100%";
-  img.style.height = "100%";
-  img.style.objectFit = "cover"; // Ensure the image covers the container
-  img.style.display = "block"; // Ensure no extra space below the image
+  // const img = document.createElement("img");
+  // img.src = businessData.profilePic || "./images/default-profile.png"; // Fallback image
+  // img.style.width = "100%";
+  // img.style.height = "100%";
+  // img.style.objectFit = "cover"; // Ensure the image covers the container
+  // img.style.display = "block"; // Ensure no extra space below the image
 
-  distImg.appendChild(img);
-  dishBox.appendChild(distImg);
+  // distImg.appendChild(img);
+  // dishBox.appendChild(distImg);
 
-  // Create dish title section
-  const dishTitle = document.createElement("div");
-  dishTitle.classList.add("dist-title");
-  const h3Title = document.createElement("h3");
-  h3Title.classList.add("h3-title");
-  h3Title.innerText = businessData.busName;
-  const locationP = document.createElement("p");
-  locationP.innerText = `📍 ${businessData.address}`;
-  const stars = document.createElement("p");
-  stars.innerText = businessData.avgRating
-    ? `⭐ ${businessData.avgRating}/5.0`
-    : "⭐ Rating not available";
-  const contactP = document.createElement("p");
-  contactP.innerText = `📞 ${businessData.contactInfo}`;
-  dishTitle.appendChild(h3Title);
-  dishTitle.appendChild(locationP);
-  dishTitle.appendChild(stars);
-  dishTitle.appendChild(contactP);
-  dishBox.appendChild(dishTitle);
+  // // Create dish title section
+  // const dishTitle = document.createElement("div");
+  // dishTitle.classList.add("dist-title");
+  // const h3Title = document.createElement("h3");
+  // h3Title.classList.add("h3-title");
+  // h3Title.innerText = businessData.busName;
+  // const locationP = document.createElement("p");
+  // locationP.innerText = `📍 ${businessData.address}`;
+  // const stars = document.createElement("p");
+  // stars.innerText = businessData.avgRating
+  //   ? `⭐ ${businessData.avgRating}/5.0`
+  //   : "⭐ Rating not available";
+  // const contactP = document.createElement("p");
+  // contactP.innerText = `📞 ${businessData.contactInfo}`;
+  // dishTitle.appendChild(h3Title);
+  // dishTitle.appendChild(locationP);
+  // dishTitle.appendChild(stars);
+  // dishTitle.appendChild(contactP);
+  // dishBox.appendChild(dishTitle);
 
-  // Create view button section
-  const viewButtonSection = document.createElement("div");
-  viewButtonSection.classList.add("dist-bottom-row");
-  const viewButton = document.createElement("button");
-  viewButton.classList.add("dish-add-btn");
-  viewButton.innerText = "View";
-  viewButtonSection.appendChild(viewButton);
-  dishBox.appendChild(viewButtonSection);
+  // // Create view button section
+  // const viewButtonSection = document.createElement("div");
+  // viewButtonSection.classList.add("dist-bottom-row");
+  // const viewButton = document.createElement("button");
+  // viewButton.classList.add("dish-add-btn");
+  // viewButton.innerText = "View";
+  // viewButtonSection.appendChild(viewButton);
+  // dishBox.appendChild(viewButtonSection);
 
-  // Append dishBox into card
-  card.appendChild(dishBox);
-  menuDish.appendChild(card);
+  // // Append dishBox into card
+  // card.appendChild(dishBox);
+  // menuDish.appendChild(card);
 
   // Add event listener to the card-like element
-  card.addEventListener("click", () => {
-    // Update URL to include business ID to allow browser back
-    history.pushState(
-      { businessUEN, businessName: businessData.busName },
-      "",
-      `?business=${businessUEN}`
-    );
-    fetchAndDisplayMenuItems(businessUEN, businessData.busName);
-  });
+  // card.addEventListener("click", () => {
+  //   // Update URL to include business ID to allow browser back
+  //   history.pushState(
+  //     { businessUEN, businessName: businessData.busName },
+  //     "",
+  //     `?business=${businessUEN}`
+  //   );
+  //   fetchAndDisplayMenuItems(businessUEN, businessData.busName);
+  // });
 
   // Append the card-like elem into the container
-  menuDish.appendChild(card);
+  // menuDish.appendChild(card);
 }
 
 //new  fetchAndDisplayMenuItems
@@ -590,15 +671,43 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
     const content = document.createElement("div");
     content.classList.add("featured-content");
 
+    const contentTitleAndRating = document.createElement("div");
+    contentTitleAndRating.classList.add("featured-content-title-and-rating");
+
+
     const title = document.createElement("h3");
     title.classList.add("featured-title");
-    title.innerText = businessData.busName || "Unnamed Business";
+    // check for business name length before populating horizontal cards
+    if(businessData.busName.length > 20){
+      const dislpayTitle = businessData.busName.slice(0, 20) + " ...";
+      title.innerText = dislpayTitle || "Unnamed Business";
+    }
+    else{
+      title.innerText = businessData.busName || "Unnamed Business";
+    }
+    // title.innerText = businessData.busName || "Unnamed Business";
+    
+
 
     const locationP = document.createElement("p");
     locationP.classList.add("featured-info");
-    locationP.innerText = businessData.address
+    // check for address length before populating horizontal cards
+    if(businessData.address.length > 20){
+      const dislpayAddress = businessData.address.slice(0, 20) + " ...";
+      locationP.innerText = dislpayAddress
+      ? `📍 ${dislpayAddress}`
+      : "📍 Address not available";
+    }
+    else{
+      locationP.innerText = businessData.address
       ? `📍 ${businessData.address}`
       : "📍 Address not available";
+    }
+
+    // ori
+    // locationP.innerText = businessData.address
+    //   ? `📍 ${businessData.address}`
+    //   : "📍 Address not available";
 
     const stars = document.createElement("p");
     stars.classList.add("featured-info-rating");
@@ -606,20 +715,27 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
       ? `⭐ ${businessData.avgRating}/5.0`
       : "⭐ Rating not available";
 
+
     const contactP = document.createElement("p");
     contactP.classList.add("featured-info");
     contactP.innerText = businessData.contactInfo
       ? `📞 ${businessData.contactInfo}`
       : "📞 Contact not available";
 
+    contentTitleAndRating.appendChild(title);
+    contentTitleAndRating.appendChild(stars);
     // Assemble the card
     // content.appendChild(stars);
-    content.appendChild(title);
+    content.appendChild(contentTitleAndRating)
+    // content.appendChild(title); this
+
     content.appendChild(locationP);
     // content.appendChild(stars);
     // content.appendChild(contactP);
     // content.appendChild(viewButton);
-    content.appendChild(stars);
+
+    // content.appendChild(stars); this
+
     card.appendChild(imgContainer);
     card.appendChild(content);
 

@@ -181,6 +181,12 @@
             border-radius: 60px;
             box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff;
         }
+
+        .center-col{
+            display: flex;
+            /* align-items: center; */
+            justify-content: center;
+        }
     </style>
         
 </head>
@@ -216,40 +222,56 @@
 
     <div id="viewport">
         <div id="js-scroll-content">
-            <section class="main-banner" id="home">
+            <section class="main-banner" id="home" style="padding-top: 100px; margin-bottom: 30px;">
                 <div class="js-parallax-scene">
                     <div class="banner-shape-1 w-100" data-depth="0.30">
                         <img src="assets/images/berry.png" alt="">
                     </div>
                     <div class="banner-shape-2 w-100" data-depth="0.25">
-                        <img src="assets/images/leaf.png" alt="">
+                        <img src="assets/images/berry.png" alt="">
                     </div>
                 </div>
                 <div class="sec-wp">
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <div class="banner-text">
-                                    <h1 class="h1-title">
+                                    <h1 class="h1-title mb-0">
                                         See what's
                                         <span>cookin</span> today
                                     </h1>
-                                    <p class="uil uil-location-point">
+                                    <!-- <div class="banner-img-text m-0">
+                                        <h5 class="h5-title">Waste Less. Save More.</h5>
+                                    </div> -->
+                                    <!-- <p class="uil uil-location-point">
                                         Customer's current location
-                                    </p>
+                                    </p> -->
                                     <!-- <div class="banner-btn mt-4">
                                         <a href="#menu" class="sec-btn">Check our Menu</a>
                                     </div> -->
+                                    <p class="uil uil-location-point mb-0">
+                                        Customer's current location
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <!-- <div class="banner-img-text">
+                                    <h5 class="h5-title">Waste Less. Save More.</h5>
+                                </div> -->
+                                <!-- <p class="uil uil-location-point">
+                                    Customer's current location
+                                </p> -->
+                                <div class="banner-img-wp" style="height: 300px; padding-top: 20px;">
+                                    <!-- <div class="banner-img" style="background-image: url(assets/images/main-b.jpg);">
+                                    </div> -->
+                                    <div class="banner-img" style="background-image: url(images/66594dd0493476bf35d63bb4_Snip20240531_48.webp);">
+                                    </div>
                                 </div>
                             </div>
                             <!-- <div class="col-lg-6">
-                                <div class="banner-img-wp">
-                                    <div class="banner-img" style="background-image: url(assets/images/main-b.jpg);">
+                                <div class="banner-img-wp" style="height: 200px;">
+                                    <div class="banner-img" style="background-image: url(images/66594dd0493476bf35d63bb4_Snip20240531_48.webp);">
                                     </div>
-                                </div>
-                                <div class="banner-img-text mt-4 m-auto">
-                                    <h5 class="h5-title">Sushi</h5>
-                                    <p>this is Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
                                 </div>
                             </div> -->
                         </div>
@@ -287,7 +309,7 @@
             </section>
             
             <section style="background-image: url(assets/images/menu-bg.png);"
-                class="our-menu section bg-light repeat-img pt-3" id="menu">
+                class="our-menu section bg-light repeat-img py-3" id="menu">
                 <div class="sec-wp">
                     <div class="container">
                         <div class="row">
@@ -303,7 +325,7 @@
                         </div>
                         <!-- selector end -->
                         <div class="menu-list-row">
-                            <div class="row g-xxl-5 bydefault_show" id="menu-dish">
+                            <div class="row g-xxl-5 bydefault_show justify-content-center" id="menu-dish">
                                 
                             </div>
                         </div>
@@ -314,7 +336,7 @@
                 
             </section>
             <section style="background-image: url(assets/images/menu-bg.png);"
-                class="section bg-light repeat-img">
+                class="section bg-light repeat-img py-3">
             <div class="container">
                         <div class="row">
                             <div class="col-lg-12">
