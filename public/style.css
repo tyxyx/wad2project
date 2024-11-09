@@ -441,8 +441,7 @@ ul {
 
 .main-banner {
     padding-top: 150px;
-    /* margin-bottom: 100px; */
-    margin-bottom: 50px;
+    margin-bottom: 100px;
 }
 
 .js-parallax-scene {
@@ -581,6 +580,11 @@ p {
 
 /* ******************** */
 
+.brands-sec {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
 .brands-row {
     display: flex;
     justify-content: space-between;
@@ -609,7 +613,7 @@ p {
 /* ******************** */
 
 .section {
-    padding-top: 100px;
+    padding-top: 50px;
     padding-bottom: 100px;
     position: relative;
 }
