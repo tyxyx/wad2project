@@ -76,15 +76,18 @@ async function fetchBusinessCards() {
       collection(db, "businessLogin")
     );
 
-    businessQuerySnapshot.forEach((businessDoc) => {
+    businessQuerySnapshot.forEach(async (businessDoc) => {
       const businessData = businessDoc.data();
+      const menuItemsRef = collection(db, `businessLogin/${businessData.uen}/menuItems`);
+      const menuItemsSnapshot = await getDocs(menuItemsRef);
 
       // Create vertical card for "All businesses" section
       // console.log(businessData);
       if (
         businessData.profilePic &&
         businessData.address &&
-        businessData.contactInfo
+        businessData.contactInfo &&
+        !menuItemsSnapshot.empty
       ) {
         getAvgRating(businessData.uen, businessData.placeId);
         createBusinessCard(businessDoc.id, businessData);
