@@ -187,6 +187,32 @@
             /* align-items: center; */
             justify-content: center;
         }
+
+        @keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.sec-sub-title {
+    animation: pulse 2s infinite;
+}
+.sec-sub-title {
+            font-size: 2rem !important;
+            font-weight: 500 !important;
+            text-transform: uppercase;
+            color: #FF7747;
+            background: #f3f3f5;
+            display: inline-block;
+            padding: 15px 45px;
+            border-radius: 60px;
+            box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff;
+        }
     </style>
         
 </head>
@@ -447,7 +473,7 @@
                                                 <img src="images/mealmate-logo-zip-file/png/logo-color.png" alt="">
                                             </a>
                                         </div>
-                                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia, tenetur.
+                                        <p>Connect with us on our socials!
                                         </p>
                                         <div class="social-icon">
                                             <ul>
