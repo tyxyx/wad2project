@@ -415,6 +415,10 @@ window.addEventListener("popstate", async (event) => {
   const ftb = document.getElementById("featured-businesses");
   ftb.classList.remove("d-none");
   await fetchBusinessCards();
+  document.getElementById("reviews").innerHTML = "";
+  const header = document.getElementById("review-subheader");
+  header.firstChild.textContent = "Click on a business to discover";
+  header.querySelector("span").textContent = "what others think";
 });
 
 // new createMenuItemCard
