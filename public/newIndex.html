@@ -510,13 +510,11 @@
             /* Added position */
             z-index: 2;
             /* Ensure text stays on top */
-            background: rgba(255, 255, 255, 0.9);
-            /* Optional: adds slight background to text */
             padding: 5px 10px;
             /* Optional: adds padding around text */
             border-radius: 4px;
             /* Optional: rounds corners */
-            animation: fadeInOut 2s infinite;
+            animation: glowBounce 2s infinite;
         }
 
         /* Arrow styling */
@@ -533,17 +531,25 @@
         }
 
         /* Separate animations for text and arrow */
-        @keyframes fadeInOut {
+        @keyframes glowBounce {
 
             0%,
             100% {
-                opacity: 0.7;
+                transform: translateY(0);
+                opacity: 0.3;
+                text-shadow: none;
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
             }
 
             50% {
+                transform: translateY(-10px);
                 opacity: 1;
+                text-shadow: 0 0 10px rgba(255, 130, 67, 0.5),
+                    0 0 20px rgba(255, 130, 67, 0.3);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
             }
         }
+
 
         @keyframes bounceNoOverlap {
 
@@ -1897,7 +1903,7 @@
 
             // Create text element
             const scrollText = document.createElement('div');
-            scrollText.className = 'scroll-text';
+            scrollText.classList.add('scroll-text', 'scroll-text-glow', 'scroll-text-wave', 'scroll-text-bounce');
             scrollText.textContent = 'Discover more about MealMate';
 
             // Create arrow element
