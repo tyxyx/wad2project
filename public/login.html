@@ -227,14 +227,32 @@
         transform: translateY(0);
     }
 
+    .menu.food-nav-menu {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
     .main-navigation .menu li {
         display: block;
         margin: 0 0 20px 0;
+        width: 100%;
     }
 
     .main-navigation .menu li a {
-        display: inline-block;
-        font-size: max(16px, 2vh);
+        display: block;
+        margin: 0 0 20px 0;
+        width: 100%;
+        font-size: 25px;
+        font-weight: 500;
+    }
+    .menu-toggle {
+        position: fixed;
+        
+        right: 20px;
+    }
+    .main-navigation .menu li a:hover {
+        background-color: #FF7747;
+        color: white;
     }
 }
     .bg-pattern {
@@ -288,8 +306,7 @@
                         <nav class="header-menu">
                             <ul class="menu food-nav-menu">
                                 <li><a href="index.html">Home</a></li>
-                                <li><a href="index.html#about">About</a></li>
-                                <li><a href="index.html#contact">Contact</a></li>
+                                
                             </ul>
                         </nav>
                     </div>
@@ -387,6 +404,37 @@
     window.addEventListener('load', () => {
       gsap.from("body", { opacity: 0, duration: 0.5, ease: "power2.out" });
     });
+  </script>
+  <script>
+    // Get necessary elements
+const menuToggle = document.querySelector('.menu-toggle');
+const mainNavigation = document.querySelector('.main-navigation');
+
+// Add click event listener to toggle button
+menuToggle.addEventListener('click', () => {
+  mainNavigation.classList.toggle('toggled');
+
+  // Toggle aria-expanded attribute
+  const isExpanded = mainNavigation.classList.contains('toggled');
+  menuToggle.setAttribute('aria-expanded', isExpanded);
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (!mainNavigation.contains(e.target) && !menuToggle.contains(e.target)) {
+    mainNavigation.classList.remove('toggled');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+});
+
+// Close menu when clicking on a link
+const menuLinks = document.querySelectorAll('.main-navigation .menu li a');
+menuLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    mainNavigation.classList.remove('toggled');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  });
+});
   </script>
 </body>
 </html>
