@@ -157,8 +157,8 @@ async function createBusinessCard(businessUEN, businessData) {
 
     const title = document.createElement("h3");
     title.classList.add("grid-title");
-    if (businessData.busName.length > 20) {
-      const displayTitle = businessData.busName.slice(0, 20) + " ...";
+    if (businessData.busName.length > 15) {
+      const displayTitle = businessData.busName.slice(0, 15) + " ...";
       title.innerText = displayTitle;
     } else {
       title.innerText = businessData.busName;
@@ -729,8 +729,8 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
     const title = document.createElement("h3");
     title.classList.add("featured-title");
     // check for business name length before populating horizontal cards
-    if (businessData.busName.length > 20) {
-      const dislpayTitle = businessData.busName.slice(0, 20) + " ...";
+    if (businessData.busName.length > 15) {
+      const dislpayTitle = businessData.busName.slice(0, 15) + " ...";
       title.innerText = dislpayTitle || "Unnamed Business";
     } else {
       title.innerText = businessData.busName || "Unnamed Business";
