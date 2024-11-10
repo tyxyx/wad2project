@@ -475,7 +475,20 @@ main {
 .pac-container {
     z-index: 10000 !important;
 }
-
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.sec-sub-title {
+    animation: pulse 2s infinite;
+}
 
         </style>
 </head>
