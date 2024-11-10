@@ -476,10 +476,10 @@ const saveButton = document.getElementById("saveMenuItemBtn")
     ) {
       showStatusPopup("All fields must be filled.", false); 
     } else if (discount <0) {
-      showStatusPopup("Discount cannot be negative.", false);
+      showStatusPopup("Discount cannot be less than 0.", false);
     }
       else if (price < 0) {
-      showStatusPopup("Discount cannot be negative.", false);
+      showStatusPopup("Price cannot be less than 0.", false);
     } else {
       // Proceed with adding the menu item
       const result = await addMenuItem(businessUEN, {
