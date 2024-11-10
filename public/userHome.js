@@ -392,6 +392,8 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       const header = document.getElementById("review-subheader");
       header.firstChild.textContent = "Click on a business to discover";
       header.querySelector("span").textContent = "what others think";
+      const ftb = document.getElementById("featured-businesses");
+      ftb.classList.remove("d-none");
       await fetchBusinessCards();
     });
 
