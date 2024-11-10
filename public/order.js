@@ -31,39 +31,35 @@ class OrderQRGenerator {
   }
 
   updateOrderDisplay(orderData) {
+    const backupData = JSON.parse(localStorage.getItem("orderBackup"));
+    
     document.getElementById("displayOrderId").innerText = orderData.orderId;
-    document.getElementById("displayAmount").innerText =
-      orderData.amount.toFixed(2);
-    document.getElementById("displayCustomer").innerText =
-      orderData.customerName;
+    document.getElementById("displayAmount").innerText = orderData.amount.toFixed(2);
+    document.getElementById("displayCustomer").innerText = orderData.customerName;
     document.getElementById("displayCart").innerText = orderData.items
       .map((item) => `${item.quantity} ${item.name}`)
       .join(", ");
-    const date = new Date(Number(localStorage.getItem("orderCreationTime")));
-    document.getElementById("displayTimestamp").innerText =
-      date.toLocaleString();
-    const valid = new Date(
-      Number(localStorage.getItem("orderCreationTime")) + 7200000
-    );
-    document.getElementById("displayValidity").innerText =
-      valid.toLocaleString();
+    const date = new Date(Number(backupData.orderCreationTime));
+    document.getElementById("displayTimestamp").innerText = date.toLocaleString();
+    const valid = new Date(Number(backupData.orderCreationTime) + 7200000);
+    document.getElementById("displayValidity").innerText = valid.toLocaleString();
   }
 
   async updateDatabase(orderData) {
     try {
+      const backupData = JSON.parse(localStorage.getItem("orderBackup"));
+      
       // Create an order document with a custom ID
       const orderRef = doc(db, "orders", orderData.orderId);
-      const businessRef = doc(db, "businessLogin", localStorage.businessId);
+      const businessRef = doc(db, "businessLogin", backupData.businessId);
       const customerRef = doc(db, "userLogin", userEmail);
-
-
-      console.log("ordeer  data : "+orderData)
+  
       // Prepare the order data
       const orderDocument = {
         orderId: orderData.orderId,
         businessRef: businessRef,
         customerRef: customerRef,
-        businessName: localStorage.businessName,
+        businessName: backupData.businessName,
         customerName: orderData.customerName,
         customerEmail: userEmail,
         amount: orderData.amount,
@@ -72,15 +68,13 @@ class OrderQRGenerator {
           price: item.price,
           quantity: item.quantity,
         })),
-        status: false, // Initial status
+        status: false,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
-
-      // Save the order to Firestore
+  
       await setDoc(orderRef, orderDocument);
-
-      // Also save to user's orders subcollection
+      
       const userOrderRef = doc(
         db,
         "userLogin",
@@ -89,7 +83,7 @@ class OrderQRGenerator {
         orderData.orderId
       );
       await setDoc(userOrderRef, orderDocument);
-
+  
       console.log("Order successfully saved to database!");
       return true;
     } catch (error) {
@@ -154,9 +148,77 @@ function redirectToLogin() {
 }
 
 async function renderOrderSummary() {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const businessUEN = JSON.parse(localStorage.getItem("businessId")) || [];
+  const existingBackup = localStorage.getItem("orderBackup");
+  console.log("Initial localStorage:", localStorage);
+
+  if (!existingBackup) {
+    // No backup exists - create new backup from localStorage
+    const cartData = localStorage.getItem("cart");
+    const cart = cartData ? JSON.parse(cartData) : [];
+    const businessId = localStorage.getItem("businessId")?.replace(/"/g, '') || null;
+    const businessName = localStorage.getItem("businessName")?.replace(/"/g, '') || null;
+    
+    const orderBackup = {
+      cart: cart,
+      businessId: `"${businessId}"`,
+      businessName: `"${businessName}"`,
+      orderCreationTime: Date.now(),
+      currentOrderId: getOrderId(),
+      totalPrice: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+    };
+
+    // Clear original localStorage and save backup
+    localStorage.clear();
+    localStorage.setItem("orderBackup", JSON.stringify(orderBackup));
+  } else {
+    // Backup exists - check Firestore status and validity
+    const backupData = JSON.parse(existingBackup);
+    const currentTime = Date.now();
+    const elapsedTime = currentTime - backupData.orderCreationTime;
+    
+    try {
+      const orderRef = doc(db, "userLogin", userEmail, "orderHistory", backupData.currentOrderId);
+      const orderDoc = await getDoc(orderRef);
+      
+      // Check if order status is false and not expired (within 2 hours)
+      if (orderDoc.exists() && 
+          orderDoc.data().status === false && 
+          elapsedTime < 7200000) {
+        // Valid order - continue using existing backup
+        showStatusPopup("You have an existing order that still needs verification.", false)
+        console.log("Using existing backup - valid order");
+      } else {
+        // Order completed or expired - use new localStorage data
+        console.log("Creating new backup from localStorage");
+        const cartData = localStorage.getItem("cart");
+        const cart = cartData ? JSON.parse(cartData) : [];
+        const businessId = localStorage.getItem("businessId")?.replace(/"/g, '') || null;
+        const businessName = localStorage.getItem("businessName")?.replace(/"/g, '') || null;
+        
+        const newOrderBackup = {
+          cart: cart,
+          businessId: `"${businessId}"`,
+          businessName: `"${businessName}"`,
+          orderCreationTime: Date.now(),
+          currentOrderId: getOrderId(),
+          totalPrice: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+        };
+
+        localStorage.clear();
+        localStorage.setItem("orderBackup", JSON.stringify(newOrderBackup));
+      }
+    } catch (error) {
+      console.error("Error checking order status:", error);
+      return;
+    }
+  }
+
+  // Rest of your display logic using backup data...
+  const finalBackupData = JSON.parse(localStorage.getItem("orderBackup"));
+  const cart = finalBackupData.cart || [];
+  const businessUEN = finalBackupData.businessId;
   console.log(businessUEN);
+  
   const orderSummaryDiv = document.getElementById("order-summary");
   orderSummaryDiv.innerText = "";
 
@@ -169,9 +231,7 @@ async function renderOrderSummary() {
   cart.forEach((item) => {
     console.log(item)
     const itemDiv = document.createElement("div");
-    itemDiv.innerText = `${item.name} - $${item.price.toFixed(2)} x ${
-      item.quantity
-    }`;
+    itemDiv.innerText = `${item.name} - $${item.price.toFixed(2)} x ${item.quantity}`;
     orderSummaryDiv.appendChild(itemDiv);
   });
 
@@ -180,15 +240,10 @@ async function renderOrderSummary() {
     0
   );
 
-  const uniqueOrderId = getOrderId();
+  const uniqueOrderId = finalBackupData.currentOrderId || getOrderId();
 
-  document.getElementById(
-    "total-price"
-  ).innerText = `Total Price: $${totalPrice.toFixed(2)}`;
+  document.getElementById("total-price").innerText = `Total Price: $${totalPrice.toFixed(2)}`;
   document.getElementById("orderId").innerText = "Order ID: " + uniqueOrderId;
-
-  localStorage.setItem("totalPrice", JSON.stringify(totalPrice));
-  localStorage.setItem("uniqueOrderId", JSON.stringify(uniqueOrderId));
 
   // Only generate QR if we have user data
   if (userData) {
@@ -202,9 +257,6 @@ async function renderOrderSummary() {
         businessId: item.businessId,
       })),
     };
-
-    console.log(orderData.items);
-    console.log(localStorage);
 
     await qrGenerator.generateQR(orderData);
     await qrGenerator.updateDatabase(orderData);
@@ -294,14 +346,14 @@ document.getElementById("back-to-shop").addEventListener("click", () => {
 
 function showStatusPopup(message, isSuccess = true) {
   // Remove any existing popup
-  const existingPopup = document.querySelector(".status-popup");
+  const existingPopup = document.querySelector('.status-popup');
   if (existingPopup) {
     existingPopup.remove();
   }
 
   // Create new popup element
-  const popup = document.createElement("div");
-  popup.className = `status-popup ${isSuccess ? "success" : "error"};`;
+  const popup = document.createElement('div');
+  popup.className = `status-popup ${isSuccess ? 'success' : 'error'}`;
   popup.textContent = message;
 
   // Add popup to the document
@@ -312,12 +364,12 @@ function showStatusPopup(message, isSuccess = true) {
 
   // Show the popup
   setTimeout(() => {
-    popup.classList.add("show");
+    popup.classList.add('show');
   }, 10);
 
   // Hide the popup after 3 seconds
   setTimeout(() => {
-    popup.classList.remove("show");
+    popup.classList.remove('show');
     setTimeout(() => {
       popup.remove();
     }, 300); // Wait for fade out transition to complete
