@@ -145,6 +145,7 @@
                                             <!-- Mobile cart items will be populated here -->
                                             <div v-for="item in cart" :key="item.name" class="cart-item">
                                                 <div class="item-container">
+                                                    <img :src="item.image" alt="Food Image" class="cart-item-image" />
                                                     <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
                                                     <div class="quantity-control">
                                                         <button @click="changeQuantity(item, -1)">-</button>
@@ -185,6 +186,7 @@
                                             <!-- Desktop cart items will be populated here -->
                                             <div v-for="item in cart" :key="item.name" class="cart-item">
                                                 <div class="item-container">
+                                                    <img :src="item.image" alt="Food Image" class="cart-item-image" />
                                                     <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
                                                     <div class="quantity-control">
                                                         <button @click="changeQuantity(item, -1)">-</button>

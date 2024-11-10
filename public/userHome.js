@@ -512,7 +512,7 @@ function createMenuItemCard(menuItemData, container) {
   addToCartButton.addEventListener("click", () => {
     const quantity = parseInt(quantityInput.value);
     if (quantity > 0) {
-      addToCart(menuItemData.itemName, quantity, menuItemData.price);
+      addToCart(menuItemData.itemName, quantity, menuItemData.price, img.src);
       showStatusPopup(
         `${quantity} ${menuItemData.itemName}(s) added to cart!`,
         true
@@ -534,7 +534,7 @@ function createMenuItemCard(menuItemData, container) {
 }
 
 // Function to add item to cart
-function addToCart(itemName, quantity, price) {
+function addToCart(itemName, quantity, price, image) {
   // Check if the item is already in the cart
 
   const existingItemIndex = cart.findIndex((item) => item.name === itemName);
@@ -544,7 +544,12 @@ function addToCart(itemName, quantity, price) {
     cart[existingItemIndex].quantity += quantity;
   } else {
     // If item doesn't exist, add it to the cart
-    cart.push({ name: itemName, quantity: quantity, price: price });
+    cart.push({
+      name: itemName,
+      quantity: quantity,
+      price: price,
+      image: image,
+    });
   }
 
   // Store the updated cart back to localStorage
