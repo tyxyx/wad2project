@@ -881,9 +881,13 @@ function displayReviews(reviews) {
   const header = document.getElementById("review-subheader");
   header.firstChild.textContent = "Check out what";
   header.querySelector("span").textContent = "others think";
-
+  
   const reviewsList = document.getElementById("reviews");
   reviewsList.innerHTML = "";
+
+  document.getElementById("reviews-container").style.display = "block";
+  reviewsList.style.display = "block";
+  console.log("displayed reviews")
   reviews.forEach((review) => {
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("card", "mb-3");
@@ -929,6 +933,9 @@ function displayReviews(reviews) {
 
     reviewsList.appendChild(cardDiv);
   });
+
+  
+  
 }
 
 function showStatusPopup(message, isSuccess = true) {
