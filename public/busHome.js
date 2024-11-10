@@ -517,7 +517,7 @@ async function initMap() {
     if (place.geometry) {
       map.setCenter(place.geometry.location);
       map.setZoom(20); // Zoom in on the selected place
-
+      
       if (marker) {
         marker.setMap(null); // Remove the previous marker if it exists
       }
