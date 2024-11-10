@@ -187,7 +187,7 @@
             /* align-items: center; */
             justify-content: center;
         }
-        
+
         .center-col-menu {
             display: flex;
             /* align-items: center; */
@@ -343,7 +343,7 @@
                         <button class="menu-toggle"><span></span><span></span></button>
                         <nav class="header-menu">
                             <ul class="menu food-nav-menu">
-                                <li><a href="./newOrderhistory.html">Orders</a></li>
+                                <li><a href="./orderhistory.html" id="orderHistory" class="nav-link">Orders</a></li>
                                 <li><a href="javascript:void(0)" id="contactLink">Contact</a></li>
                                 <li><a href="./index.html" id="logout" class="nav-link">Log Out</a></li>
                             </ul>
@@ -711,11 +711,11 @@
             });
         
             // Close menu when clicking a link
-            document.querySelectorAll('.header-menu a').forEach(link => {
-                link.addEventListener('click', () => {
-                    mainNav.classList.remove('toggled');
-                });
-            });
+            // document.querySelectorAll('.header-menu a').forEach(link => {
+            //     link.addEventListener('click', () => {
+            //         mainNav.classList.remove('toggled');
+            //     });
+            // });
         });
 
         // initialize parallax
