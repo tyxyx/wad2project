@@ -52,8 +52,9 @@ onAuthStateChanged(auth, async(user) => {
                 const profileContainer = document.getElementById('profilePicContainer')
                 const img = document.createElement('img')
                 profileContainer.appendChild(img)
-                img.src = businessFields.profilePic
-                await getAvgRating(businessUEN.uen, businessFields.placeId);
+              img.src = businessFields.profilePic
+              
+                await getAvgRating(businessFields.uen, businessFields.placeId);
             }
             
         setTimeout(() => {
