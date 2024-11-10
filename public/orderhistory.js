@@ -111,7 +111,7 @@ async function showOrderDetails(order) {
   // Create the qr-wrapper div
   const qrWrapper = document.createElement("div");
   qrWrapper.classList.add("qr-wrapper");
-
+  
   // Create the img element for the QR code
   const qrCodeImage = document.createElement("img");
   qrCodeImage.id = "qrCodeImage";
@@ -139,12 +139,18 @@ async function showOrderDetails(order) {
   const totalAmountElement = document.createElement("p");
   totalAmountElement.textContent = `Total Price: $${order.amount}`;
   orderDetailsContent.appendChild(totalAmountElement);
-orderDetailsContent.appendChild(statusElement);
+
+  orderDetailsContent.appendChild(statusElement);
   orderDetailsContent.appendChild(qrWrapper);
   if (!order.status) {
     const qrGenerator = new OrderQRGenerator();
     await qrGenerator.generateQR(order.orderId);
   }
+
+  if (order.status) {
+    qrCodeImage.alt=""
+  }
+  
   // Create Back to History button
   const showOrdersButton = document.createElement("button");
   showOrdersButton.id = "showOrdersButton";
