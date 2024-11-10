@@ -42,7 +42,7 @@ onAuthStateChanged(auth, async (user) => {
       }, 1000);
     } catch (error) {
       console.error("Error fetching user details:", error);
-      alert("Failed to load user details. Please try again later.");
+      showStatusPopup("Failed to load user details. Please try again later.",false);
       if (document.querySelector(".loading-overlay")) {
         document.querySelector(".loading-overlay").remove();
       }
@@ -289,7 +289,7 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       placeId = docSnap.data().placeId;
       await fetchPlaceReviews(placeId);
     } else {
-      alert("error getting reviews");
+      console.error("Error getting reviews");
     }
 
     const ftb = document.getElementById("featured-businesses");
@@ -366,8 +366,8 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
         window.location.href = "cart.html";
       } else {
         // If cart is empty, show an alert or notify the user
-        alert(
-          "Your cart is empty. Please add items to the cart before ordering."
+        showStatusPopup(
+          "Your cart is empty. Please add items to the cart before ordering.",false
         );
       }
     });
@@ -506,10 +506,10 @@ function createMenuItemCard(menuItemData, container) {
     const quantity = parseInt(quantityInput.value);
     if (quantity > 0) {
       addToCart(menuItemData.itemName, quantity, menuItemData.price);
-      alert(`${quantity} ${menuItemData.itemName}(s) added to cart!`);
+      showStatusPopup(`${quantity} ${menuItemData.itemName}(s) added to cart!`,true);
       quantityInput.value = 0;
     } else {
-      alert("Please select a quantity to add to the cart.");
+      showStatusPopup("Please select a quantity to add to the cart.",false);
     }
   });
 
@@ -951,4 +951,37 @@ function displayReviews(reviews) {
 
     reviewsList.appendChild(cardDiv);
   });
+}
+
+
+function showStatusPopup(message, isSuccess = true) {
+  // Remove any existing popup
+  const existingPopup = document.querySelector(".status-popup");
+  if (existingPopup) {
+    existingPopup.remove();
+  }
+
+  // Create new popup element
+  const popup = document.createElement("div");
+  popup.className = `status-popup ${isSuccess ? "success" : "error"}`;
+  popup.textContent = message;
+
+  // Add popup to the document
+  document.body.appendChild(popup);
+
+  // Trigger reflow to ensure transition works
+  popup.offsetHeight;
+
+  // Show the popup
+  setTimeout(() => {
+    popup.classList.add("show");
+  }, 10);
+
+  // Hide the popup after 3 seconds
+  setTimeout(() => {
+    popup.classList.remove("show");
+    setTimeout(() => {
+      popup.remove();
+    }, 300); // Wait for fade out transition to complete
+  }, 3000);
 }

@@ -85,7 +85,7 @@ export async function displayBusinessMenu(businessMenu) {
             <strong>Price: $${item.price.toFixed(2)}</strong>
             <br>
             <strong>Discounted Price: $${(
-          item.price-item.discount
+          item.discount
         ).toFixed(2)}</strong>
         `;
     
@@ -158,7 +158,7 @@ async function addMenuItem(uen, menuItemData) {
       itemName: name.trim(),
       description: description.trim(),
       price: Number(price),
-      discount: discount ? Number(discount) : 0,
+      discount: Number(discount),
       images: imageUrls,
       businessUEN: uen,
       createdAt: new Date().toISOString(),
@@ -194,7 +194,7 @@ async function addMenuItem(uen, menuItemData) {
       errorMessage = "Failed to upload one or more images. Please try again.";
     }
 
-    alert(errorMessage);
+    showStatusPopup(errorMessage,false);
 
     // Return error object
     return {
@@ -250,218 +250,260 @@ async function discardMenuItem(itemName) {
 
       // Delete the Firestore document
       await deleteDoc(menuItemRef);
-      alert(`${itemName} has been deleted successfully`);
+      showStatusPopup(`${itemName} has been deleted successfully`,true);
       location.reload();
     }
   } catch (error) {
     console.error("Error deleting menu item: ", error);
-    alert(`Error deleting ${itemName}. Please try again.`);
+    showStatusPopup(`Error deleting ${itemName}. Please try again.`,false);
   }
 }
 
-function createModalForm() {
-  // Create main modal container
-  const modalDiv = document.createElement("div");
-  modalDiv.className = "modal fade";
-  modalDiv.id = "exampleModal";
-  modalDiv.setAttribute("tabindex", "-1");
-  modalDiv.setAttribute("aria-labelledby", "exampleModalLabel");
-  modalDiv.setAttribute("aria-hidden", "true");
+// function createModalForm() {
+//   // Create main modal container
+//   const modalDiv = document.createElement("div");
+//   modalDiv.className = "modal fade";
+//   modalDiv.id = "exampleModal";
+//   modalDiv.setAttribute("tabindex", "-1");
+//   modalDiv.setAttribute("aria-labelledby", "exampleModalLabel");
+//   modalDiv.setAttribute("aria-hidden", "true");
 
-  // Create modal dialog
-  const modalDialog = document.createElement("div");
-  modalDialog.className = "modal-dialog";
+//   // Create modal dialog
+//   const modalDialog = document.createElement("div");
+//   modalDialog.className = "modal-dialog";
 
-  // Create modal content
-  const modalContent = document.createElement("div");
-  modalContent.className = "modal-content";
+//   // Create modal content
+//   const modalContent = document.createElement("div");
+//   modalContent.className = "modal-content";
 
-  // Create modal header
-  const modalHeader = document.createElement("div");
-  modalHeader.className = "modal-header";
+//   // Create modal header
+//   const modalHeader = document.createElement("div");
+//   modalHeader.className = "modal-header";
 
-  const modalTitle = document.createElement("h1");
-  modalTitle.className = "modal-title fs-5";
-  modalTitle.id = "exampleModalLabel";
-  modalTitle.textContent = "Add Menu Item";
+//   const modalTitle = document.createElement("h1");
+//   modalTitle.className = "modal-title fs-5";
+//   modalTitle.id = "exampleModalLabel";
+//   modalTitle.textContent = "Add Menu Item";
 
-  modalHeader.appendChild(modalTitle);
+//   modalHeader.appendChild(modalTitle);
 
-  // Create modal body
-  const modalBody = document.createElement("div");
-  modalBody.className = "modal-body";
+//   // Create modal body
+//   const modalBody = document.createElement("div");
+//   modalBody.className = "modal-body";
 
-  const form = document.createElement("form");
-  form.enctype = "multipart/form-data";
+//   const form = document.createElement("form");
+//   form.enctype = "multipart/form-data";
 
-  // Create name input group
-  const nameGroup = document.createElement("div");
-  nameGroup.className = "mb-3";
+//   // Create name input group
+//   const nameGroup = document.createElement("div");
+//   nameGroup.className = "mb-3";
 
-  const nameLabel = document.createElement("label");
-  nameLabel.className = "form-label";
-  nameLabel.htmlFor = "menuItemName";
-  nameLabel.textContent = "Menu Item Name";
+//   const nameLabel = document.createElement("label");
+//   nameLabel.className = "form-label";
+//   nameLabel.htmlFor = "menuItemName";
+//   nameLabel.textContent = "Menu Item Name";
 
-  const nameInput = document.createElement("input");
-  nameInput.type = "text";
-  nameInput.className = "form-control";
-  nameInput.id = "menuItemName";
-  nameInput.placeholder = "Enter item name";
-  nameInput.required = true;
+//   const nameInput = document.createElement("input");
+//   nameInput.type = "text";
+//   nameInput.className = "form-control";
+//   nameInput.id = "menuItemName";
+//   nameInput.placeholder = "Enter item name";
+//   nameInput.required = true;
 
-  nameGroup.appendChild(nameLabel);
-  nameGroup.appendChild(nameInput);
+//   nameGroup.appendChild(nameLabel);
+//   nameGroup.appendChild(nameInput);
 
-  // Create price input group
-  const priceGroup = document.createElement("div");
-  priceGroup.className = "mb-3";
+//   // Create price input group
+//   const priceGroup = document.createElement("div");
+//   priceGroup.className = "mb-3";
 
-  const priceLabel = document.createElement("label");
-  priceLabel.className = "form-label";
-  priceLabel.htmlFor = "menuItemPrice";
-  priceLabel.textContent = "Price";
+//   const priceLabel = document.createElement("label");
+//   priceLabel.className = "form-label";
+//   priceLabel.htmlFor = "menuItemPrice";
+//   priceLabel.textContent = "Price";
 
-  const priceInput = document.createElement("input");
-  priceInput.type = "number";
-  priceInput.className = "form-control";
-  priceInput.id = "menuItemPrice";
-  priceInput.placeholder = "Enter price";
-  priceInput.required = true;
+//   const priceInput = document.createElement("input");
+//   priceInput.type = "number";
+//   priceInput.className = "form-control";
+//   priceInput.id = "menuItemPrice";
+//   priceInput.placeholder = "Enter price";
+//   priceInput.required = true;
 
-  priceGroup.appendChild(priceLabel);
-  priceGroup.appendChild(priceInput);
+//   priceGroup.appendChild(priceLabel);
+//   priceGroup.appendChild(priceInput);
 
-  // Create discount input group
-  const discGroup = document.createElement("div");
-  discGroup.className = "mb-3";
+//   // Create discount input group
+//   const discGroup = document.createElement("div");
+//   discGroup.className = "mb-3";
 
-  const discLabel = document.createElement("label");
-  discLabel.className = "form-label";
-  discLabel.htmlFor = "menuItemDiscount";
-  discLabel.textContent = "Discount";
+//   const discLabel = document.createElement("label");
+//   discLabel.className = "form-label";
+//   discLabel.htmlFor = "menuItemDiscount";
+//   discLabel.textContent = "Discount";
 
-  const discInput = document.createElement("input");
-  discInput.type = "number";
-  discInput.className = "form-control";
-  discInput.id = "menuItemDiscount";
-  discInput.placeholder = "Enter discounted price";
-  discInput.required = true;
+//   const discInput = document.createElement("input");
+//   discInput.type = "number";
+//   discInput.className = "form-control";
+//   discInput.id = "menuItemDiscount";
+//   discInput.placeholder = "Enter discounted price";
+//   discInput.required = true;
 
-  discGroup.appendChild(discLabel);
-  discGroup.appendChild(discInput);
+//   discGroup.appendChild(discLabel);
+//   discGroup.appendChild(discInput);
 
-  // Create description input group
-  const descGroup = document.createElement("div");
-  descGroup.className = "mb-3";
+//   // Create description input group
+//   const descGroup = document.createElement("div");
+//   descGroup.className = "mb-3";
 
-  const descLabel = document.createElement("label");
-  descLabel.className = "form-label";
-  descLabel.htmlFor = "menuItemDescription";
-  descLabel.textContent = "Description";
+//   const descLabel = document.createElement("label");
+//   descLabel.className = "form-label";
+//   descLabel.htmlFor = "menuItemDescription";
+//   descLabel.textContent = "Description";
 
-  const descTextarea = document.createElement("textarea");
-  descTextarea.className = "form-control";
-  descTextarea.id = "menuItemDescription";
-  descTextarea.rows = 3;
-  descTextarea.placeholder = "Enter description";
-  descTextarea.required = true;
+//   const descTextarea = document.createElement("textarea");
+//   descTextarea.className = "form-control";
+//   descTextarea.id = "menuItemDescription";
+//   descTextarea.rows = 3;
+//   descTextarea.placeholder = "Enter description";
+//   descTextarea.required = true;
 
-  descGroup.appendChild(descLabel);
-  descGroup.appendChild(descTextarea);
+//   descGroup.appendChild(descLabel);
+//   descGroup.appendChild(descTextarea);
 
-  // Create image input group
-  const imageGroup = document.createElement("div");
-  imageGroup.className = "mb-3";
+//   // Create image input group
+//   const imageGroup = document.createElement("div");
+//   imageGroup.className = "mb-3";
 
-  const imageLabel = document.createElement("label");
-  imageLabel.className = "form-label";
-  imageLabel.htmlFor = "menuItemImage";
-  imageLabel.textContent = "Attach Image";
+//   const imageLabel = document.createElement("label");
+//   imageLabel.className = "form-label";
+//   imageLabel.htmlFor = "menuItemImage";
+//   imageLabel.textContent = "Attach Image";
 
-  const imageInput = document.createElement("input");
-  imageInput.type = "file";
-  imageInput.className = "form-control";
-  imageInput.id = "menuItemImage";
-  imageInput.accept = "image/*";
-  imageInput.multiple = true;
+//   const imageInput = document.createElement("input");
+//   imageInput.type = "file";
+//   imageInput.className = "form-control";
+//   imageInput.id = "menuItemImage";
+//   imageInput.accept = "image/*";
+//   imageInput.multiple = true;
 
-  imageGroup.appendChild(imageLabel);
-  imageGroup.appendChild(imageInput);
+//   imageGroup.appendChild(imageLabel);
+//   imageGroup.appendChild(imageInput);
 
-  // Add all groups to form
-  form.appendChild(nameGroup);
-  form.appendChild(priceGroup);
-  form.appendChild(discGroup);
-  form.appendChild(descGroup);
-  form.appendChild(imageGroup);
+//   // Add all groups to form
+//   form.appendChild(nameGroup);
+//   form.appendChild(priceGroup);
+//   form.appendChild(discGroup);
+//   form.appendChild(descGroup);
+//   form.appendChild(imageGroup);
 
-  modalBody.appendChild(form);
+//   modalBody.appendChild(form);
 
-  // Create modal footer
-  const modalFooter = document.createElement("div");
-  modalFooter.className = "modal-footer";
+//   // Create modal footer
+//   const modalFooter = document.createElement("div");
+//   modalFooter.className = "modal-footer";
 
-  const discardModalBtn = document.createElement("button");
-  discardModalBtn.type = "button";
-  discardModalBtn.className = "btn btn-danger";
-  discardModalBtn.setAttribute("data-bs-dismiss", "modal");
-  discardModalBtn.textContent = "Cancel";
+//   const discardModalBtn = document.createElement("button");
+//   discardModalBtn.type = "button";
+//   discardModalBtn.className = "btn btn-danger";
+//   discardModalBtn.setAttribute("data-bs-dismiss", "modal");
+//   discardModalBtn.textContent = "Cancel";
 
-  const saveButton = document.createElement("button");
-  saveButton.type = "button";
-  saveButton.className = "btn btn-primary";
-  saveButton.textContent = "Add Item";
+//   const saveButton = document.createElement("button");
+//   saveButton.type = "button";
+//   saveButton.className = "btn btn-primary";
+//   saveButton.textContent = "Add Item";
 
-  modalFooter.appendChild(discardModalBtn);
-  modalFooter.appendChild(saveButton);
+//   modalFooter.appendChild(discardModalBtn);
+//   modalFooter.appendChild(saveButton);
 
-  // Assemble all parts
-  modalContent.appendChild(modalHeader);
-  modalContent.appendChild(modalBody);
-  modalContent.appendChild(modalFooter);
+//   // Assemble all parts
+//   modalContent.appendChild(modalHeader);
+//   modalContent.appendChild(modalBody);
+//   modalContent.appendChild(modalFooter);
 
-  modalDialog.appendChild(modalContent);
-  modalDiv.appendChild(modalDialog);
+//   modalDialog.appendChild(modalContent);
+//   modalDiv.appendChild(modalDialog);
 
-  // event listener for discard button
-  discardModalBtn.addEventListener("click", async () => {
-    const modal = bootstrap.Modal.getInstance(
-      document.getElementById("exampleModal")
-    );
-    modal.hide();
-    form.reset();
-  });
+//   // event listener for discard button
+//   discardModalBtn.addEventListener("click", async () => {
+//     const modal = bootstrap.Modal.getInstance(
+//       document.getElementById("exampleModal")
+//     );
+//     modal.hide();
+//     form.reset();
+//   });
 
-  // Add event listener for the save button
+//   // Add event listener for the save button
+//   saveButton.addEventListener("click", async () => {
+//     const name = document.getElementById("menuItemName").value;
+//     const price = document.getElementById("menuItemPrice").value;
+//     const discount = document.getElementById("menuItemDiscount").value;
+//     const description = document.getElementById("menuItemDescription").value;
+//     const imageFile = document.getElementById("menuItemImage").files;
+
+//     const result = await addMenuItem(businessUEN, {
+//       name,
+//       description,
+//       price,
+//       discount,
+//       imageFile,
+//     });
+
+//     if (result.success) {
+//       const modal = bootstrap.Modal.getInstance(
+//         document.getElementById("exampleModal")
+//       );
+//       modal.hide();
+//       // Reset form
+//       document.querySelector("form").reset();
+//     }
+//   });
+
+const saveButton = document.getElementById("saveMenuItemBtn")
   saveButton.addEventListener("click", async () => {
-    const name = document.getElementById("menuItemName").value;
-    const price = document.getElementById("menuItemPrice").value;
-    const discount = document.getElementById("menuItemDiscount").value;
-    const description = document.getElementById("menuItemDescription").value;
-    const imageFile = document.getElementById("menuItemImage").files;
+    const name = document.getElementById("itemName").value;
+    const price = document.getElementById("itemPrice").value;
+    const discount = document.getElementById("discountedPrice").value;
+    const description = document.getElementById("itemDescription").value;
+    const imageFile = document.getElementById("itemImage").files;
 
-    const result = await addMenuItem(businessUEN, {
-      name,
-      description,
-      price,
-      discount,
-      imageFile,
-    });
-
-    if (result.success) {
-      const modal = bootstrap.Modal.getInstance(
-        document.getElementById("exampleModal")
-      );
-      modal.hide();
-      // Reset form
-      document.querySelector("form").reset();
+    if (
+      !name ||
+      !price ||
+      !discount ||
+      !description ||
+      imageFile.length === 0
+    ) {
+      showStatusPopup("All fields must be filled.", false); 
+    } else if (discount <0) {
+      showStatusPopup("Discount cannot be negative.", false);
     }
+      else if (price < 0) {
+      showStatusPopup("Discount cannot be negative.", false);
+    } else {
+      // Proceed with adding the menu item
+      const result = await addMenuItem(businessUEN, {
+        name,
+        description,
+        price,
+        discount,
+        imageFile,
+      });
+
+      if (result.success) {
+        // Hide the modal and reset the form
+        const modal = bootstrap.Modal.getInstance(
+          document.getElementById("exampleModal")
+        );
+        modal.hide();
+        document.querySelector("form").reset();
+      }
+    }
+
+    
   });
 
-  // Add modal to document
-  document.body.appendChild(modalDiv);
-}
+
 
 // Function to show the modal
 function showModal() {
@@ -469,9 +511,42 @@ function showModal() {
   modal.show();
 }
 // When the page loads
-document.addEventListener("DOMContentLoaded", () => {
-  createModalForm();
-});
+// document.addEventListener("DOMContentLoaded", () => {
+//   createModalForm();
+// });
 
 // Export functions that might be needed elsewhere
 export { addMenuItem, showModal };
+
+
+function showStatusPopup(message, isSuccess = true) {
+    // Remove any existing popup
+    const existingPopup = document.querySelector('.status-popup');
+    if (existingPopup) {
+      existingPopup.remove();
+    }
+  
+    // Create new popup element
+    const popup = document.createElement('div');
+    popup.className = `status-popup ${isSuccess ? 'success' : 'error'}`;
+    popup.textContent = message;
+  
+    // Add popup to the document
+    document.body.appendChild(popup);
+  
+    // Trigger reflow to ensure transition works
+    popup.offsetHeight;
+  
+    // Show the popup
+    setTimeout(() => {
+      popup.classList.add('show');
+    }, 10);
+  
+    // Hide the popup after 3 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+      setTimeout(() => {
+        popup.remove();
+      }, 300); // Wait for fade out transition to complete
+    }, 3000);
+  }

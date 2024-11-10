@@ -327,13 +327,13 @@ function handleProfilePicChange(event) {
 
     // Validate file size (5MB limit)
     if (file.size > 5 * 1024 * 1024) {
-        alert('File size must be less than 5MB');
+        showStatusPopup('File size must be less than 5MB',false);
         return;
     }
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
-        alert('Please select an image file');
+        showStatusPopup('Please select an image file',false);
         return;
     }
 
@@ -529,11 +529,8 @@ async function initMap() {
       // Save the selected address
       selectedAddress = place.formatted_address;
       console.log("Selected Address:", place); // Display the selected address in the console
-        place_id = place.place_id;
-      // Add a click event listener to the marker
-      marker.addListener("click", () => {
-        alert("Address: " + selectedAddress); // Show an alert with the address
-      });
+      place_id = place.place_id;
+      
     } else {
       document.getElementById("addressInput").placeholder = "Enter a place";
     }
@@ -591,13 +588,39 @@ async function initMap2() {
         document.getElementById("addressDisplay").innerText = selectedAddress2;
       console.log("Selected Address for Map 2:", place2); // Display the selected address in the console
       place_id = place2.place_id;
-
-      // Add a click event listener to the marker for Map 2
-      marker2.addListener("click", () => {
-        alert("Address for Map 2: " + selectedAddress2); // Show an alert with the address
-      });
     } else {
       document.getElementById("location").placeholder = "Enter a place";
     }
   });
 }
+function showStatusPopup(message, isSuccess = true) {
+    // Remove any existing popup
+    const existingPopup = document.querySelector('.status-popup');
+    if (existingPopup) {
+      existingPopup.remove();
+    }
+  
+    // Create new popup element
+    const popup = document.createElement('div');
+    popup.className = `status-popup ${isSuccess ? 'success' : 'error'};`
+    popup.textContent = message;
+  
+    // Add popup to the document
+    document.body.appendChild(popup);
+  
+    // Trigger reflow to ensure transition works
+    popup.offsetHeight;
+  
+    // Show the popup
+    setTimeout(() => {
+      popup.classList.add('show');
+    }, 10);
+  
+    // Hide the popup after 3 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+      setTimeout(() => {
+        popup.remove();
+      }, 300); // Wait for fade out transition to complete
+    }, 3000);
+  }

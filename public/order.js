@@ -255,7 +255,7 @@ function getOrderId() {
 
     setTimeout(() => {
       clearOrderId();
-      alert("Order session expired. Please place another order.");
+      showStatusPopup("Order session expired. Please place another order.",false);
       //location.reload();
       window.location.href = "./home.html";
     }, 7200000);
@@ -267,14 +267,14 @@ function getOrderId() {
     if (elapsedTime >= 7200000) {
       // Order has expired
       clearOrderId();
-      alert("Order session expired. Please place another order.");
+      showStatusPopup("Order session expired. Please place another order.",false);
       window.location.href = "./home.html";
       return null;
     } else {
       // Order is still valid - set timeout for remaining time
       setTimeout(() => {
         clearOrderId();
-        alert("Order session expired. Please place another order.");
+        showStatusPopup("Order session expired. Please place another order.",false);
         window.location.href = "./home.html";
       }, 7200000 - elapsedTime);
     }
@@ -290,3 +290,35 @@ function clearOrderId() {
 document.getElementById("back-to-shop").addEventListener("click", () => {
   window.location.href = "home.html";
 });
+
+function showStatusPopup(message, isSuccess = true) {
+  // Remove any existing popup
+  const existingPopup = document.querySelector(".status-popup");
+  if (existingPopup) {
+    existingPopup.remove();
+  }
+
+  // Create new popup element
+  const popup = document.createElement("div");
+  popup.className = `status-popup ${isSuccess ? "success" : "error"};`;
+  popup.textContent = message;
+
+  // Add popup to the document
+  document.body.appendChild(popup);
+
+  // Trigger reflow to ensure transition works
+  popup.offsetHeight;
+
+  // Show the popup
+  setTimeout(() => {
+    popup.classList.add("show");
+  }, 10);
+
+  // Hide the popup after 3 seconds
+  setTimeout(() => {
+    popup.classList.remove("show");
+    setTimeout(() => {
+      popup.remove();
+    }, 300); // Wait for fade out transition to complete
+  }, 3000);
+}

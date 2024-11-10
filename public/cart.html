@@ -26,32 +26,33 @@
     <script type="module" src="./database.js"></script>
 
     <style>
-    .status-popup {
-      position: fixed;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 15px 20px;
-      border-radius: 5px;
-      color: white;
-      font-weight: bold;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-      z-index: 1000;
-    }
+        .status-popup {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 1000;
+        }
 
-    .status-popup.success {
-      background-color: #4CAF50;
-    }
+        .status-popup.success {
+            background-color: #4CAF50;
+        }
 
-    .status-popup.error {
-      background-color: #f44336;
-    }
+        .status-popup.error {
+            background-color: #f44336;
+        }
 
-    .status-popup.show {
-      opacity: 1;
-    }
+        .status-popup.show {
+            opacity: 1;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.js"></script>
 
 </head>
 
@@ -120,207 +121,313 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <!-- Mobile View (Combined Box) -->
-                            <div class="col-12">
-                                <div class="dish-box p-4 d-block d-lg-none">
-                                    <div class="dist-title">
-                                        <h2>Your Order</h2>
-                                    </div>
-                                    <div id="mobile-cart-items" class="p-2">
-                                        <!-- Mobile cart items will be populated here -->
-                                    </div>
+                        <div id="app">
+                            <div class="row">
+                                <!-- Mobile View (Combined Box) -->
+                                <div class="col-12">
+                                    <div class="dish-box p-4 d-block d-lg-none">
+                                        <div class="dist-title">
+                                            <h2>Your Order</h2>
+                                        </div>
+                                        <div id="mobile-cart-items" class="p-2">
+                                            <!-- Mobile cart items will be populated here -->
+                                            <div v-for="item in cart" :key="item.name" class="cart-item">
+                                                <div class="item-container">
+                                                    <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
+                                                    <div class="quantity-control">
+                                                        <button @click="changeQuantity(item, -1)">-</button>
+                                                        <span>{{ item.quantity }}</span>
+                                                        <button @click="changeQuantity(item, 1)">+</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <div class="order-summary-mobile mt-4">
+                                        <div class="order-summary-mobile mt-4">
+                                            <div class="dist-title">
+                                                <h2>Order Summary</h2>
+                                            </div>
+                                            <div id="mobile-total-quantity" class="mb-3">
+                                                Total Items in Cart: {{ totalQuantity }}
+                                            </div>
+                                            <div id="mobile-total-price">
+                                                Total Price: ${{ totalPrice.toFixed(2) }}
+                                            </div>
+                                            <div class="dist-bottom-row mt-4">
+                                                <div class="d-flex flex-column w-100">
+                                                    <a href="#" class="cart-btn" @click="checkout">Checkout Now</a>
+                                                    <a href="./home.html" class="cart-btn secondary">Back to Menu</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Desktop View (Split Boxes) -->
+                                <div class="col-lg-8 d-none d-lg-block">
+                                    <div class="dish-box p-4">
+                                        <div class="dist-title">
+                                            <h2>Your Order</h2>
+                                        </div>
+                                        <div id="cart-items" class="p-2">
+                                            <!-- Desktop cart items will be populated here -->
+                                            <div v-for="item in cart" :key="item.name" class="cart-item">
+                                                <div class="item-container">
+                                                    <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
+                                                    <div class="quantity-control">
+                                                        <button @click="changeQuantity(item, -1)">-</button>
+                                                        <span>{{ item.quantity }}</span>
+                                                        <button @click="changeQuantity(item, 1)">+</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 d-none d-lg-block">
+                                    <div id="cart-container" class="dish-box p-4">
                                         <div class="dist-title">
                                             <h2>Order Summary</h2>
                                         </div>
-                                        <div id="mobile-total-quantity" class="mb-3">
-                                            <!-- Mobile quantity info will be populated here -->
-                                        </div>
-                                        <div id="mobile-total-price">
-                                            <!-- Mobile price info will be populated here -->
-                                        </div>
-                                        <div class="dist-bottom-row mt-4">
-                                            <div class="d-flex flex-column w-100">
-                                                <a href="#" class="cart-btn">Checkout Now</a>
+                                        <div class="p-2">
+                                            <div id="total-quantity" class="mb-3">
+                                                Total Items in Cart: {{ totalQuantity }}
+                                            </div>
+                                            <div id="total-price">
+                                                Total Price: ${{ totalPrice.toFixed(2) }}
+                                            </div>
+                                            <div class="cart-button-container">
+                                                <a href="#" class="cart-btn" @click="checkout">Checkout Now</a>
                                                 <a href="./home.html" class="cart-btn secondary">Back to Menu</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Desktop View (Split Boxes) -->
-                            <div class="col-lg-8 d-none d-lg-block">
-                                <div class="dish-box p-4">
-                                    <div class="dist-title">
-                                        <h2>Your Order</h2>
-                                    </div>
-                                    <div id="cart-items" class="p-2">
-                                        <!-- Desktop cart items will be populated here -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 d-none d-lg-block">
-                                <div id="cart-container" class="dish-box p-4">
-                                    <div class="dist-title">
-                                        <h2>Order Summary</h2>
-                                    </div>
-                                    <div class="p-2">
-                                        <div id="total-quantity" class="mb-3">
-                                            <!-- Desktop quantity info will be populated here -->
-                                        </div>
-                                        <div id="total-price">
-                                            <!-- Desktop price info will be populated here -->
-                                        </div>
-                                        <div class="cart-button-container">
-                                            <a href="#" class="cart-btn">Checkout Now</a>
-                                            <a href="./home.html" class="cart-btn secondary">Back to Menu</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
+
+
+                        <!-- footer starts  -->
+                        <footer class="site-footer" id="contact">
+                            <div class="top-footer section">
+                                <div class="sec-wp">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="footer-info">
+                                                    <div class="footer-logo">
+                                                        <a href="index.html">
+                                                            <img src="logo.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                                                        Mollitia, tenetur.
+                                                    </p>
+                                                    <div class="social-icon">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="uil uil-facebook-f"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="uil uil-instagram"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="uil uil-github-alt"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="uil uil-youtube"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="footer-flex-box">
+                                                    <div class="footer-table-info">
+                                                        <h3 class="h3-title">open hours</h3>
+                                                        <ul>
+                                                            <li><i class="uil uil-clock"></i> Mon-Thurs : 9am - 22pm
+                                                            </li>
+                                                            <li><i class="uil uil-clock"></i> Fri-Sun : 11am - 22pm</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="footer-menu food-nav-menu">
+                                                        <h3 class="h3-title">Links</h3>
+                                                        <ul class="column-2">
+                                                            <li>
+                                                                <a href="#home" class="footer-active-menu">Home</a>
+                                                            </li>
+                                                            <li><a href="#about">About</a></li>
+                                                            <li><a href="#menu">Menu</a></li>
+                                                            <li><a href="#gallery">Gallery</a></li>
+                                                            <li><a href="#blog">Blog</a></li>
+                                                            <li><a href="#contact">Contact</a></li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="footer-menu">
+                                                        <h3 class="h3-title">Company</h3>
+                                                        <ul>
+                                                            <li><a href="#">Terms & Conditions</a></li>
+                                                            <li><a href="#">Privacy Policy</a></li>
+                                                            <li><a href="#">Cookie Policy</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bottom-footer">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12 text-center">
+                                            <div class="copyright-text">
+                                                <p>Copyright &copy; 2021 <span class="name">TechieCoder.</span>All
+                                                    Rights Reserved.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="scrolltop"><i class="uil uil-angle-up"></i></button>
+                                </div>
+                            </div>
+                        </footer>
                     </div>
                 </div>
-            </section>
 
-            <!-- footer starts  -->
-            <footer class="site-footer" id="contact">
-                <div class="top-footer section">
-                    <div class="sec-wp">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="footer-info">
-                                        <div class="footer-logo">
-                                            <a href="index.html">
-                                                <img src="logo.png" alt="">
-                                            </a>
-                                        </div>
-                                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia, tenetur.
-                                        </p>
-                                        <div class="social-icon">
-                                            <ul>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="uil uil-facebook-f"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="uil uil-instagram"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="uil uil-github-alt"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="uil uil-youtube"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="footer-flex-box">
-                                        <div class="footer-table-info">
-                                            <h3 class="h3-title">open hours</h3>
-                                            <ul>
-                                                <li><i class="uil uil-clock"></i> Mon-Thurs : 9am - 22pm</li>
-                                                <li><i class="uil uil-clock"></i> Fri-Sun : 11am - 22pm</li>
-                                            </ul>
-                                        </div>
-                                        <div class="footer-menu food-nav-menu">
-                                            <h3 class="h3-title">Links</h3>
-                                            <ul class="column-2">
-                                                <li>
-                                                    <a href="#home" class="footer-active-menu">Home</a>
-                                                </li>
-                                                <li><a href="#about">About</a></li>
-                                                <li><a href="#menu">Menu</a></li>
-                                                <li><a href="#gallery">Gallery</a></li>
-                                                <li><a href="#blog">Blog</a></li>
-                                                <li><a href="#contact">Contact</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="footer-menu">
-                                            <h3 class="h3-title">Company</h3>
-                                            <ul>
-                                                <li><a href="#">Terms & Conditions</a></li>
-                                                <li><a href="#">Privacy Policy</a></li>
-                                                <li><a href="#">Cookie Policy</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bottom-footer">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12 text-center">
-                                <div class="copyright-text">
-                                    <p>Copyright &copy; 2021 <span class="name">TechieCoder.</span>All Rights Reserved.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="scrolltop"><i class="uil uil-angle-up"></i></button>
-                    </div>
-                </div>
-            </footer>
-        </div>
-    </div>
+                <!-- Add your JavaScript files here -->
+                <!-- jquery  -->
+                <script src="assets/js/jquery-3.5.1.min.js"></script>
+                <!-- bootstrap -->
+                <script src="assets/js/bootstrap.min.js"></script>
+                <script src="assets/js/popper.min.js"></script>
 
-    <!-- Add your JavaScript files here -->
-    <!-- jquery  -->
-    <script src="assets/js/jquery-3.5.1.min.js"></script>
-    <!-- bootstrap -->
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/popper.min.js"></script>
+                <!-- fontawesome  -->
+                <script src="assets/js/font-awesome.min.js"></script>
 
-    <!-- fontawesome  -->
-    <script src="assets/js/font-awesome.min.js"></script>
+                <!-- swiper slider  -->
+                <!-- <script src="assets/js/swiper-bundle.min.js"></script> -->
 
-    <!-- swiper slider  -->
-    <!-- <script src="assets/js/swiper-bundle.min.js"></script> -->
+                <!-- mixitup -- filter  -->
+                <script src="assets/js/jquery.mixitup.min.js"></script>
 
-    <!-- mixitup -- filter  -->
-    <script src="assets/js/jquery.mixitup.min.js"></script>
+                <!-- fancy box  -->
+                <script src="assets/js/jquery.fancybox.min.js"></script>
 
-    <!-- fancy box  -->
-    <script src="assets/js/jquery.fancybox.min.js"></script>
+                <!-- parallax  -->
+                <script src="assets/js/parallax.min.js"></script>
 
-    <!-- parallax  -->
-    <script src="assets/js/parallax.min.js"></script>
+                <!-- gsap  -->
+                <script src="assets/js/gsap.min.js"></script>
 
-    <!-- gsap  -->
-    <script src="assets/js/gsap.min.js"></script>
+                <!-- scroll trigger  -->
+                <script src="assets/js/ScrollTrigger.min.js"></script>
+                <!-- scroll to plugin  -->
+                <script src="assets/js/ScrollToPlugin.min.js"></script>
+                <!-- rellax  -->
+                <!-- <script src="assets/js/rellax.min.js"></script> -->
+                <!-- <script src="assets/js/rellax-custom.js"></script> -->
+                <!-- smooth scroll  -->
+                <script src="assets/js/smooth-scroll-complete.js"></script>
+                <!-- custom js  -->
+                <!-- <script src="main.js"></script> -->
+                <!-- userHome.js -->
+                <!-- <script type="module" src="./userHome copy.js"></script> -->
+                <!-- cart.js -->
+                <!-- <script src="./cart.js"></script> -->
+                <script>
+                    const { createApp, ref, computed, onMounted } = Vue;
 
-    <!-- scroll trigger  -->
-    <script src="assets/js/ScrollTrigger.min.js"></script>
-    <!-- scroll to plugin  -->
-    <script src="assets/js/ScrollToPlugin.min.js"></script>
-    <!-- rellax  -->
-    <!-- <script src="assets/js/rellax.min.js"></script> -->
-    <!-- <script src="assets/js/rellax-custom.js"></script> -->
-    <!-- smooth scroll  -->
-    <script src="assets/js/smooth-scroll-complete.js"></script>
-    <!-- custom js  -->
-    <!-- <script src="main.js"></script> -->
-    <!-- userHome.js -->
-    <!-- <script type="module" src="./userHome copy.js"></script> -->
-    <!-- cart.js -->
-    <script src="./cart.js"></script>
+                    createApp({
+                        setup() {
+                            // Reactive data properties
+                            const cart = ref(JSON.parse(localStorage.getItem("cart")) || []);
+
+                            // Computed properties for total quantity and price
+                            const totalQuantity = computed(() => {
+                                return cart.value.reduce((sum, item) => sum + item.quantity, 0);
+                            });
+
+                            const totalPrice = computed(() => {
+                                return cart.value.reduce((sum, item) => sum + item.quantity * item.price, 0);
+                            });
+
+                            // Method to change quantity
+                            const changeQuantity = (item, delta) => {
+                                const itemIndex = cart.value.findIndex(cartItem => cartItem.name === item.name);
+                                if (itemIndex !== -1) {
+                                    cart.value[itemIndex].quantity += delta;
+                                    if (cart.value[itemIndex].quantity <= 0) {
+                                        cart.value.splice(itemIndex, 1); // Remove item if quantity is 0 or less
+                                    }
+                                    updateLocalStorage();
+                                }
+                            };
+
+                            // Method to handle checkout
+                            const checkout = () => {
+                                if (cart.value.length > 0) {
+                                    showStatusPopup("Order placed!", true);
+                                    setTimeout(() => {
+                                        window.location.replace("order.html");
+                                    }, 3000);
+                                } else {
+                                    showStatusPopup("Your cart is empty. Please add items to the cart first.", false);
+                                    setTimeout(() => {
+                                        window.location.replace("home.html");
+                                    }, 3000);
+                                }
+                            };
+
+                            // Function to show status popup
+                            const showStatusPopup = (message, isSuccess) => {
+                                const popup = document.createElement('div');
+                                popup.className = `status-popup ${isSuccess ? 'success' : 'error'}`;
+                                popup.textContent = message;
+                                document.body.appendChild(popup);
+                                setTimeout(() => {
+                                    popup.classList.add('show');
+                                }, 10);
+                                setTimeout(() => {
+                                    popup.classList.remove('show');
+                                    setTimeout(() => {
+                                        popup.remove();
+                                    }, 300);
+                                }, 3000);
+                            };
+
+                            // Function to update localStorage
+                            const updateLocalStorage = () => {
+                                localStorage.setItem("cart", JSON.stringify(cart.value));
+                            };
+
+                            // Automatically update localStorage on load
+                            onMounted(() => {
+                                updateLocalStorage();
+                            });
+
+                            // Return all the reactive properties and methods for use in the template
+                            return {
+                                cart,
+                                totalQuantity,
+                                totalPrice,
+                                changeQuantity,
+                                checkout
+                            };
+                        }
+                    }).mount('#app');
+                </script>
+
 </body>
 
 </html>

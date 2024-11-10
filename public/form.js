@@ -216,7 +216,7 @@ function handleSubmit(event) {
             .catch(error => {
                 if (error.message.includes('Business details')) {
                     console.error('Failed to save business details:', error);
-                    alert('Registration successful, but there was an issue saving business details. Please contact support.');
+                    showStatusPopup('Registration successful, but there was an issue saving business details. Please contact support.',false);
                 } else {
                     showStatusPopup('Registration failed: ' + getCustomErrorMessage(error), false)
                     
@@ -400,14 +400,46 @@ function createPasswordResetModal() {
         try {
           await passwordReset(email);
           resetModal.hide();
-          alert('Password reset link has been sent to your email');
+          showStatusPopup('Password reset link has been sent to your email',true);
         } catch (error) {
-          alert('Error sending reset link: ' + error.message);
+          showStatusPopup('Error sending reset link: ',false);
         }
       } else {
-        alert('Please enter a valid email address');
+        showStatusPopup('Please enter a valid email address',false);
       }
     });
   
     return resetModal;
+}
+  
+function showStatusPopup(message, isSuccess = true) {
+    // Remove any existing popup
+    const existingPopup = document.querySelector('.status-popup');
+    if (existingPopup) {
+      existingPopup.remove();
+    }
+  
+    // Create new popup element
+    const popup = document.createElement('div');
+    popup.className = `status-popup ${isSuccess ? 'success' : 'error'}`;
+    popup.textContent = message;
+  
+    // Add popup to the document
+    document.body.appendChild(popup);
+  
+    // Trigger reflow to ensure transition works
+    popup.offsetHeight;
+  
+    // Show the popup
+    setTimeout(() => {
+      popup.classList.add('show');
+    }, 10);
+  
+    // Hide the popup after 3 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+      setTimeout(() => {
+        popup.remove();
+      }, 300); // Wait for fade out transition to complete
+    }, 3000);
   }

@@ -473,10 +473,36 @@ main {
 }
 
 .pac-container {
-    z-index: 10000 !important;
+    z-index: 10000;
 }
 
 
+    .status-popup {
+      position: fixed;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 15px 20px;
+      border-radius: 5px;
+      color: white;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+      z-index: 10000;
+    }
+
+    .status-popup.success {
+      background-color: #4CAF50;
+    }
+
+    .status-popup.error {
+      background-color: #f44336;
+    }
+
+    .status-popup.show {
+      opacity: 1;
+    }
+    
         </style>
 </head>
 
@@ -734,10 +760,6 @@ main {
                             <textarea class="form-control" id="itemDescription" rows="3" required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="pickupTime" class="form-label h4-title">Pickup Time</label>
-                            <input type="time" class="form-control" id="pickupTime" required>
-                        </div>
-                        <div class="mb-3">
                             <label for="itemImage" class="form-label h4-title">Image</label>
                             <input type="file" class="form-control" id="itemImage" accept="image/*" required>
                         </div>
@@ -888,7 +910,7 @@ main {
         if (file) {
             // Check file size (5MB limit)
             if (file.size > 5 * 1024 * 1024) {
-                alert('File size must be less than 5MB');
+                showStatusPopup('File size must be less than 5MB',false);
                 return;
             }
             
@@ -912,6 +934,37 @@ main {
         }
     });
 });
+function showStatusPopup(message, isSuccess = true) {
+    // Remove any existing popup
+    const existingPopup = document.querySelector('.status-popup');
+    if (existingPopup) {
+      existingPopup.remove();
+    }
+  
+    // Create new popup element
+    const popup = document.createElement('div');
+    popup.className = `status-popup ${isSuccess ? 'success' : 'error'};`
+    popup.textContent = message;
+  
+    // Add popup to the document
+    document.body.appendChild(popup);
+  
+    // Trigger reflow to ensure transition works
+    popup.offsetHeight;
+  
+    // Show the popup
+    setTimeout(() => {
+      popup.classList.add('show');
+    }, 10);
+  
+    // Hide the popup after 3 seconds
+    setTimeout(() => {
+      popup.classList.remove('show');
+      setTimeout(() => {
+        popup.remove();
+      }, 300); // Wait for fade out transition to complete
+    }, 3000);
+  }
         </script>
         <script>
             async function updateDisplayAfterSubmit(event) {
