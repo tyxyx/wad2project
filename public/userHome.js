@@ -42,7 +42,10 @@ onAuthStateChanged(auth, async (user) => {
       }, 1000);
     } catch (error) {
       console.error("Error fetching user details:", error);
-      alert("Failed to load user details. Please try again later.");
+      showStatusPopup(
+        "Failed to load user details. Please try again later.",
+        false
+      );
       if (document.querySelector(".loading-overlay")) {
         document.querySelector(".loading-overlay").remove();
       }
@@ -78,7 +81,10 @@ async function fetchBusinessCards() {
 
     businessQuerySnapshot.forEach(async (businessDoc) => {
       const businessData = businessDoc.data();
-      const menuItemsRef = collection(db, `businessLogin/${businessData.uen}/menuItems`);
+      const menuItemsRef = collection(
+        db,
+        `businessLogin/${businessData.uen}/menuItems`
+      );
       const menuItemsSnapshot = await getDocs(menuItemsRef);
 
       // Create vertical card for "All businesses" section
@@ -111,7 +117,7 @@ async function createBusinessCard(businessUEN, businessData) {
     console.error("Menu dish container not found");
     return;
   }
-  
+
   // Create outer column div with proper grid classes
   const colDiv = document.createElement("div");
   colDiv.classList.add("col-lg-4", "col-sm-6", "mb-4", "center-col");
@@ -126,9 +132,11 @@ async function createBusinessCard(businessUEN, businessData) {
     imgContainer.classList.add("featured-img-container"); // Use same class as horizontal cards
 
     const img = document.createElement("img");
-    img.src = businessData.profilePic || "./images/mealmate-logo-zip-file/png/logo-color.png";
+    img.src =
+      businessData.profilePic ||
+      "./images/mealmate-logo-zip-file/png/logo-color.png";
     img.alt = businessData.busName || "Business Image";
-    img.onerror = function() {
+    img.onerror = function () {
       this.src = "./images/mealmate-logo-zip-file/png/logo-color.png";
     };
     imgContainer.appendChild(img);
@@ -160,8 +168,8 @@ async function createBusinessCard(businessUEN, businessData) {
 
     const stars = document.createElement("p");
     stars.classList.add("featured-info-rating");
-    stars.innerText = businessData.avgRating 
-      ? `⭐ ${businessData.avgRating}/5.0` 
+    stars.innerText = businessData.avgRating
+      ? `⭐ ${businessData.avgRating}/5.0`
       : "⭐ Rating not available";
 
     // Assemble the card
@@ -186,7 +194,6 @@ async function createBusinessCard(businessUEN, businessData) {
     // Append card to column div and column to container
     colDiv.appendChild(card);
     menuDish.appendChild(colDiv);
-
   } catch (error) {
     console.error("Error creating business card:", error);
   }
@@ -289,7 +296,7 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       placeId = docSnap.data().placeId;
       await fetchPlaceReviews(placeId);
     } else {
-      alert("error getting reviews");
+      console.error("Error getting reviews");
     }
 
     const ftb = document.getElementById("featured-businesses");
@@ -366,8 +373,9 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
         window.location.href = "cart.html";
       } else {
         // If cart is empty, show an alert or notify the user
-        alert(
-          "Your cart is empty. Please add items to the cart before ordering."
+        showStatusPopup(
+          "Your cart is empty. Please add items to the cart before ordering.",
+          false
         );
       }
     });
@@ -506,10 +514,13 @@ function createMenuItemCard(menuItemData, container) {
     const quantity = parseInt(quantityInput.value);
     if (quantity > 0) {
       addToCart(menuItemData.itemName, quantity, menuItemData.price);
-      alert(`${quantity} ${menuItemData.itemName}(s) added to cart!`);
+      showStatusPopup(
+        `${quantity} ${menuItemData.itemName}(s) added to cart!`,
+        true
+      );
       quantityInput.value = 0;
     } else {
-      alert("Please select a quantity to add to the cart.");
+      showStatusPopup("Please select a quantity to add to the cart.", false);
     }
   });
 
@@ -681,34 +692,29 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
     const contentTitleAndRating = document.createElement("div");
     contentTitleAndRating.classList.add("featured-content-title-and-rating");
 
-
     const title = document.createElement("h3");
     title.classList.add("featured-title");
     // check for business name length before populating horizontal cards
-    if(businessData.busName.length > 20){
+    if (businessData.busName.length > 20) {
       const dislpayTitle = businessData.busName.slice(0, 20) + " ...";
       title.innerText = dislpayTitle || "Unnamed Business";
-    }
-    else{
+    } else {
       title.innerText = businessData.busName || "Unnamed Business";
     }
     // title.innerText = businessData.busName || "Unnamed Business";
-    
-
 
     const locationP = document.createElement("p");
     locationP.classList.add("featured-info");
     // check for address length before populating horizontal cards
-    if(businessData.address.length > 20){
+    if (businessData.address.length > 20) {
       const dislpayAddress = businessData.address.slice(0, 20) + " ...";
       locationP.innerText = dislpayAddress
-      ? `📍 ${dislpayAddress}`
-      : "📍 Address not available";
-    }
-    else{
+        ? `📍 ${dislpayAddress}`
+        : "📍 Address not available";
+    } else {
       locationP.innerText = businessData.address
-      ? `📍 ${businessData.address}`
-      : "📍 Address not available";
+        ? `📍 ${businessData.address}`
+        : "📍 Address not available";
     }
 
     // ori
@@ -722,7 +728,6 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
       ? `⭐ ${businessData.avgRating}/5.0`
       : "⭐ Rating not available";
 
-
     const contactP = document.createElement("p");
     contactP.classList.add("featured-info");
     contactP.innerText = businessData.contactInfo
@@ -733,7 +738,7 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
     contentTitleAndRating.appendChild(stars);
     // Assemble the card
     // content.appendChild(stars);
-    content.appendChild(contentTitleAndRating)
+    content.appendChild(contentTitleAndRating);
     // content.appendChild(title); this
 
     content.appendChild(locationP);
@@ -951,4 +956,36 @@ function displayReviews(reviews) {
 
     reviewsList.appendChild(cardDiv);
   });
+}
+
+function showStatusPopup(message, isSuccess = true) {
+  // Remove any existing popup
+  const existingPopup = document.querySelector(".status-popup");
+  if (existingPopup) {
+    existingPopup.remove();
+  }
+
+  // Create new popup element
+  const popup = document.createElement("div");
+  popup.className = `status-popup ${isSuccess ? "success" : "error"}`;
+  popup.textContent = message;
+
+  // Add popup to the document
+  document.body.appendChild(popup);
+
+  // Trigger reflow to ensure transition works
+  popup.offsetHeight;
+
+  // Show the popup
+  setTimeout(() => {
+    popup.classList.add("show");
+  }, 10);
+
+  // Hide the popup after 3 seconds
+  setTimeout(() => {
+    popup.classList.remove("show");
+    setTimeout(() => {
+      popup.remove();
+    }, 300); // Wait for fade out transition to complete
+  }, 3000);
 }
