@@ -105,9 +105,9 @@ async function fetchBusinessCards() {
       const validBusinessesForFeatured = businesses
         .filter(
           (business) =>
-            business.data.rating != null && !isNaN(business.data.rating)
+            business.data.avgRating != null && !isNaN(business.data.avgRating)
         )
-        .sort((a, b) => b.data.rating - a.data.rating);
+        .sort((a, b) => b.data.avgRating - a.data.avgRating);
 
       for (let i = 0; i < Math.min(5, validBusinessesForFeatured.length); i++) {
         const business = validBusinessesForFeatured[i];
