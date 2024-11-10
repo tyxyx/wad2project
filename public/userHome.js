@@ -525,11 +525,12 @@ function createMenuItemCard(menuItemData, container) {
   addButton.addEventListener("click", () => {
     const quantity = parseInt(quantityInput.value);
     if (quantity > 0) {
-      addToCart(menuItemData.itemName, quantity, menuItemData.price);
-      alert(`${quantity} ${menuItemData.itemName}(s) added to cart!`);
+      addToCart(menuItemData.itemName, quantity, menuItemData.price, img.src);
+      showStatusPopup(
+        `${quantity} ${menuItemData.itemName}(s) added to cart!`, true);
       quantityInput.value = 0;
-    } else {
-      alert("Please select a quantity to add to the cart.");
+      } else {
+        showStatusPopup("Please select a quantity to add to the cart.", false);
     }
   });
 
