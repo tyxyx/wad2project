@@ -1001,9 +1001,9 @@ p {
 
 /* .swiper-button-next::after, .swiper-button-prev::after {
     display: none;
-}
+} */
 
-.swiper-button-wp {
+/*.swiper-button-wp {
     position: relative;
     margin-top: 60px;
     display: flex;
@@ -2763,11 +2763,11 @@ body {
     display: flex;
     /* new start*/
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
     /* new end */
     flex-direction: row;
-    column-gap: 100px;
+    gap: 10px;
     /* align-items: center; */
     /* position: relative; */
 }
@@ -2816,6 +2816,141 @@ body {
     /* color: #bfbfbf;
     margin-bottom: 15px;
     font-size: 16px; */
+}
+
+/* all biz cards */ 
+/* Add these new styles to your home.html */ 
+ 
+/* Grid Business Card Styling */ 
+.grid-business-card { 
+    background: linear-gradient(145deg, #ececec, #ffffff); 
+    border-radius: 30px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    overflow: hidden; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    width: 100%; 
+    max-width: 260px; 
+    margin: 0 auto; 
+    height: 230px; 
+    display: flex; 
+    flex-direction: column; 
+    cursor: pointer; 
+} 
+ 
+.grid-business-card:hover { 
+    transform: scale(1.03); 
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
+} 
+ 
+.grid-img-container { 
+    width: 100%; 
+    height: 70%; 
+    overflow: hidden; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    position: relative; 
+    z-index: 1; 
+} 
+ 
+.grid-img-container img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    object-position: center; 
+    display: block; 
+} 
+ 
+.grid-content { 
+    padding: 10px; 
+    display: flex; 
+    height: 30%; 
+    flex-direction: column; 
+    position: relative; 
+} 
+ 
+.grid-content-header { 
+    display: flex; 
+    justify-content: space-between; 
+    /* align-items: center; */ 
+    align-items: flex-start; 
+    width: 100%; 
+    flex-direction: row; 
+    /* column-gap: 100px; */ 
+    gap: 10px; /* Changed from column-gap: 100px */ 
+} 
+ 
+.grid-title { 
+    font-size: 1.0rem; 
+    color: #333; 
+    font-weight: 600; 
+    text-transform: capitalize; 
+    font-family: 'Playfair Display', serif; 
+    margin: 0; 
+    /* max-width: 70%; */ 
+    max-width: 65%; 
+    line-height: 1.2; 
+    word-wrap: break-word; 
+} 
+ 
+.grid-info { 
+    font-size: 0.8rem; 
+    color: #777; 
+    margin: 0; 
+} 
+ 
+.grid-rating { 
+    font-size: 0.8rem; 
+    color: #333; 
+    margin: 0; 
+    white-space: nowrap; 
+    line-height: 1.2; 
+    flex-shrink: 0; 
+    min-width: fit-content; 
+} 
+ 
+/* Responsive adjustments */ 
+@media (min-width: 992px) { /* lg and up */ 
+    #menu-dish .col-lg-3 { 
+        display: flex; 
+        justify-content: center; 
+    } 
+} 
+ 
+@media (min-width: 768px) and (max-width: 991px) { /* md only */ 
+    #menu-dish .col-md-6 { 
+        display: flex; 
+        justify-content: center; 
+    } 
+ 
+    .grid-business-card { 
+        max-width: 280px; 
+    } 
+} 
+ 
+@media (max-width: 767px) { /* sm and down */ 
+    #menu-dish .col-12 { 
+        display: flex; 
+        justify-content: center; 
+    } 
+ 
+    .grid-business-card { 
+        max-width: 300px; 
+    } 
+} 
+ 
+@media (max-width: 375px) { 
+    .grid-business-card { 
+        max-width: 260px; 
+    } 
+ 
+    .grid-content-header { 
+        gap: 8px; 
+    } 
+ 
+    .grid-title { 
+        max-width: 60%; 
+    } 
 }
 
 .dish-add-btn {
