@@ -167,6 +167,7 @@ async function renderOrderSummary() {
   }
 
   cart.forEach((item) => {
+    console.log(item)
     const itemDiv = document.createElement("div");
     itemDiv.innerText = `${item.name} - $${item.price.toFixed(2)} x ${
       item.quantity

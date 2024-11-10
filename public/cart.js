@@ -35,6 +35,7 @@ function renderCartItems(containerId) {
 
     const decreaseButton = document.createElement("button");
     decreaseButton.textContent = "-";
+    decreaseButton.className = "quantity-btn minus-btn";
     decreaseButton.onclick = () => changeQuantity(item.name, -1);
 
     const quantity = document.createElement("span");
@@ -42,6 +43,7 @@ function renderCartItems(containerId) {
 
     const increaseButton = document.createElement("button");
     increaseButton.textContent = "+";
+    increaseButton.className = "quantity-btn plus-btn";
     increaseButton.onclick = () => changeQuantity(item.name, 1);
 
     quantityDiv.appendChild(decreaseButton);
