@@ -2842,6 +2842,32 @@ body {
     padding-bottom: 10px;
 }
 
+.quantity-btn {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #ff8243; /* Custom color */
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.quantity-btn:hover {
+    background-color: #e26a2c; /* Hover color */
+}
+
+.minus-btn {
+    margin-right: 10px; /* Space between buttons */
+}
+
+.plus-btn {
+    margin-left: 10px;
+}
 
 
 
