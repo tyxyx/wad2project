@@ -293,6 +293,7 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
 
     if (docSnap.exists()) {
       placeId = docSnap.data().placeId;
+      console.log("display menu item placeid: "+placeId)
       await fetchPlaceReviews(placeId);
     } else {
       console.error("Error getting reviews");
