@@ -12,6 +12,8 @@ let userEmail = null;
 let cart = [];
 let listGroup = [];
 let placeId = "";
+let currentBusinessUEN = null;
+let currentBusinessName = null;
 const overlay = document.createElement("div");
 overlay.className = "loading-overlay";
 const spinner = document.createElement("div");
@@ -353,6 +355,8 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     let img;
     let src;
     if (docSnap.exists()) {
+      currentBusinessUEN = businessUEN;    
+      currentBusinessName = businessName;
       placeId = docSnap.data().placeId;
       address = docSnap.data().address;
       // console.log(address)
@@ -370,7 +374,6 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       // "./images/mealmate-logo-zip-file/png/logo-color.png";
       // img.alt = docSnap.data().busName || "Business Image";
       img.src = src;
-      console.log(img);
       img.onerror = function () {
       this.src = "./images/mealmate-logo-zip-file/png/logo-color.png";
       console.log(
@@ -674,13 +677,16 @@ function addToCart(itemName, quantity, price, image) {
 
   // Store the updated cart back to localStorage
   localStorage.setItem("cart", JSON.stringify(cart));
+  localStorage.setItem("businessId", JSON.stringify(currentBusinessUEN));
+  localStorage.setItem("businessName", JSON.stringify(currentBusinessName));
 
-  // Notify the Vue.js component about the updated cart
-  const cartButtonComponent = document.getElementById('cart-button')?.__vue_app__?.component('default');
-  console.log(cartButtonComponent)
-  if (cartButtonComponent) {
-      cartButtonComponent.updateCartItemCount(cart.reduce((total, item) => total + item.quantity, 0));
-  }
+    // Calculate total quantity across all items
+    const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    // Dispatch a custom event with the new total
+    window.dispatchEvent(new CustomEvent('cartUpdated', { 
+        detail: { count: totalQuantity }
+    }));
 
   // Show the status popup
   showStatusPopup(`${quantity} ${itemName}(s) added to cart!`, true);
