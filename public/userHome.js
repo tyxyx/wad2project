@@ -25,6 +25,13 @@ onAuthStateChanged(auth, async (user) => {
       const logout = document.getElementById("logout");
       logout.addEventListener("click", logOut);
 
+      const orderHistory = document.querySelector('#orderHistory');
+    
+      orderHistory.addEventListener('click', function(event) {
+          event.preventDefault(); 
+          window.location.href = './orderhistory.html';  // 
+      });
+
       userEmail = user.email;
       const userDoc = await fetchUserName(userEmail);
 
