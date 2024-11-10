@@ -412,34 +412,3 @@ function createPasswordResetModal() {
     return resetModal;
 }
   
-function showStatusPopup(message, isSuccess = true) {
-    // Remove any existing popup
-    const existingPopup = document.querySelector('.status-popup');
-    if (existingPopup) {
-      existingPopup.remove();
-    }
-  
-    // Create new popup element
-    const popup = document.createElement('div');
-    popup.className = `status-popup ${isSuccess ? 'success' : 'error'}`;
-    popup.textContent = message;
-  
-    // Add popup to the document
-    document.body.appendChild(popup);
-  
-    // Trigger reflow to ensure transition works
-    popup.offsetHeight;
-  
-    // Show the popup
-    setTimeout(() => {
-      popup.classList.add('show');
-    }, 10);
-  
-    // Hide the popup after 3 seconds
-    setTimeout(() => {
-      popup.classList.remove('show');
-      setTimeout(() => {
-        popup.remove();
-      }, 300); // Wait for fade out transition to complete
-    }, 3000);
-  }
