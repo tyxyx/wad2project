@@ -24,6 +24,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <script type="module" src="./database.js"></script>
+    <script type="module" src="./main.js"></script>
 
     <style>
         .status-popup {
@@ -123,21 +124,18 @@
                                         <img src="assets/images/title-shape.svg" alt="title shape">
                                     </div>
                                 </div> -->
-                                <div class="sec-title text-center mb-5">
+                                <div class="sec-title text-center mb-0">
                                     <p class="sec-sub-title mb-3">Your cart</p>
                                     <h2 class="h2-title">Please collect in time</h2>
-                                    <div class="sec-title-shape mb-4">
-                                        <img src="assets/images/title-shape.svg" alt="">
-                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div id="app">
-                            <div class="row">
+                            <div class="row mt-0">
                                 <!-- Mobile View (Combined Box) -->
                                 <div class="col-12">
-                                    <div class="dish-box p-4 d-block d-lg-none">
+                                    <div class="dish-box p-4 mt-3 d-block d-lg-none">
                                         <div class="dist-title">
                                             <h2>Your Order</h2>
                                         </div>
@@ -147,9 +145,9 @@
                                                 <div class="item-container">
                                                     <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
                                                     <div class="quantity-control">
-                                                        <button @click="changeQuantity(item, -1)">-</button>
+                                                        <button @click="changeQuantity(item, -1)" class="quantity-btn minus-btn">-</button>
                                                         <span>{{ item.quantity }}</span>
-                                                        <button @click="changeQuantity(item, 1)">+</button>
+                                                        <button @click="changeQuantity(item, 1)" class="quantity-btn plus-btn">+</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -187,9 +185,9 @@
                                                 <div class="item-container">
                                                     <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
                                                     <div class="quantity-control">
-                                                        <button @click="changeQuantity(item, -1)">-</button>
+                                                        <button @click="changeQuantity(item, -1)" class="quantity-btn minus-btn">-</button>
                                                         <span>{{ item.quantity }}</span>
-                                                        <button @click="changeQuantity(item, 1)">+</button>
+                                                        <button @click="changeQuantity(item, 1)" class="quantity-btn plus-btn">+</button>
                                                     </div>
                                                 </div>
                                             </div>
