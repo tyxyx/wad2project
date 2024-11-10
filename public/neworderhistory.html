@@ -75,7 +75,6 @@
 
                 const showOrderDetails = async (order) => {
                     selectedOrder.value = order;
-                    
                     if (!order.status) {
                         
                         const qrGenerator = new OrderQRGenerator();
