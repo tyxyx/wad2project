@@ -435,102 +435,119 @@ window.addEventListener("popstate", async (event) => {
 
 // new createMenuItemCard
 function createMenuItemCard(menuItemData, container) {
-  // Create column for the card
   const col = document.createElement("div");
-  col.classList.add("col-lg-4", "col-sm-6", "dish-box-wp");
+  col.classList.add("col-lg-4", "col-md-6", "mb-4", "center-col-menu");
 
-  // Create dish box
   const dishBox = document.createElement("div");
-  dishBox.classList.add("dish-box", "text-center");
+  dishBox.classList.add("dish-box", "d-flex", "align-items-start", "p-3");
+  dishBox.style.height = "180px";
+  dishBox.style.minHeight = "180px";
+  dishBox.style.width = "400px";
+  dishBox.style.minWidth = "400px";
+  dishBox.style.position = "relative"; // Add relative positioning
 
-  // Create image section
-  const distImg = document.createElement("div");
-  distImg.classList.add("dist-img");
+  // Image container
+  const imgContainer = document.createElement("div");
+  imgContainer.classList.add("flex-shrink-0", "me-0");
+  imgContainer.style.width = "150px";
+  imgContainer.style.height = "150px";
+  imgContainer.style.borderRadius = "8px";
+  imgContainer.style.overflow = "hidden";
 
-  // Use first image from array or fallback
+  // Image
   const img = document.createElement("img");
-  img.src =
-    menuItemData.images && menuItemData.images.length > 0
-      ? menuItemData.images[0]
-      : "./images/mealmate-logo-zip-file/png/logo-color.png";
-  img.onerror = () => {
-    img.src = "./images/mealmate-logo-zip-file/png/logo-color.png";
-  };
-
-  distImg.appendChild(img);
-  dishBox.appendChild(distImg);
-
-  // Create title section
-  const dishTitle = document.createElement("div");
-  dishTitle.classList.add("dist-title");
+  img.src = menuItemData.images?.[0] || "./images/mealmate-logo-zip-file/png/logo-color.png";
+  img.style.width = "100%";
+  img.style.height = "100%";
+  img.style.objectFit = "cover";
+  
+  // Content container
+  const content = document.createElement("div");
+  content.classList.add("featured-content");
+  content.style.display = "flex";
+  content.style.flexDirection = "column";
+  content.style.height = "100%"; // Take full height
+  content.style.position = "relative"; // Add relative positioning
+  content.style.flex = "1"; // Allow content to grow
+  
+  // Title and description section
+  const titleSection = document.createElement("div");
+  titleSection.classList.add("mb-2"); // Reduced bottom margin
+  titleSection.style.flex = "1"; // Allow this section to grow
 
   const title = document.createElement("h3");
-  title.classList.add("h3-title");
+  title.classList.add("featured-title");
+  title.style.color = "#333";
+  title.style.fontWeight = "600";
   title.textContent = menuItemData.itemName;
 
   const description = document.createElement("p");
+  description.classList.add("featured-info");
   description.textContent = menuItemData.description;
+  description.style.overflow = "hidden";
+  description.style.textOverflow = "ellipsis";
+  description.style.display = "-webkit-box";
+  description.style.webkitLineClamp = "2";
+  description.style.webkitBoxOrient = "vertical";
 
-  const price = document.createElement("p");
-  price.classList.add("price");
-  price.style.fontSize = "1.2em";
-  price.style.fontWeight = "bold";
-  price.style.color = "#ff8243";
-  price.textContent = `$${Number(menuItemData.price).toFixed(2)}`;
+  // Action section - positioned at bottom
+  const actionSection = document.createElement("div");
+  actionSection.classList.add("featured-content-title-and-rating");
+  actionSection.style.marginTop = "auto"; // Push to bottom
+  actionSection.style.gap = "1rem";
+  actionSection.style.width = "100%";
 
-  dishTitle.appendChild(title);
-  dishTitle.appendChild(description);
-  dishTitle.appendChild(price);
-  dishBox.appendChild(dishTitle);
+  const priceSection = document.createElement("h3");
+  priceSection.classList.add("featured-title");
+  priceSection.textContent = `$${Number(menuItemData.price).toFixed(2)}`;
 
-  // Create quantity and add to cart section
-  const bottomRow = document.createElement("div");
-  bottomRow.classList.add("dist-bottom-row");
-
-  // Create quantity input
-  const quantityDiv = document.createElement("div");
-  quantityDiv.style.display = "flex";
-  quantityDiv.style.gap = "10px";
-  quantityDiv.style.alignItems = "center";
-  quantityDiv.style.justifyContent = "center";
-  quantityDiv.style.marginBottom = "20px";
+  const quantityControls = document.createElement("div");
+  quantityControls.classList.add("d-flex", "align-items-center", "gap-2", "flex-nowrap");
 
   const quantityInput = document.createElement("input");
   quantityInput.type = "number";
-  quantityInput.value = 0;
-  quantityInput.min = 0;
-  quantityInput.classList.add("form-input");
-  quantityInput.style.width = "80px";
-  quantityInput.style.height = "40px";
-  quantityInput.style.textAlign = "center";
+  quantityInput.value = "0";
+  quantityInput.min = "0";
+  quantityInput.classList.add("form-input", "text-center");
+  quantityInput.style.width = "60px";
+  quantityInput.style.height = "35px";
+  quantityInput.style.padding = "0.25rem";
 
-  // Add to cart button
-  const addToCartButton = document.createElement("button");
-  addToCartButton.textContent = "Add to Cart";
-  addToCartButton.classList.add("dish-add-btn");
-  addToCartButton.style.width = "auto";
-  addToCartButton.style.padding = "0 20px";
+  const addButton = document.createElement("button");
+  addButton.textContent = "Add";
+  addButton.classList.add("dish-add-btn");
+  addButton.style.padding = "0.25rem 0.75rem";
+  addButton.style.minWidth = "60px";
+  addButton.style.height = "35px";
 
-  addToCartButton.addEventListener("click", () => {
+  addButton.addEventListener("click", () => {
     const quantity = parseInt(quantityInput.value);
     if (quantity > 0) {
-      addToCart(menuItemData.itemName, quantity, menuItemData.price, img.src);
-      showStatusPopup(
-        `${quantity} ${menuItemData.itemName}(s) added to cart!`,
-        true
-      );
+      addToCart(menuItemData.itemName, quantity, menuItemData.price);
+      alert(`${quantity} ${menuItemData.itemName}(s) added to cart!`);
       quantityInput.value = 0;
     } else {
-      showStatusPopup("Please select a quantity to add to the cart.", false);
+      alert("Please select a quantity to add to the cart.");
     }
   });
 
-  quantityDiv.appendChild(quantityInput);
-  quantityDiv.appendChild(addToCartButton);
-  bottomRow.appendChild(quantityDiv);
-  dishBox.appendChild(bottomRow);
+  // Assemble everything
+  imgContainer.appendChild(img);
+  titleSection.appendChild(title);
+  titleSection.appendChild(description);
+  
+  quantityControls.appendChild(quantityInput);
+  quantityControls.appendChild(addButton);
+  
+  actionSection.appendChild(priceSection);
+  actionSection.appendChild(quantityControls);
+  
+  content.appendChild(titleSection);
+  content.appendChild(actionSection);
 
-  // Assemble the card
+  dishBox.appendChild(imgContainer);
+  dishBox.appendChild(content);
+  
   col.appendChild(dishBox);
   container.appendChild(col);
 }

@@ -187,7 +187,14 @@
             /* align-items: center; */
             justify-content: center;
         }
-.sec-sub-title {
+        
+        .center-col-menu {
+            display: flex;
+            /* align-items: center; */
+            justify-content: center;
+        }
+
+        .sec-sub-title {
             font-size: 2rem !important;
             font-weight: 500 !important;
             text-transform: uppercase;
@@ -225,6 +232,96 @@
     .status-popup.show {
       opacity: 1;
     }
+
+    .dish-box {
+            border-radius: 12px;
+            background: linear-gradient(145deg, #ececec, #ffffff);
+            box-shadow:  0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-height: 120px;
+            width: 100%;        /* Make it take full width of parent */
+            max-width: 400px;   /* Maximum width */
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            gap: 1rem;
+            margin: 0;
+        }
+
+        .dish-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .dish-box img {
+            transition: transform 0.3s ease;
+        }
+
+        .dish-box:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Responsive grid adjustments */
+        @media (min-width: 1400px) {
+            .center-col-menu {
+                width: 33.333%;  /* 3 cards per row on large screens */
+            }
+        }
+
+        @media (min-width: 992px) and (max-width: 1399px) {
+            .center-col-menu {
+                width: 50%;      /* 2 cards per row on medium screens */
+            }
+            
+            .dish-box {
+                max-width: 450px;  /* Slightly larger on medium screens */
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991px) {
+            .center-col-menu {
+                width: 100%;     /* 1 card per row on smaller screens */
+            }
+            
+            .dish-box {
+                max-width: 600px;  /* Larger width on smaller screens */
+            }
+        }
+
+        @media (max-width: 767px) {
+            .center-col-menu {
+                width: 100%;
+                padding: 0.25rem;
+            }
+            
+            .dish-box {
+                min-height: 100px;
+                max-width: 100%;
+                padding: 0.75rem;
+                gap: 0.75rem;
+            }
+
+            .dish-box .flex-shrink-0 {
+                width: 80px;
+                height: 80px;
+            }
+
+            .featured-title {
+                font-size: 1rem;
+            }
+
+            .featured-info {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Also update your responsive grid container */
+        .row.g-xxl-5.bydefault_show {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -0.5rem;  /* Compensate for column padding */
+            width: 100%;
+        }
     </style>
         
 </head>
