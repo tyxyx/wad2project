@@ -772,11 +772,11 @@
             });
 
             // Close menu when clicking a link
-            // document.querySelectorAll('.header-menu a').forEach(link => {
-            //     link.addEventListener('click', () => {
-            //         mainNav.classList.remove('toggled');
-            //     });
-            // });
+            document.querySelectorAll('.header-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mainNav.classList.remove('toggled');
+                });
+            });
         });
 
         // initialize parallax

@@ -26,6 +26,27 @@ onAuthStateChanged(auth, async (user) => {
     try {
       const logout = document.getElementById("logout");
       logout.addEventListener("click", logOut);
+      const contactLink = document.getElementById('contactLink')
+      if (contactLink) {
+        contactLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Get the footer element
+            const footer = document.querySelector('.site-footer');
+            
+            if (footer) {
+                // Calculate position accounting for fixed header
+                const headerHeight = document.querySelector('.site-header').offsetHeight;
+                const footerPosition = footer.getBoundingClientRect().top + window.pageYOffset;
+                
+                // Scroll with offset
+                window.scrollTo({
+                    top: footerPosition - headerHeight,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
 
       const orderHistory = document.querySelector('#orderHistory');
     
