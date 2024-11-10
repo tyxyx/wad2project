@@ -49,11 +49,11 @@
             background-color: #f44336;
         }
 
-    .status-popup.show {
-      opacity: 1;
-    }
+        .status-popup.show {
+            opacity: 1;
+        }
 
-.sec-sub-title {
+        .sec-sub-title {
             font-size: 2rem !important;
             font-weight: 500 !important;
             text-transform: uppercase;
@@ -66,8 +66,13 @@
         }
 
         .sec-wp {
-  padding-top: 40px;
-}
+            padding-top: 40px;
+        }
+
+        .item-container img {
+            max-width: auto;
+            max-height: 90px;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.js"></script>
 
@@ -143,13 +148,16 @@
                                         <div class="dist-title">
                                             <h2>Your Order</h2>
                                         </div>
-                                        <div id="mobile-cart-items" class="p-2">
+                                        <div id="mobile-cart-items" class="p-2 container-fluid">
                                             <!-- Mobile cart items will be populated here -->
                                             <div v-for="item in cart" :key="item.name" class="cart-item">
-                                                <div class="item-container">
-                                                    <img :src="item.image" alt="Food Image" class="cart-item-image" />
-                                                    <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
-                                                    <div class="quantity-control">
+                                                <div class="item-container row d-flex justify-content-between align-items-center" style="white-space: nowrap;">
+                                                    <div class="col-6 text-start">
+                                                        <img :src="item.image" alt="Food Image" class="cart-item-image m-2" />
+                                                        <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
+                                                    </div>
+                                        
+                                                    <div class="quantity-control col-4 text-end">
                                                         <button @click="changeQuantity(item, -1)" class="quantity-btn minus-btn">-</button>
                                                         <span>{{ item.quantity }}</span>
                                                         <button @click="changeQuantity(item, 1)" class="quantity-btn plus-btn">+</button>
@@ -157,7 +165,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
+                                        
                                         <div class="order-summary-mobile mt-4">
                                             <div class="dist-title">
                                                 <h2>Order Summary</h2>
@@ -187,10 +195,13 @@
                                         <div id="cart-items" class="p-2">
                                             <!-- Desktop cart items will be populated here -->
                                             <div v-for="item in cart" :key="item.name" class="cart-item">
-                                                <div class="item-container">
-                                                    <img :src="item.image" alt="Food Image" class="cart-item-image" />
-                                                    <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
-                                                    <div class="quantity-control">
+                                                <div class="item-container d-flex justify-content-between align-items-center">
+                                                    <div class="text-start">
+                                                        <img :src="item.image" alt="Food Image" class="cart-item-image m-2" />
+                                                        <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
+                                                    </div>
+                                                    
+                                                    <div class="quantity-control text-end">
                                                         <button @click="changeQuantity(item, -1)" class="quantity-btn minus-btn">-</button>
                                                         <span>{{ item.quantity }}</span>
                                                         <button @click="changeQuantity(item, 1)" class="quantity-btn plus-btn">+</button>
@@ -198,6 +209,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        
                                     </div>
                                 </div>
 
@@ -224,96 +236,100 @@
                         </div>
 
 
-            <!-- footer starts  -->
-            <footer class="site-footer" id="contact">
-                <div class="top-footer section">
-                    <div class="sec-wp">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="footer-info">
-                                        <div class="footer-logo">
-                                            <a href="index.html">
-                                                <img src="logo.png" alt="">
-                                            </a>
-                                        </div>
-                                        <p>Connect with us on our socials!
-                                        </p>
-                                        <div class="social-icon">
-                                            <ul>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="uil uil-facebook-f"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="uil uil-instagram"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="uil uil-github-alt"></i>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#">
-                                                        <i class="uil uil-youtube"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-8">
-                                    <div class="footer-flex-box">
-                                        <div class="footer-table-info">
-                                            <h3 class="h3-title">open hours</h3>
-                                            <ul>
-                                                <li><i class="uil uil-clock"></i> Mon-Thurs : 9am - 22pm</li>
-                                                <li><i class="uil uil-clock"></i> Fri-Sun : 11am - 22pm</li>
-                                            </ul>
-                                        </div>
-                                        <div class="footer-menu food-nav-menu">
-                                            <h3 class="h3-title">Links</h3>
-                                            <ul class="column-2">
-                                                <li>
-                                                    <a href="#home" class="footer-active-menu">Home</a>
-                                                </li>
-                                                <li><a href="#about">About</a></li><li>
-                                                <a href="#contact">Contact</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="footer-menu">
-                                            <h3 class="h3-title">Company</h3>
-                                            <ul>
-                                                <li><a href="#">Terms & Conditions</a></li>
-                                                <li><a href="#">Privacy Policy</a></li>
-                                                <li><a href="#">Cookie Policy</a></li>
-                                            </ul>
+                        <!-- footer starts  -->
+                        <footer class="site-footer" id="contact">
+                            <div class="top-footer section">
+                                <div class="sec-wp">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="footer-info">
+                                                    <div class="footer-logo">
+                                                        <a href="index.html">
+                                                            <img src="logo.png" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <p>Connect with us on our socials!
+                                                    </p>
+                                                    <div class="social-icon">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="uil uil-facebook-f"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="uil uil-instagram"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="uil uil-github-alt"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <i class="uil uil-youtube"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <div class="footer-flex-box">
+                                                    <div class="footer-table-info">
+                                                        <h3 class="h3-title">open hours</h3>
+                                                        <ul>
+                                                            <li><i class="uil uil-clock"></i> Mon-Thurs : 9am - 22pm
+                                                            </li>
+                                                            <li><i class="uil uil-clock"></i> Fri-Sun : 11am - 22pm</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="footer-menu food-nav-menu">
+                                                        <h3 class="h3-title">Links</h3>
+                                                        <ul class="column-2">
+                                                            <li>
+                                                                <a href="#home" class="footer-active-menu">Home</a>
+                                                            </li>
+                                                            <li><a href="#about">About</a></li>
+                                                            <li>
+                                                                <a href="#contact">Contact</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="footer-menu">
+                                                        <h3 class="h3-title">Company</h3>
+                                                        <ul>
+                                                            <li><a href="#">Terms & Conditions</a></li>
+                                                            <li><a href="#">Privacy Policy</a></li>
+                                                            <li><a href="#">Cookie Policy</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bottom-footer">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-12 text-center">
-                                <div class="copyright-text">
-                                    <p>Copyright &copy; 2024 <span class="name">MealMate.</span> All Rights Reserved.
-                                    </p>
+                            <div class="bottom-footer">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12 text-center">
+                                            <div class="copyright-text">
+                                                <p>Copyright &copy; 2024 <span class="name">MealMate.</span> All Rights
+                                                    Reserved.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="scrolltop"><i class="uil uil-angle-up"></i></button>
                                 </div>
                             </div>
-                        </div>
-                        <button class="scrolltop"><i class="uil uil-angle-up"></i></button>
+                        </footer>
                     </div>
                 </div>
-            </footer>
-        </div>
-    </div>
 
                 <!-- Add your JavaScript files here -->
                 <!-- jquery  -->
@@ -439,35 +455,35 @@
                 </script>
                 <script>
                     // Get necessary elements
-                const menuToggle = document.querySelector('.menu-toggle');
-                const mainNavigation = document.querySelector('.main-navigation');
-                
-                // Add click event listener to toggle button
-                menuToggle.addEventListener('click', () => {
-                  mainNavigation.classList.toggle('toggled');
-                
-                  // Toggle aria-expanded attribute
-                  const isExpanded = mainNavigation.classList.contains('toggled');
-                  menuToggle.setAttribute('aria-expanded', isExpanded);
-                });
-                
-                // Close menu when clicking outside
-                document.addEventListener('click', (e) => {
-                  if (!mainNavigation.contains(e.target) && !menuToggle.contains(e.target)) {
-                    mainNavigation.classList.remove('toggled');
-                    menuToggle.setAttribute('aria-expanded', 'false');
-                  }
-                });
-                
-                // Close menu when clicking on a link
-                const menuLinks = document.querySelectorAll('.main-navigation .menu li a');
-                menuLinks.forEach(link => {
-                  link.addEventListener('click', () => {
-                    mainNavigation.classList.remove('toggled');
-                    menuToggle.setAttribute('aria-expanded', 'false');
-                  });
-                });
-                  </script>
+                    const menuToggle = document.querySelector('.menu-toggle');
+                    const mainNavigation = document.querySelector('.main-navigation');
+
+                    // Add click event listener to toggle button
+                    menuToggle.addEventListener('click', () => {
+                        mainNavigation.classList.toggle('toggled');
+
+                        // Toggle aria-expanded attribute
+                        const isExpanded = mainNavigation.classList.contains('toggled');
+                        menuToggle.setAttribute('aria-expanded', isExpanded);
+                    });
+
+                    // Close menu when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!mainNavigation.contains(e.target) && !menuToggle.contains(e.target)) {
+                            mainNavigation.classList.remove('toggled');
+                            menuToggle.setAttribute('aria-expanded', 'false');
+                        }
+                    });
+
+                    // Close menu when clicking on a link
+                    const menuLinks = document.querySelectorAll('.main-navigation .menu li a');
+                    menuLinks.forEach(link => {
+                        link.addEventListener('click', () => {
+                            mainNavigation.classList.remove('toggled');
+                            menuToggle.setAttribute('aria-expanded', 'false');
+                        });
+                    });
+                </script>
 
 </body>
 
