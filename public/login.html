@@ -111,8 +111,34 @@
     height: 4px;
     background: #ff8243;
     margin-bottom: 5px;
+    transition: 0.3s;
     border-radius: 5px;
     position: relative;
+}
+.menu-toggle span:last-child {
+    margin-bottom: 0;
+}
+
+/* Add these transformation styles */
+.toggled .menu-toggle span:nth-child(1) {
+    transform: rotate(45deg);
+    top: 9px; /* Adjust based on your needs */
+}
+
+.toggled .menu-toggle span:nth-child(2) {
+    transform: rotate(-45deg);
+    top: 0;
+}
+
+/* Hide the middle span when toggled */
+.menu-toggle span:nth-child(3) {
+    opacity: 1;
+    transition: 0.3s;
+}
+
+.toggled .menu-toggle span:nth-child(3) {
+    opacity: 0;
+    height: 0;
 }
 
     /* Login Form Styles */
