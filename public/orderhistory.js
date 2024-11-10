@@ -106,7 +106,7 @@ async function showOrderDetails(order) {
   statusElement.textContent = `Status: ${
     order.status ? "Finished" : "Pending"
   }`;
-  orderDetailsContent.appendChild(statusElement);
+  
 
   // Create the qr-wrapper div
   const qrWrapper = document.createElement("div");
@@ -120,14 +120,6 @@ async function showOrderDetails(order) {
 
   // Append the img element to the qr-wrapper div
   qrWrapper.appendChild(qrCodeImage);
-
-  // Optionally, append the qr-wrapper to an existing element in the DOM
-  orderDetailsContent.appendChild(qrWrapper);
-
-  if (!order.status) {
-    const qrGenerator = new OrderQRGenerator();
-    await qrGenerator.generateQR(order.orderId);
-  }
 
   // Create items purchased header
   const itemsHeader = document.createElement("h6");
@@ -147,7 +139,12 @@ async function showOrderDetails(order) {
   const totalAmountElement = document.createElement("p");
   totalAmountElement.textContent = `Total Price: $${order.amount}`;
   orderDetailsContent.appendChild(totalAmountElement);
-
+orderDetailsContent.appendChild(statusElement);
+  orderDetailsContent.appendChild(qrWrapper);
+  if (!order.status) {
+    const qrGenerator = new OrderQRGenerator();
+    await qrGenerator.generateQR(order.orderId);
+  }
   // Create Back to History button
   const showOrdersButton = document.createElement("button");
   showOrdersButton.id = "showOrdersButton";
