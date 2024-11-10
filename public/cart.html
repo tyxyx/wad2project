@@ -64,6 +64,10 @@
             border-radius: 60px;
             box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff;
         }
+
+        .sec-wp {
+  padding-top: 40px;
+}
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.js"></script>
 
@@ -299,7 +303,7 @@
                         <div class="row">
                             <div class="col-lg-12 text-center">
                                 <div class="copyright-text">
-                                    <p>Copyright &copy; 2021 <span class="name">TechieCoder.</span>All Rights Reserved.
+                                    <p>Copyright &copy; 2024 <span class="name">MealMate.</span> All Rights Reserved.
                                     </p>
                                 </div>
                             </div>
@@ -433,6 +437,37 @@
                         }
                     }).mount('#app');
                 </script>
+                <script>
+                    // Get necessary elements
+                const menuToggle = document.querySelector('.menu-toggle');
+                const mainNavigation = document.querySelector('.main-navigation');
+                
+                // Add click event listener to toggle button
+                menuToggle.addEventListener('click', () => {
+                  mainNavigation.classList.toggle('toggled');
+                
+                  // Toggle aria-expanded attribute
+                  const isExpanded = mainNavigation.classList.contains('toggled');
+                  menuToggle.setAttribute('aria-expanded', isExpanded);
+                });
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', (e) => {
+                  if (!mainNavigation.contains(e.target) && !menuToggle.contains(e.target)) {
+                    mainNavigation.classList.remove('toggled');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                  }
+                });
+                
+                // Close menu when clicking on a link
+                const menuLinks = document.querySelectorAll('.main-navigation .menu li a');
+                menuLinks.forEach(link => {
+                  link.addEventListener('click', () => {
+                    mainNavigation.classList.remove('toggled');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                  });
+                });
+                  </script>
 
 </body>
 
