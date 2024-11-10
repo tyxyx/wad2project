@@ -1001,9 +1001,9 @@ p {
 
 /* .swiper-button-next::after, .swiper-button-prev::after {
     display: none;
-}
+} */
 
-.swiper-button-wp {
+/*.swiper-button-wp {
     position: relative;
     margin-top: 60px;
     display: flex;

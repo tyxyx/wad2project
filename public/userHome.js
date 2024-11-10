@@ -760,7 +760,7 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
     stars.classList.add("featured-info-rating");
     stars.innerText = businessData.avgRating
       ? `⭐ ${businessData.avgRating}/5.0`
-      : "⭐ Rating not available";
+      : "No reviews";
 
     const contactP = document.createElement("p");
     contactP.classList.add("featured-info");
