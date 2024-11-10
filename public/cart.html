@@ -73,6 +73,24 @@
             max-width: auto;
             max-height: 90px;
         }
+
+        .site-header {
+    padding: 35px 0 !important; /* Increased padding with !important to override */
+}
+
+/* Also adjust inner elements for better spacing */
+.header-logo {
+    padding: 5px 0;
+}
+
+.main-navigation {
+    height: auto !important; /* Ensure height doesn't constrain padding */
+}
+
+.main-navigation .menu li a {
+    padding: 12px 20px !important;  /* Increased vertical padding */
+    margin: 5px;
+}
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.js"></script>
 
