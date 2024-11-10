@@ -102,10 +102,15 @@ async function fetchBusinessCards() {
 
     setTimeout(() => {
       // Sort businesses by rating in descending order
-      businesses.sort((a, b) => b.data.avgRating - a.data.avgRating);
+      const validBusinessesForFeatured = businesses
+        .filter(
+          (business) =>
+            business.data.rating != null && !isNaN(business.data.rating)
+        )
+        .sort((a, b) => b.data.rating - a.data.rating);
 
-      for (let i = 0; i < Math.min(5, businesses.length); i++) {
-        const business = businesses[i];
+      for (let i = 0; i < Math.min(5, validBusinessesForFeatured.length); i++) {
+        const business = validBusinessesForFeatured[i];
         createFeaturedBusinessCard(business.id, business.data);
       }
 
@@ -177,7 +182,7 @@ async function createBusinessCard(businessUEN, businessData) {
     stars.classList.add("grid-rating");
     stars.innerText = businessData.avgRating
       ? `⭐ ${businessData.avgRating}/5.0`
-      : "⭐ No Reviews";
+      : "No Ratings";
 
     // Assemble the card
     contentTitleAndRating.appendChild(title);
@@ -760,7 +765,7 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
     stars.classList.add("featured-info-rating");
     stars.innerText = businessData.avgRating
       ? `⭐ ${businessData.avgRating}/5.0`
-      : "No Reviews";
+      : "No Ratings";
 
     const contactP = document.createElement("p");
     contactP.classList.add("featured-info");
