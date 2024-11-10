@@ -429,6 +429,8 @@ window.addEventListener("popstate", async (event) => {
   const header = document.getElementById("review-subheader");
   header.firstChild.textContent = "Click on a business to discover";
   header.querySelector("span").textContent = "what others think";
+  document.getElementById("reviews-container").style.display = "none";
+  
 });
 
 // new createMenuItemCard
@@ -887,7 +889,7 @@ function displayReviews(reviews) {
 
   document.getElementById("reviews-container").style.display = "block";
   reviewsList.style.display = "block";
-  console.log("displayed reviews")
+ 
   reviews.forEach((review) => {
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("card", "mb-3");
