@@ -1966,9 +1966,7 @@ p {
 }
 
 @media (max-width: 991px) {
-    .js-parallax-scene {
-        display: none;
-    }
+
     /* .main-banner {
         padding: 140px 0 60px;
     } */
