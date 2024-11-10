@@ -68,17 +68,18 @@ async function fetchUserName(userEmail) {
 async function fetchBusinessCards() {
   try {
     // Clear existing cards from both containers
-
     const menuDish = document.getElementById("menu-dish");
     const featuredCards = document.getElementById("featured-cards");
 
     if (menuDish) menuDish.innerHTML = "";
     if (featuredCards) featuredCards.innerHTML = "";
 
+    // Fetch all businesses from the "businessLogin" collection
     const businessQuerySnapshot = await getDocs(
       collection(db, "businessLogin")
     );
 
+    const businesses = [];
     businessQuerySnapshot.forEach(async (businessDoc) => {
       const businessData = businessDoc.data();
       const menuItemsRef = collection(
@@ -87,27 +88,34 @@ async function fetchBusinessCards() {
       );
       const menuItemsSnapshot = await getDocs(menuItemsRef);
 
-      // Create vertical card for "All businesses" section
-      // console.log(businessData);
       if (
         businessData.profilePic &&
         businessData.address &&
         businessData.contactInfo &&
         !menuItemsSnapshot.empty
       ) {
-        createBusinessCard(businessDoc.id, businessData);
-        createFeaturedBusinessCard(businessDoc.id, businessData);
+        businesses.push({ id: businessDoc.id, data: businessData });
       }
 
-      // Create horizontal card for "Featured businesses" section
+      createBusinessCard(businessDoc.id, businessData);
     });
 
-    // Initialize horizontal scroll functionality
-    initializeHorizontalScroll();
+    setTimeout(() => {
+      // Sort businesses by rating in descending order
+      businesses.sort((a, b) => b.data.rating - a.data.rating);
+
+      for (let i = 0; i < Math.min(5, businesses.length); i++) {
+        const business = businesses[i];
+        createFeaturedBusinessCard(business.id, business.data);
+      }
+
+      initializeHorizontalScroll();
+    }, 1000); // Timeout to ensure all async operations are completed before sorting
   } catch (error) {
     console.error("Error fetching businesses:", error);
   }
 }
+
 
 // Function to create a business card CHANGE THE DATA HERE FOR THE OUTPUT
 async function createBusinessCard(businessUEN, businessData) {
