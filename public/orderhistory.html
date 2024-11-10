@@ -189,5 +189,36 @@
     <script src="assets/js/ScrollToPlugin.min.js"></script>
     <script src="./main.js"></script>
     <script type="module" src="./orderhistory.js"></script>
+    <script>
+        // Get necessary elements
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNavigation = document.querySelector('.main-navigation');
+    
+    // Add click event listener to toggle button
+    menuToggle.addEventListener('click', () => {
+      mainNavigation.classList.toggle('toggled');
+    
+      // Toggle aria-expanded attribute
+      const isExpanded = mainNavigation.classList.contains('toggled');
+      menuToggle.setAttribute('aria-expanded', isExpanded);
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mainNavigation.contains(e.target) && !menuToggle.contains(e.target)) {
+        mainNavigation.classList.remove('toggled');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    
+    // Close menu when clicking on a link
+    const menuLinks = document.querySelectorAll('.main-navigation .menu li a');
+    menuLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mainNavigation.classList.remove('toggled');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+      </script>
 </body>
 </html>
