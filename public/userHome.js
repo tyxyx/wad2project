@@ -333,7 +333,8 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
         </div>
       </div>
     `;
-
+    
+    document.querySelector('.our-menu .sec-title').classList.add('d-none');
     // Create a row for menu items
     const menuRow = document.createElement("div");
     menuRow.classList.add("row", "g-xxl-5");
@@ -414,6 +415,7 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       header.querySelector("span").textContent = "what others think";
       const ftb = document.getElementById("featured-businesses");
       ftb.classList.remove("d-none");
+      document.querySelector('.our-menu .sec-title').classList.remove('d-none');
       await fetchBusinessCards();
     });
 
@@ -446,6 +448,7 @@ window.addEventListener("popstate", async (event) => {
   menuDish.innerHTML = "";
   const ftb = document.getElementById("featured-businesses");
   ftb.classList.remove("d-none");
+  document.querySelector('.our-menu .sec-title').classList.remove('d-none');
   await fetchBusinessCards();
   document.getElementById("reviews").innerHTML = "";
   const header = document.getElementById("review-subheader");
