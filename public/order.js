@@ -123,7 +123,7 @@ class OrderQRGenerator {
 
       if (this.status) {
         this.status.className = "status success";
-        this.status.innerText = "QR code generated successfully";
+        this.status.innerText = "Scan the QR code above for collection";
       }
 
       this.updateOrderDisplay(orderData);
