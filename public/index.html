@@ -20,79 +20,83 @@
     <link rel="icon" type="image/svg+xml" href="./images/mealmate-logo-zip-file/svg icon 2/logo-color.svg">
 
     <!-- <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script> -->
-    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script> 
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 
-    
+
     <title>MealMate</title>
-  
+
     <style>
-      .navbar {
-        height: 50px;
-        animation: slideDown 0.5s ease-in-out;
-      }
-  
-      /* .caroImg {
+        .navbar {
+            height: 50px;
+            animation: slideDown 0.5s ease-in-out;
+        }
+
+        /* .caroImg {
         max-height: 500px;
         width: 100%;
         opacity: 0;
         animation: fadeIn 0.5s forwards;
         animation-delay: 0.3s; 
       } */
-  
-      /* Reduce the z-index of the carousel controls */
-      .carousel-control-prev, .carousel-control-next {
-        z-index: 1;
-      }
-  
-      /* Ensure the content inside the carousel has a higher z-index */
-      .carousel-inner .carousel-item {
-        position: relative;
-      }
-  
-      .carousel-inner .carousel-item .p-4 {
-        z-index: 2;
-        position: relative;
-      }
-  
-  
-      /* About section styles */
-      .about-section {
-        background-color: #F2E6D8;
-        padding: 50px 0;
-      }
-  
-      .about-section h2 {
-        text-align: center;
-        margin-bottom: 30px;
-        color: #333;
-      }
-  
-      .about-section .overview-content {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        flex-wrap: wrap;
-      }
-  
-      .about-section .overview-card {
-        background-color: #fff;
-        border-radius: 15px;
-        padding: 30px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s;
-        width: 300px; /* Set a fixed width for consistency */
-      }
-  
-      .about-section .overview-card:hover {
-        transform: translateY(-10px);
-      }
-  
-      a.text-white:hover { 
-        color: black !important; /* Change this to any color you like */
-        text-decoration: underline; /* Optional: adds underline on hover */
-      }
-      
-      .sec-sub-title {
+
+        /* Reduce the z-index of the carousel controls */
+        .carousel-control-prev,
+        .carousel-control-next {
+            z-index: 1;
+        }
+
+        /* Ensure the content inside the carousel has a higher z-index */
+        .carousel-inner .carousel-item {
+            position: relative;
+        }
+
+        .carousel-inner .carousel-item .p-4 {
+            z-index: 2;
+            position: relative;
+        }
+
+
+        /* About section styles */
+        .about-section {
+            background-color: #F2E6D8;
+            padding: 0px 0;
+        }
+
+        .about-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .about-section .overview-content {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .about-section .overview-card {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            width: 300px;
+            /* Set a fixed width for consistency */
+        }
+
+        .about-section .overview-card:hover {
+            transform: translateY(-10px);
+        }
+
+        a.text-white:hover {
+            color: black !important;
+            /* Change this to any color you like */
+            text-decoration: underline;
+            /* Optional: adds underline on hover */
+        }
+
+        .sec-sub-title {
             font-size: 2rem !important;
             font-weight: 500 !important;
             text-transform: uppercase;
@@ -104,297 +108,509 @@
             box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff;
         }
 
-      /* Overview Section Styles */
-      .overview-section {
-        /* background-color: #f9f9f9; */
-        background-color: #D4A373;
-        padding: 50px 0;
-      }
-  
-      .overview-title {
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-        text-align: center;
-        color: #333;
-        animation: fadeIn 0.5s ease-in-out;
-      }
-  
-      .overview-content {
-        text-align: center;
-        color: #666;
-        margin-bottom: 40px;
-        opacity: 0;
-        transform: translateY(20px);
-        animation: slideIn 0.5s forwards;
-        animation-delay: 0.3s;
-      }
-  
-      .overview-card {
-        background-color: #fff;
-        border-radius: 15px;
-        padding: 30px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s;
-        margin: 20px;
-      }
-  
-      .overview-card:hover {
-        transform: translateY(-10px);
-      }
-  
-      /* Animations */
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
+        /* Overview Section Styles */
+        .overview-section {
+            /* background-color: #f9f9f9; */
+            background-color: #D4A373;
+            padding: 50px 0;
         }
-        to {
-          opacity: 1;
+
+        .overview-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+            animation: fadeIn 0.5s ease-in-out;
         }
-      }
-  
-      @keyframes slideDown {
-        from {
-          transform: translateY(-20px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-  
-      @keyframes slideIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-  
-      @media (min-width: 768px) {
+
         .overview-content {
-          display: flex;
-          justify-content: center;
-          gap: 20px;
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 0.5s forwards;
+            animation-delay: 0.3s;
         }
-      }
 
-/* Base styles for all icons */
-.why-icon {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.5em;
-    z-index: 1;
-}
+        .overview-card {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            margin: 20px;
+        }
 
-/* Smiley Face - Sunshine background */
-#why1::after {
-    content: '';
-    position: absolute;
-    width: 90%;
-    height: 90%;
-    background: radial-gradient(circle at center, 
-        #FFD700 0%, 
-        #FFF3B0 50%, 
-        #FFFFFF 100%);
-    border-radius: 50%;
-    z-index: -1;
-    animation: glow 3s ease-in-out infinite;
-}
+        .overview-card:hover {
+            transform: translateY(-10px);
+        }
 
-#why1::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 3px dashed #FFD700;
-    border-radius: 50%;
-    animation: danceRotate 4s ease-in-out infinite;
-}
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
 
-/* Bowl of Soup - Steam swirl background */
-#why2::after {
-    content: '';
-    position: absolute;
-    width: 90%;
-    height: 90%;
-    background: repeating-conic-gradient(
-        from 0deg,
-        #FFF5E6 0deg 30deg,
-        #FFE0B2 30deg 60deg
-    );
-    border-radius: 50%;
-    z-index: -1;
-    animation: steamSwirl 4s linear infinite;
-}
+            to {
+                opacity: 1;
+            }
+        }
 
-#why2::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 3px dashed #E67E22;
-    border-radius: 50%;
-    animation: steamRise 3s ease-in-out infinite;
-}
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
 
-/* Earth - Globe background */
-#why3::after {
-    content: '';
-    position: absolute;
-    width: 90%;
-    height: 90%;
-    background: linear-gradient(120deg, 
-        #87CEEB 0%, 
-        #3498DB 25%, 
-        #2ECC71 50%, 
-        #3498DB 75%, 
-        #87CEEB 100%);
-    border-radius: 50%;
-    z-index: -1;
-    animation: globeRotate 6s linear infinite;
-}
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
 
-#why3::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: 3px dashed #3498DB;
-    border-radius: 50%;
-    animation: orbit 6s linear infinite;
-}
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
 
-/* Animations */
-@keyframes glow {
-    0%, 100% { 
-        box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        transform: scale(1);
-    }
-    50% { 
-        box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
-        transform: scale(1.05);
-    }
-}
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-@keyframes danceRotate {
-    0% { transform: rotate(0deg) scale(1); }
-    25% { transform: rotate(90deg) scale(1.1); }
-    50% { transform: rotate(180deg) scale(1); }
-    75% { transform: rotate(270deg) scale(1.1); }
-    100% { transform: rotate(360deg) scale(1); }
-}
+        @media (min-width: 768px) {
+            .overview-content {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+            }
+        }
 
-@keyframes steamSwirl {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
+        /* Base styles for all icons */
+        .why-icon {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            z-index: 1;
+        }
 
-@keyframes steamRise {
-    0% { 
-        transform: rotate(0deg);
-        border-color: #E67E22;
-        opacity: 0.5;
-    }
-    50% { 
-        transform: rotate(180deg);
-        border-color: #D35400;
-        opacity: 1;
-    }
-    100% { 
-        transform: rotate(360deg);
-        border-color: #E67E22;
-        opacity: 0.5;
-    }
-}
+        /* Smiley Face - Sunshine background */
+        #why1::after {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            background: radial-gradient(circle at center,
+                    #FFD700 0%,
+                    #FFF3B0 50%,
+                    #FFFFFF 100%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: glow 3s ease-in-out infinite;
+        }
 
-@keyframes globeRotate {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
+        #why1::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px dashed #FFD700;
+            border-radius: 50%;
+            animation: danceRotate 4s ease-in-out infinite;
+        }
 
-@keyframes orbit {
-    0% {
-        transform: rotate(0deg) scale(1);
-        border-color: #3498DB;
-    }
-    50% {
-        transform: rotate(180deg) scale(1.1);
-        border-color: #2ECC71;
-    }
-    100% {
-        transform: rotate(360deg) scale(1);
-        border-color: #3498DB;
-    }
-}
+        /* Bowl of Soup - Steam swirl background */
+        #why2::after {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            background: repeating-conic-gradient(from 0deg,
+                    #FFF5E6 0deg 30deg,
+                    #FFE0B2 30deg 60deg);
+            border-radius: 50%;
+            z-index: -1;
+            animation: steamSwirl 4s linear infinite;
+        }
 
-/* Enhanced hover effects */
-#why1:hover::after {
-    animation-play-state: paused;
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
-}
+        #why2::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px dashed #E67E22;
+            border-radius: 50%;
+            animation: steamRise 3s ease-in-out infinite;
+        }
 
-#why2:hover::after {
-    animation-play-state: paused;
-    filter: brightness(1.1);
-}
+        /* Earth - Globe background */
+        #why3::after {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            background: linear-gradient(120deg,
+                    #87CEEB 0%,
+                    #3498DB 25%,
+                    #2ECC71 50%,
+                    #3498DB 75%,
+                    #87CEEB 100%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: globeRotate 6s linear infinite;
+        }
 
-#why3:hover::after {
-    animation-play-state: paused;
-    filter: saturate(1.2);
-}
+        #why3::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px dashed #3498DB;
+            border-radius: 50%;
+            animation: orbit 6s linear infinite;
+        }
 
-/* Card styles */
-.why-card {
-    position: relative;
-    padding: 20px;
-    text-align: center;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    background-color: white;
-    transition: transform 0.3s ease;
-}
+        /* Animations */
+        @keyframes glow {
 
-.why-card:hover {
-    transform: translateY(-5px);
-}
+            0%,
+            100% {
+                box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+                transform: scale(1);
+            }
 
-/* Specific emoji styles */
-#why1 {
-    color: #FFD700;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
+            50% {
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+                transform: scale(1.05);
+            }
+        }
 
-#why2 {
-    color: #E67E22;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
+        @keyframes danceRotate {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
 
-#why3 {
-    color: #3498DB;
-    text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
+            25% {
+                transform: rotate(90deg) scale(1.1);
+            }
 
-.about-video-img iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    object-fit: cover;
-}
-@keyframes pulse {
+            50% {
+                transform: rotate(180deg) scale(1);
+            }
+
+            75% {
+                transform: rotate(270deg) scale(1.1);
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1);
+            }
+        }
+
+        @keyframes steamSwirl {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes steamRise {
+            0% {
+                transform: rotate(0deg);
+                border-color: #E67E22;
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: rotate(180deg);
+                border-color: #D35400;
+                opacity: 1;
+            }
+
+            100% {
+                transform: rotate(360deg);
+                border-color: #E67E22;
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes globeRotate {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes orbit {
+            0% {
+                transform: rotate(0deg) scale(1);
+                border-color: #3498DB;
+            }
+
+            50% {
+                transform: rotate(180deg) scale(1.1);
+                border-color: #2ECC71;
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1);
+                border-color: #3498DB;
+            }
+        }
+
+        /* Enhanced hover effects */
+        #why1:hover::after {
+            animation-play-state: paused;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+        }
+
+        #why2:hover::after {
+            animation-play-state: paused;
+            filter: brightness(1.1);
+        }
+
+        #why3:hover::after {
+            animation-play-state: paused;
+            filter: saturate(1.2);
+        }
+
+        /* Card styles */
+        .why-card {
+            position: relative;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Specific emoji styles */
+        #why1 {
+            color: #FFD700;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #why2 {
+            color: #E67E22;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #why3 {
+            color: #3498DB;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-video-img iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            object-fit: cover;
+        }
+
+        .main-banner {
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0;
+            /* Remove padding to ensure full screen */
+        }
+
+        .js-parallax-scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .sec-wp {
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .banner-text {
+            padding: 20px;
+            max-width: 600px;
+        }
+
+        .banner-text .h1-title {
+            font-size: clamp(40px, 6vw, 90px);
+            /* Responsive font size */
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .banner-text p {
+            font-size: clamp(16px, 2vw, 20px);
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        .banner-img-wp {
+            height: 100%;
+            padding-left: 30px;
+        }
+
+        .banner-img {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 30px;
+            animation: biani 4.5s linear infinite alternate;
+        }
+
+        /* Add a bouncing arrow animation */
+        /* Scroll indicator container */
+        .scroll-indicator-container {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 3;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            /* Increased gap to prevent overlap */
+        }
+
+        /* Text styling */
+        .scroll-text {
+            color: #FF8243;
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            /* Added position */
+            z-index: 2;
+            /* Ensure text stays on top */
+            padding: 5px 10px;
+            /* Optional: adds padding around text */
+            border-radius: 4px;
+            /* Optional: rounds corners */
+            animation: glowBounce 2s infinite;
+            white-space: nowrap;
+        }
+
+        /* Arrow styling */
+        .scroll-arrow {
+            font-size: 28px;
+            color: #FF8243;
+            position: relative;
+            /* Added position */
+            z-index: 1;
+            /* Keep arrow behind text */
+            animation: bounceNoOverlap 2s infinite;
+            transform-origin: center bottom;
+            /* Makes arrow bounce from bottom point */
+        }
+
+        /* Separate animations for text and arrow */
+        @keyframes glowBounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.3;
+                text-shadow: none;
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+
+            50% {
+                transform: translateY(-10px);
+                opacity: 1;
+                text-shadow: 0 0 10px rgba(255, 130, 67, 0.5),
+                    0 0 20px rgba(255, 130, 67, 0.3);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+        }
+
+
+        @keyframes bounceNoOverlap {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(10px);
+                /* Reduced bounce height */
+            }
+
+            60% {
+                transform: translateY(5px);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .scroll-indicator-container {
+                bottom: 60px;
+                gap: 20px;
+                /* Slightly reduced gap on mobile */
+            }
+
+            .scroll-text {
+                font-size: 14px;
+            }
+
+            .scroll-arrow {
+                font-size: 24px;
+            }
+        }
+
+        /* Hover effect */
+        .scroll-indicator-container:hover {
+            transform: translateX(-50%) scale(1.05);
+            transition: transform 0.3s ease;
+        }
+
+        .scroll-indicator-container:hover .scroll-text {
+            opacity: 1;
+        }
+        @keyframes pulse {
     0% {
         transform: scale(1);
     }
@@ -409,10 +625,10 @@
     animation: pulse 2s infinite;
 }
     </style>
-  
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  
+
     <script type="module" src="./database.js"></script>
 </head>
 
@@ -424,7 +640,8 @@
                 <div class="col-lg-2">
                     <div class="header-logo">
                         <a href="index.html">
-                            <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" width="160" height="" alt="Logo">
+                            <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" width="160" height=""
+                                alt="Logo">
                         </a>
                     </div>
                 </div>
@@ -438,7 +655,8 @@
                                 <li><a href="#contact" onclick="scrollToSection('contact')">Contact</a></li>
                                 <li><a href="./login.html?mode=login&type=individual" class="nav-link">Log In</a></li>
                                 <li><a href="./login.html?mode=signup&type=individual" class="nav-link">Sign Up</a></li>
-                                <li><a href="./login.html?mode=login&type=business" class="nav-link">For Business</a></li>
+                                <li><a href="./login.html?mode=login&type=business" class="nav-link">For Business</a>
+                                </li>
                             </ul>
                         </nav>
                     </div>
@@ -453,24 +671,26 @@
             <section class="main-banner" id="home">
                 <div class="js-parallax-scene">
                     <div class="banner-shape-1 w-100" data-depth="0.30">
-                        <img src="assets/images/berry.png" alt="">
+                        <img src="assets/images/berry.png" alt="Decorative berry">
                     </div>
                     <div class="banner-shape-2 w-100" data-depth="0.25">
-                        <img src="assets/images/leaf.png" alt="">
+                        <img src="assets/images/leaf.png" alt="Decorative leaf">
                     </div>
                 </div>
+
                 <div class="sec-wp">
                     <div class="container">
-                        <div class="row">
+                        <div class="row align-items-center">
                             <div class="col-lg-6">
                                 <div class="banner-text">
                                     <h1 class="h1-title">
                                         Welcome to
                                         <span>Meal Mate</span>
                                     </h1>
-                                    <p>Discover great meals at amazing discounts while helping reduce food waste. Save more, waste less!</p>
+                                    <p>Discover great meals at amazing discounts while helping reduce food waste. Save
+                                        more, waste less!</p>
                                     <div class="banner-btn mt-4">
-                                        <a href="#menu" class="sec-btn">Check our Menu</a>
+                                        <a href="#menu" class="sec-btn">Discover More</a>
                                     </div>
                                 </div>
                             </div>
@@ -479,46 +699,13 @@
                                     <div class="banner-img" style="background-image: url(assets/images/main-b.jpg);">
                                     </div>
                                 </div>
-                                <div class="banner-img-text mt-4 m-auto">
-                                
-                                </div>
-                            </div>                           
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-            <section class="brands-sec">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="brand-title mb-5">
-                                <h5 class="h5-title">Trusted by 70+ companies</h5>
-                            </div>
-                            <div class="brands-row">
-                                <div class="brands-box">
-                                    <img src="assets/images/brands/b1.png" alt="">
-                                </div>
-                                <div class="brands-box">
-                                    <img src="assets/images/brands/b2.png" alt="">
-                                </div>
-                                <div class="brands-box">
-                                    <img src="assets/images/brands/b3.png" alt="">
-                                </div>
-                                <div class="brands-box">
-                                    <img src="assets/images/brands/b4.png" alt="">
-                                </div>
-                                <div class="brands-box">
-                                    <img src="assets/images/brands/b5.png" alt="">
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            
+
             <!-- About Mealmate section -->
             <section id="about">
                 <section class="about-sec section">
@@ -531,19 +718,25 @@
                                     <div class="sec-title-shape mb-4">
                                         <img src="assets/images/title-shape.svg" alt="">
                                     </div>
-                                    <p>At MealMate, our mission is to reduce food waste by connecting consumers with businesses to offer fresh, surplus meals at affordable prices, promoting sustainability and responsible consumption.</p>
-    
+                                    <p>At MealMate, our mission is to reduce food waste by connecting consumers with
+                                        businesses to offer fresh, surplus meals at affordable prices, promoting
+                                        sustainability and responsible consumption.</p>
+
                                     <h2 class="h2-title mt-4">Our Vision</span></h2>
                                     <div class="sec-title-shape mb-4">
                                         <img src="assets/images/title-shape.svg" alt="">
                                     </div>
-                                    <p>We envision a world where surplus food is transformed into opportunities, building a community that champions sustainability, values the environment, and enjoys accessible, delicious meals.</p>
+                                    <p>We envision a world where surplus food is transformed into opportunities,
+                                        building a community that champions sustainability, values the environment, and
+                                        enjoys accessible, delicious meals.</p>
 
                                     <h2 class="h2-title mt-4">What We Do?</span></h2>
                                     <div class="sec-title-shape mb-4">
                                         <img src="assets/images/title-shape.svg" alt="">
                                     </div>
-                                    <p>To combat food waste, we provide a platform to connect businesses with surplus food to users seeking affordable meals, helping reduce food waste and promote sustainable dining choices.</p>
+                                    <p>To combat food waste, we provide a platform to connect businesses with surplus
+                                        food to users seeking affordable meals, helping reduce food waste and promote
+                                        sustainable dining choices.</p>
                                 </div>
                             </div>
                         </div>
@@ -551,13 +744,21 @@
                             <div class="col-lg-8 m-auto">
                                 <div class="about-video">
                                     <div class="about-video-img">
-                                        <iframe id="youtubeVideo" width="640" height="360" src="https://www.youtube.com/embed/ishA6kry8nc" title="Food Waste: The Hidden Cost of the Food We Throw Out I ClimateScience #9" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                        <iframe id="youtubeVideo" width="640" height="360"
+                                            src="https://www.youtube.com/embed/ishA6kry8nc"
+                                            title="Food Waste: The Hidden Cost of the Food We Throw Out I ClimateScience #9"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                                     </div>
 
                                     <div class="play-btn-wp">
                                         <a class="play-btn" onclick="playVideo()">
                                             <!-- <i class="uil uil-play"></i> -->
-                                            <dotlottie-player src="https://lottie.host/97b8b8ce-229a-48fd-a4f4-477575d6447f/sSV5lVyFVL.json" background="transparent" speed="1" style="width: 40px; height: 60px" direction="1" playMode="normal" loop hover></dotlottie-player>
+                                            <dotlottie-player
+                                                src="https://lottie.host/97b8b8ce-229a-48fd-a4f4-477575d6447f/sSV5lVyFVL.json"
+                                                background="transparent" speed="1" style="width: 40px; height: 60px"
+                                                direction="1" playMode="normal" loop hover></dotlottie-player>
                                         </a>
                                         <span>Food Waste: The Hidden Cost of the Food We Throw Out</span>
                                     </div>
@@ -577,55 +778,93 @@
                         </div>
                     </div>
                 </section>
-                
-    
+
+                <section class="brands-sec">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="brand-title mb-5">
+                                    <h5 class="h5-title">Trusted by 70+ companies</h5>
+                                </div>
+                                <div class="brands-row">
+                                    <div class="brands-box">
+                                        <img src="assets/images/brands/b1.png" alt="">
+                                    </div>
+                                    <div class="brands-box">
+                                        <img src="assets/images/brands/b2.png" alt="">
+                                    </div>
+                                    <div class="brands-box">
+                                        <img src="assets/images/brands/b3.png" alt="">
+                                    </div>
+                                    <div class="brands-box">
+                                        <img src="assets/images/brands/b4.png" alt="">
+                                    </div>
+                                    <div class="brands-box">
+                                        <img src="assets/images/brands/b5.png" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
                 <!-- Benefits of mealmate -->
                 <div class="section" id="why-mealmate">
                     <div class="container text-center">
-                      <h2 class="h2-title">Why MealMate?</h2>
-                      <div class="row justify-content-center">
-                        
-                        <!-- Card 1 -->
-                        <div class="col-md-4 p-3">
-                          <div class="why-card">
-                            <div class="why-icon" id="why1">😊</div>
-                            <h3 class="why-card-title">Browse & Purchase Discounted Meals</h3>
-                            <p class="why-card-description">
-                              Discover irresistible deals on delicious meals from food-related businesses, helping you save while enjoying a variety of options.
-                            </p>
-                          </div>
+                        <h2 class="h2-title">Why MealMate?</h2>
+                        <div class="row justify-content-center">
+
+                            <!-- Card 1 -->
+                            <div class="col-md-4 p-3">
+                                <div class="why-card">
+                                    <div class="why-icon" id="why1">
+                                        <dotlottie-player src="https://lottie.host/18f337e5-ac83-44b3-b3fe-529df7a792ae/YdJknUYGzB.json" background="transparent" speed="1" style="width: 60px; height: 60px" direction="1" playMode="normal" loop autoplay></dotlottie-player>
+                                    </div>
+                                    <h3 class="why-card-title">Browse & Purchase Discounted Meals</h3>
+                                    <p class="why-card-description">
+                                        Discover irresistible deals on delicious meals from food-related businesses,
+                                        helping you save while enjoying a variety of options.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="col-md-4 p-3">
+                                <div class="why-card">
+                                    <div class="why-icon" id="why2">
+                                        <dotlottie-player src="https://lottie.host/0c6fbf94-8bad-44f3-84db-f087ef398de9/KwW6YffXv8.json" background="transparent" speed="1" style="width: 60px; height: 60px" direction="1" playMode="normal" loop autoplay></dotlottie-player>
+                                    </div>
+                                    <h3 class="why-card-title">Facilitate Excess Food Sales</h3>
+                                    <p class="why-card-description">
+                                        Help businesses reduce waste by purchasing their unsold food, ensuring it goes
+                                        to good use instead of being discarded.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="col-md-4 p-3">
+                                <div class="why-card">
+                                    <div class="why-icon" id="why3">
+                                        <dotlottie-player src="https://lottie.host/5d020849-37e4-44ee-8d1f-9ac9730c19be/whyBM1OKyC.json" background="transparent" speed="1" style="width: 60px; height: 60px" direction="1" playMode="normal" loop autoplay></dotlottie-player>
+                                    </div>
+                                    <h3 class="why-card-title">Contribute to SG's Food Waste Reduction Efforts</h3>
+                                    <p class="why-card-description">
+                                        Be part of Singapore's mission to minimize food wastage by making conscious,
+                                        eco-friendly food choices through MealMate.
+                                    </p>
+                                </div>
+                            </div>
+
                         </div>
-                  
-                        <!-- Card 2 -->
-                        <div class="col-md-4 p-3">
-                          <div class="why-card">
-                            <div class="why-icon" id="why2">🍲</div>
-                            <h3 class="why-card-title">Facilitate Excess Food Sales</h3>
-                            <p class="why-card-description">
-                              Help businesses reduce waste by purchasing their unsold food, ensuring it goes to good use instead of being discarded.
-                            </p>
-                          </div>
-                        </div>
-                  
-                        <!-- Card 3 -->
-                        <div class="col-md-4 p-3">
-                          <div class="why-card">
-                            <div class="why-icon" id="why3">🌍</div>
-                            <h3 class="why-card-title">Contribute to SG's Food Waste Reduction Efforts</h3>
-                            <p class="why-card-description">
-                              Be part of Singapore's mission to minimize food wastage by making conscious, eco-friendly food choices through MealMate.
-                            </p>
-                          </div>
-                        </div>
-                  
-                      </div>
                     </div>
-                  </div>
+                </div>
             </section>
 
-            
-              
-              
+
+
+
 
             <!-- Template -->
             <!-- <section style="background-image: url(assets/images/menu-bg.png);"
@@ -986,20 +1225,28 @@
                             <div class="col-lg-10 m-auto">
                                 <div class="book-table-img-slider" id="icon">
                                     <div class="swiper-wrapper">
-                                        
+
                                         <!-- Template for Slide Start -->
                                         <!-- Slide 1 -->
                                         <div class="swiper-slide d-flex">
                                             <!-- Image Section -->
                                             <div class="col-md-6 p-0">
-                                                <img src="./images/foodwastage(1).jpg" class="d-block w-100 h-100 img-fluid" alt="Food waste statistics in Singapore 2023">
+                                                <img src="./images/foodwastage(1).jpg"
+                                                    class="d-block w-100 h-100 img-fluid"
+                                                    alt="Food waste statistics in Singapore 2023">
                                             </div>
-                                            
+
                                             <!-- Text Section -->
-                                            <div class="col-md-6 d-flex align-items-center" style="background-color: #A17C55; color: white; padding: 20px;">
+                                            <div class="col-md-6 d-flex align-items-center"
+                                                style="background-color: #A17C55; color: white; padding: 20px;">
                                                 <div>
-                                                    <h2>"In 2023, the total amount of food waste generated in Singapore was 755,000 tonnes."</h2>
-                                                    <p>Click <a href="https://www.nea.gov.sg/our-services/waste-management/3r-programmes-and-resources/food-waste-management" class="text-white" style="text-decoration: underline !important;">here</a> for SG food waste statistics</p>
+                                                    <h2>"In 2023, the total amount of food waste generated in Singapore
+                                                        was 755,000 tonnes."</h2>
+                                                    <p>Click <a
+                                                            href="https://www.nea.gov.sg/our-services/waste-management/3r-programmes-and-resources/food-waste-management"
+                                                            class="text-white"
+                                                            style="text-decoration: underline !important;">here</a> for
+                                                        SG food waste statistics</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -1009,14 +1256,22 @@
                                         <div class="swiper-slide d-flex">
                                             <!-- Image Section -->
                                             <div class="col-md-6 p-0">
-                                                <img src="./images/foodwastage(2).jpg" class="img-fluid w-100 h-100" alt="Food waste image">
+                                                <img src="./images/foodwastage(2).jpg" class="img-fluid w-100 h-100"
+                                                    alt="Food waste image">
                                             </div>
-                                            
+
                                             <!-- Text Section -->
-                                            <div class="col-md-6 d-flex align-items-center" style="background-color: #A17C55; color: white; padding: 20px;">
+                                            <div class="col-md-6 d-flex align-items-center"
+                                                style="background-color: #A17C55; color: white; padding: 20px;">
                                                 <div>
-                                                    <h2>"Every day in Singapore, we throw away more than 2,000 tonnes — that's 2 million kilograms — of food."</h2>
-                                                    <p>Click <a href="https://www.sg101.gov.sg/resources/connexionsg/foodwaste/" class="text-white" style="text-decoration: underline !important;" target="_blank">here</a> to read on #ChallengeAccepted Food Wastage.</p>
+                                                    <h2>"Every day in Singapore, we throw away more than 2,000 tonnes —
+                                                        that's 2 million kilograms — of food."</h2>
+                                                    <p>Click <a
+                                                            href="https://www.sg101.gov.sg/resources/connexionsg/foodwaste/"
+                                                            class="text-white"
+                                                            style="text-decoration: underline !important;"
+                                                            target="_blank">here</a> to read on #ChallengeAccepted Food
+                                                        Wastage.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -1025,25 +1280,34 @@
                                         <div class="swiper-slide d-flex">
                                             <!-- Image Section -->
                                             <div class="col-md-6 p-0">
-                                                <img src="./images/foodwastage(3).webp" class="img-fluid w-100 h-100" alt="Food waste image">
+                                                <img src="./images/foodwastage(3).webp" class="img-fluid w-100 h-100"
+                                                    alt="Food waste image">
                                             </div>
-                                            
+
                                             <!-- Text Section -->
-                                            <div class="col-md-6 d-flex align-items-center" style="background-color: #A17C55; color: white; padding: 20px;">
+                                            <div class="col-md-6 d-flex align-items-center"
+                                                style="background-color: #A17C55; color: white; padding: 20px;">
                                                 <div>
-                                                    <h2>"Strategy 2: Redistribute unsold or excess food" — do it with 
-                                                        <span style="color: #6C9A8B; font-weight:bolder; background-color: white; border-radius: 15px"><span style="padding: 15px;">MealMate</span></span>
-                                                      !</h2>
-                                                      <p>Click <a href="https://www.nea.gov.sg/our-services/waste-management/3r-programmes-and-resources/food-waste-management/food-waste-management-strategies#:~:text=For%20instance%2C%20unsold%20and%2For,safe%20and%20edible%20food%20items." class="text-white" style="text-decoration: underline !important;">here</a> for food waste management strategies</p>
+                                                    <h2>"Strategy 2: Redistribute unsold or excess food" — do it with
+                                                        <span
+                                                            style="color: #6C9A8B; font-weight:bolder; background-color: white; border-radius: 15px"><span
+                                                                style="padding: 15px;">MealMate</span></span>
+                                                        !
+                                                    </h2>
+                                                    <p>Click <a
+                                                            href="https://www.nea.gov.sg/our-services/waste-management/3r-programmes-and-resources/food-waste-management/food-waste-management-strategies#:~:text=For%20instance%2C%20unsold%20and%2For,safe%20and%20edible%20food%20items."
+                                                            class="text-white"
+                                                            style="text-decoration: underline !important;">here</a> for
+                                                        food waste management strategies</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                         <!-- Add more slides here by copying the above structure and replacing content as needed -->
-                                        
+
                                     </div>
-                        
+
                                     <!-- Swiper Navigation Controls -->
                                     <div class="swiper-button-wp">
                                         <div class="swiper-button-prev swiper-button">
@@ -1059,7 +1323,7 @@
                         </div>
                     </div>
                 </div>
-            </section>    
+            </section>
 
 
 
@@ -1268,7 +1532,9 @@
                                                 <h6 class="h6-title">
                                                     CEO of McDonalds
                                                 </h6>
-                                                <p>"As a CEO, I’m thrilled to see a solution that not only helps our company tackle food waste but also allows us to generate additional revenue in the process. MealMate is truly a game-changer!"
+                                                <p>"As a CEO, I’m thrilled to see a solution that not only helps our
+                                                    company tackle food waste but also allows us to generate additional
+                                                    revenue in the process. MealMate is truly a game-changer!"
                                                 </p>
                                             </div>
                                         </div>
@@ -1293,7 +1559,10 @@
                                                 <h6 class="h6-title">
                                                     Housewife
                                                 </h6>
-                                                <p>"MealMate makes it so convenient to find affordable meals nearby. As a housewife on a budget, I love being able to save money while treating my family to great food—and it feels good to know we’re helping reduce waste too!"</p>
+                                                <p>"MealMate makes it so convenient to find affordable meals nearby. As
+                                                    a housewife on a budget, I love being able to save money while
+                                                    treating my family to great food—and it feels good to know we’re
+                                                    helping reduce waste too!"</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1317,7 +1586,9 @@
                                                 <h6 class="h6-title">
                                                     Student
                                                 </h6>
-                                                <p>"MealMate is a lifesaver for me as a student! I can explore different restaurants and enjoy great meals at discounted prices. It's a win-win, and I highly recommend it!"
+                                                <p>"MealMate is a lifesaver for me as a student! I can explore different
+                                                    restaurants and enjoy great meals at discounted prices. It's a
+                                                    win-win, and I highly recommend it!"
                                                 </p>
                                             </div>
                                         </div>
@@ -1343,7 +1614,11 @@
                                                     Investment Banker
                                                 </h6>
                                                 <p>
-                                                    "During late nights in the office, MealMate has been a lifesaver! Not only does it offer me food at discounted price, I get to help business reduce food waste too! A win-win for all! The pickup process is also quick and seamless, and I can always count on MealMate for my late night supper!"</p>
+                                                    "During late nights in the office, MealMate has been a lifesaver!
+                                                    Not only does it offer me food at discounted price, I get to help
+                                                    business reduce food waste too! A win-win for all! The pickup
+                                                    process is also quick and seamless, and I can always count on
+                                                    MealMate for my late night supper!"</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1372,27 +1647,36 @@
                         <div class="faq-row">
                             <div class="faq-box">
                                 <h4 class="h4-title">How does MealMate work?</h4>
-                                <p>MealMate connects you with local businesses offering discounted food that would otherwise go to waste. Browse available meals, place your order, and pick up during the specified time window.</p>
+                                <p>MealMate connects you with local businesses offering discounted food that would
+                                    otherwise go to waste. Browse available meals, place your order, and pick up during
+                                    the specified time window.</p>
                             </div>
                             <div class="faq-box">
                                 <h4 class="h4-title">Is the food safe to eat?</h4>
-                                <p>Yes! All food offered through MealMate is perfectly safe for consumption. These are fresh, unsold items that businesses need to sell by the end of their business day due to inventory management.</p>
+                                <p>Yes! All food offered through MealMate is perfectly safe for consumption. These are
+                                    fresh, unsold items that businesses need to sell by the end of their business day
+                                    due to inventory management.</p>
                             </div>
                             <div class="faq-box">
                                 <h4 class="h4-title">Can I see what's available before ordering?</h4>
-                                <p>Yes! Businesses list their available items with descriptions, photos, original prices, and discounted prices so you know exactly what you're getting.</p>
+                                <p>Yes! Businesses list their available items with descriptions, photos, original
+                                    prices, and discounted prices so you know exactly what you're getting.</p>
                             </div>
                             <div class="faq-box">
                                 <h4 class="h4-title">How do I pay for my order?</h4>
-                                <p>Reserve your meal on MealMate, then pay directly at the business when you collect your order within the specified pickup window.</p>
+                                <p>Reserve your meal on MealMate, then pay directly at the business when you collect
+                                    your order within the specified pickup window.</p>
                             </div>
                             <div class="faq-box">
                                 <h4 class="h4-title">What if I miss my pickup window?</h4>
-                                <p>Orders not picked up during the specified window will be cancelled due to the time-sensitive nature of our deals. Please contact the business if you're running late.</p>
+                                <p>Orders not picked up during the specified window will be cancelled due to the
+                                    time-sensitive nature of our deals. Please contact the business if you're running
+                                    late.</p>
                             </div>
                             <div class="faq-box">
                                 <h4 class="h4-title">Are there any membership fees to use MealMate?</h4>
-                                <p>No! MealMate is completely free to use. You only pay for the discounted food items you purchase, with no hidden fees.</p>
+                                <p>No! MealMate is completely free to use. You only pay for the discounted food items
+                                    you purchase, with no hidden fees.</p>
                             </div>
                         </div>
 
@@ -1479,7 +1763,7 @@
                                         <div class="sec-wp">
                                             <div class="newsletter-box-text">
                                                 <h2 class="h2-title">Subscribe to our newsletter</h2>
-                                                
+
                                             </div>
                                             <form action="#" class="newsletter-form">
                                                 <input type="email" class="form-input"
@@ -1538,7 +1822,7 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="footer-flex-box">
-                                        
+
                                         <div class="footer-menu food-nav-menu">
                                             <h3 class="h3-title">Links</h3>
                                             <ul class="column-2">
@@ -1629,7 +1913,7 @@
         function playVideo() {
             const videoContainer = document.querySelector('.about-video');
             const iframe = document.querySelector('#youtubeVideo');
-            
+
             // Add autoplay=1 to the iframe src
             let src = iframe.src;
             if (src.indexOf('?') > -1) {
@@ -1637,11 +1921,55 @@
             } else {
                 iframe.src = src + '?autoplay=1';
             }
-            
+
             // Add playing class to container
             videoContainer.classList.add('playing');
         }
-        </script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add scroll indicator to banner
+            const banner = document.querySelector('.main-banner');
+
+            // Create container for scroll indicator elements
+            const scrollContainer = document.createElement('div');
+            scrollContainer.className = 'scroll-indicator-container';
+
+            // Create text element
+            const scrollText = document.createElement('div');
+            scrollText.classList.add('scroll-text', 'scroll-text-glow', 'scroll-text-wave', 'scroll-text-bounce');
+            scrollText.textContent = 'Discover more about MealMate';
+
+            // Create arrow element
+            const scrollArrow = document.createElement('div');
+            scrollArrow.className = 'scroll-arrow';
+            scrollArrow.textContent = '↓';
+
+            // Assemble the elements
+            scrollContainer.appendChild(scrollText);
+            scrollContainer.appendChild(scrollArrow);
+            banner.appendChild(scrollContainer);
+
+            // Handle scroll click
+            const scrollTriggers = document.querySelectorAll('.sec-btn[href="#about"], .scroll-indicator-container');
+
+            scrollTriggers.forEach(trigger => {
+                trigger.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    const aboutSection = document.querySelector('#about');
+                    if (aboutSection) {
+                        const headerHeight = document.querySelector('.site-header').offsetHeight;
+                        const offset = aboutSection.offsetTop - headerHeight;
+
+                        window.scrollTo({
+                            top: offset,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 
