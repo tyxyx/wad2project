@@ -27,6 +27,9 @@
     <!-- Vue CDN -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+
     <script type="module" src="./database.js"></script>
     <style>
         .main-navigation {
@@ -358,19 +361,19 @@
         }
 
         .cart-item-count-container {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-}
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
 
-.cart-item-count {
-    background-color: #f44336;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 4px 8px;
-    border-radius: 50%;
-}
+        .cart-item-count {
+            background-color: #f44336;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 50%;
+        }
     </style>
 
 </head>
@@ -816,233 +819,214 @@
     </script>
 
     <!-- Just before closing </body> tag -->
-<script>
-    const { createApp } = Vue;
+    <script>
+ const { createApp } = Vue;
 
 createApp({
-    data() {
-        return {
-            position: this.getInitialPosition(),
-            isDragging: false,
-            dragOffset: { x: 0, y: 0 },
-            hover: false,
-            dragStartTime: 0,
-            dragStartPos: { x: 0, y: 0 },
-            initialPosition: null,
-            cartItemCount: 0
-        }
+  data() {
+    return {
+      position: {
+        // Store position as percentages instead of pixels
+        rightPercent: 5, // 5% from right
+        bottomPercent: 5  // 5% from bottom
+      },
+      isDragging: false,
+      hover: false,
+      cartItemCount: 0,
+      startX: 0,
+      startY: 0,
+      initialX: 0,
+      initialY: 0
+    }
+  },
+  computed: {
+    buttonStyle() {
+      return {
+        position: 'fixed',
+        right: `${this.position.rightPercent}%`,
+        bottom: `${this.position.bottomPercent}%`,
+        cursor: this.isDragging ? 'grabbing' : 'grab',
+        zIndex: 1000,
+        userSelect: 'none',
+        touchAction: 'none',
+        transform: 'translate3d(0,0,0)',
+        willChange: this.isDragging ? 'right, bottom' : 'auto'
+      }
+    }
+  },
+  methods: {
+    startDrag(event) {
+      if (event.button !== 0) return;
+      
+      this.isDragging = true;
+      this.startX = event.clientX;
+      this.startY = event.clientY;
+      
+      // Store initial percentages
+      this.initialX = this.position.rightPercent;
+      this.initialY = this.position.bottomPercent;
+      
+      event.preventDefault();
     },
-    methods: {
-        getInitialPosition() {
-            const padding = 20;
-            const x = window.innerWidth - 76 - padding;
-            const y = window.innerHeight - 76 - padding;
-            this.initialPosition = { x, y };
-            return { x, y };
-        },
 
-        startDrag(event) {
-            if (event.button !== 0) return;
-            this.isDragging = true;
-            this.dragStartTime = Date.now();
-            this.dragStartPos = { x: event.clientX, y: event.clientY };
-            const boundingRect = event.currentTarget.getBoundingClientRect();
-            this.dragOffset = {
-                x: event.clientX - boundingRect.left,
-                y: event.clientY - boundingRect.top
-            };
-            event.preventDefault();
-        },
+    handleDrag(event) {
+      if (!this.isDragging) return;
+      
+      const dx = this.startX - event.clientX;
+      const dy = this.startY - event.clientY;
+      
+      // Convert pixel changes to percentage changes
+      const rightChange = (dx / window.innerWidth) * 100;
+      const bottomChange = (dy / window.innerHeight) * 100;
+      
+      // Update percentages
+      let newRight = this.initialX + rightChange;
+      let newBottom = this.initialY + bottomChange;
+      
+      // Constrain to window bounds (keep button visible)
+      newRight = Math.max(0, Math.min(95, newRight));
+      newBottom = Math.max(0, Math.min(95, newBottom));
+      
+      this.position.rightPercent = newRight;
+      this.position.bottomPercent = newBottom;
+    },
 
-        handleDrag(event) {
-            if (!this.isDragging) return;
-            const padding = 20;
-            const newX = Math.min(Math.max(padding, event.clientX - this.dragOffset.x), window.innerWidth - 76 - padding);
-            const newY = Math.min(Math.max(padding, event.clientY - this.dragOffset.y), window.innerHeight - 76 - padding);
-            this.position = { x: newX, y: newY };
-        },
+    stopDrag(event) {
+      if (!this.isDragging) return;
+      
+      const dx = Math.abs(event.clientX - this.startX);
+      const dy = Math.abs(event.clientY - this.startY);
+      
+      if (dx < 5 && dy < 5) {
+        this.handleCartClick();
+      }
+      
+      this.isDragging = false;
+    },
 
-        stopDrag(event) {
-            if (!this.isDragging) return;
-            const dragDistance = Math.hypot(
-                event.clientX - this.dragStartPos.x,
-                event.clientY - this.dragStartPos.y
-            );
-            const dragDuration = Date.now() - this.dragStartTime;
-
-            if (dragDistance < 5 && dragDuration < 200) {
-                // This was a click rather than a drag
-                this.handleCartClick();
-            }
-
-            this.isDragging = false;
-        },
-
-        handleResize() {
-            if (!this.isDragging) {
-                this.position = this.getInitialPosition();
-            }
-        },
-
-        handleScroll() {
-            if (!this.isDragging) {
-                this.position = { ...this.initialPosition };
-            }
-        },
-
-        handleCartClick() {
-    // Get cart data from localStorage
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const businessUEN = JSON.parse(localStorage.getItem('businessId') || '""');
-    const businessName = JSON.parse(localStorage.getItem('businessName') || '""');
-    
-    if (cart.length > 0) {
-        // If there are items in cart, ensure business info is saved and redirect
+    handleCartClick() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const businessUEN = JSON.parse(localStorage.getItem('businessId') || '""');
+      const businessName = JSON.parse(localStorage.getItem('businessName') || '""');
+      
+      if (cart.length > 0) {
         localStorage.setItem("businessId", JSON.stringify(businessUEN));
         localStorage.setItem("cart", JSON.stringify(cart));
         localStorage.setItem("businessName", JSON.stringify(businessName));
         localStorage.removeItem("currentOrderId");
         localStorage.removeItem("orderCreationTime");
         window.location.href = "cart.html";
-    } else {
-        // If cart is empty, show popup
+      } else {
         this.showStatusPopup(
-            "Your cart is empty. Please add items to the cart before ordering.",
-            false
+          "Your cart is empty. Please add items to the cart before ordering.",
+          false
         );
+      }
+    },
+
+    showStatusPopup(message, isSuccess) {
+      const existingPopup = document.querySelector(".status-popup");
+      if (existingPopup) {
+        existingPopup.remove();
+      }
+
+      const popup = document.createElement("div");
+      popup.className = `status-popup ${isSuccess ? "success" : "error"}`;
+      popup.textContent = message;
+      document.body.appendChild(popup);
+      popup.offsetHeight;
+
+      setTimeout(() => popup.classList.add("show"), 10);
+      setTimeout(() => {
+        popup.classList.remove("show");
+        setTimeout(() => popup.remove(), 300);
+      }, 3000);
+    },
+
+    updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      this.cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
     }
-},
-
-        showStatusPopup(message, isSuccess) {
-            // Remove any existing popup
-            const existingPopup = document.querySelector(".status-popup");
-            if (existingPopup) {
-                existingPopup.remove();
-            }
-
-            // Create new popup element
-            const popup = document.createElement("div");
-            popup.className = `status-popup ${isSuccess ? "success" : "error"}`;
-            popup.textContent = message;
-
-            // Add popup to the document
-            document.body.appendChild(popup);
-
-            // Trigger reflow to ensure transition works
-            popup.offsetHeight;
-
-            // Show the popup
-            setTimeout(() => {
-                popup.classList.add("show");
-            }, 10);
-
-            // Hide the popup after 3 seconds
-            setTimeout(() => {
-                popup.classList.remove("show");
-                setTimeout(() => {
-                    popup.remove();
-                }, 300);
-            }, 3000);
-        },
-
-        updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            this.cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-        },
-
-        updateCartItemCount(count) {
-            this.cartItemCount = count;
-        }
-    },
-    mounted() {
-        document.addEventListener('mousemove', this.handleDrag);
-        document.addEventListener('mouseup', this.stopDrag);
-        window.addEventListener('resize', this.handleResize);
-        window.addEventListener('scroll', this.handleScroll);
-        
-        // Add event listener for cart updates
-        window.addEventListener('cartUpdated', (event) => {
-            this.cartItemCount = event.detail.count;
-        });
-
-        // Initialize cart count from localStorage
-        this.updateCartCount();
-        this.getInitialPosition();
-    },
-    unmounted() {
-        document.removeEventListener('mousemove', this.handleDrag);
-        document.removeEventListener('mouseup', this.stopDrag);
-        window.removeEventListener('resize', this.handleResize);
-        window.removeEventListener('scroll', this.handleScroll);
-        window.removeEventListener('cartUpdated', this.updateCartCount);
-    },
-    template: `
+  },
+  mounted() {
+    document.addEventListener('mousemove', this.handleDrag);
+    document.addEventListener('mouseup', this.stopDrag);
+    window.addEventListener('cartUpdated', (event) => {
+      this.cartItemCount = event.detail.count;
+    });
+    this.updateCartCount();
+  },
+  unmounted() {
+    document.removeEventListener('mousemove', this.handleDrag);
+    document.removeEventListener('mouseup', this.stopDrag);
+    window.removeEventListener('cartUpdated', this.updateCartCount);
+  },
+  template: `
     <div 
-        class="cart-btn-drag"
-        @mousedown="startDrag"
-        :style="{
-            position: 'fixed',
-            left: position.x + 'px',
-            top: position.y + 'px',
-            cursor: isDragging ? 'grabbing' : 'grab',
-            visibility: initialPosition ? 'visible' : 'hidden',
-            zIndex: 1000
-        }"
+      class="cart-btn-drag"
+      @mousedown="startDrag"
+      :style="buttonStyle"
     >
-        <div
-            :style="{
-                width: '56px',
-                height: '56px',
-                backgroundColor: hover ? '#ea580c' : '#f97316',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                transition: 'background-color 0.2s',
-                position: 'relative'
-            }"
-            @mouseover="hover = true"
-            @mouseleave="hover = false"
+      <div
+        :style="{
+          width: '56px',
+          height: '56px',
+          backgroundColor: hover ? '#ea580c' : '#f97316',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+          transition: isDragging ? 'none' : 'background-color 0.2s',
+          position: 'relative'
+        }"
+        @mouseover="hover = true"
+        @mouseleave="hover = false"
+      >
+        <div v-if="cartItemCount > 0" 
+          :style="{
+            position: 'absolute',
+            top: '-8px',
+            right: '-8px',
+            backgroundColor: '#ef4444',
+            color: 'white',
+            borderRadius: '50%',
+            width: '24px',
+            height: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '12px',
+            fontWeight: 'bold',
+            pointerEvents: 'none',
+            zIndex: 2
+          }"
         >
-            <div v-if="cartItemCount > 0" 
-                :style="{
-                    position: 'absolute',
-                    top: '-8px',
-                    right: '-8px',
-                    backgroundColor: '#ef4444',
-                    color: 'white',
-                    borderRadius: '50%',
-                    width: '24px',
-                    height: '24px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '12px',
-                    fontWeight: 'bold'
-                }"
-            >
-                {{ cartItemCount }}
-            </div>
-            <svg 
-                width="24" 
-                height="24" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="white" 
-                stroke-width="2"
-                stroke-linecap="round" 
-                stroke-linejoin="round"
-            >
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
-            </svg>
+          {{ cartItemCount }}
         </div>
+        <div :style="{
+          position: 'absolute',
+          top: '-52px',
+          left: '-42px',
+          pointerEvents: 'none',
+          zIndex: 1
+        }">
+          <dotlottie-player 
+            src="https://lottie.host/ee74d4ab-339d-460d-9964-15d15f21053d/seHndu7YQT.json" 
+            background="transparent" 
+            speed="1" 
+            style="width: 140px; height: 140px" 
+            direction="1" 
+            playMode="normal" 
+            loop 
+            autoplay
+          ></dotlottie-player>
+        </div>
+      </div>
     </div>
-    `
+  `
 }).mount('#cart-button');
-</script>
+    </script>
 
 </body>
 
