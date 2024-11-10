@@ -102,7 +102,7 @@ async function fetchBusinessCards() {
 
     setTimeout(() => {
       // Sort businesses by rating in descending order
-      businesses.sort((a, b) => b.data.rating - a.data.rating);
+      businesses.sort((a, b) => b.data.avgRating - a.data.avgRating);
 
       for (let i = 0; i < Math.min(5, businesses.length); i++) {
         const business = businesses[i];
