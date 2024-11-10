@@ -95,7 +95,7 @@ async function fetchBusinessCards() {
         businessData.contactInfo &&
         !menuItemsSnapshot.empty
       ) {
-        getAvgRating(businessData.uen, businessData.placeId);
+        await getAvgRating(businessData.uen, businessData.placeId);
         createBusinessCard(businessDoc.id, businessData);
         createFeaturedBusinessCard(businessDoc.id, businessData);
       }
