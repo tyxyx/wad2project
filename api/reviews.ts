@@ -10,6 +10,8 @@ export default async function handler(req, res) {
       throw new Error("Network response was not ok " + response.statusText);
     }
     const data = await response.json();
+    console.log("api data:" + data)
+    console.log("api data.result:" + data.result);
     res.status(200).json(data.result || []); // Return reviews or an empty array if none
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -856,8 +856,6 @@ async function fetchPlaceReviews(placeId) {
     }
     const data = await response.json();
     const reviews = data.reviews;
-    console.log("fetch place reviews data: " + data)
-    console.log("fetch place reviews data res: " + data.result);
     displayReviews(reviews);
   } catch (error) {
     console.error("Error fetching place reviews:", error);
