@@ -71,26 +71,50 @@
 
         .item-container img {
             max-width: auto;
-            max-height: 90px;
+            max-height: 40px;
         }
 
         .site-header {
-    padding: 35px 0 !important; /* Increased padding with !important to override */
-}
+            padding: 35px 0 !important;
+            /* Increased padding with !important to override */
+        }
 
-/* Also adjust inner elements for better spacing */
-.header-logo {
-    padding: 5px 0;
-}
+        /* Also adjust inner elements for better spacing */
+        .header-logo {
+            padding: 5px 0;
+        }
 
-.main-navigation {
-    height: auto !important; /* Ensure height doesn't constrain padding */
-}
+        .main-navigation {
+            height: auto !important;
+            /* Ensure height doesn't constrain padding */
+        }
 
-.main-navigation .menu li a {
-    padding: 12px 20px !important;  /* Increased vertical padding */
-    margin: 5px;
-}
+        .main-navigation .menu li a {
+            padding: 12px 20px !important;
+            /* Increased vertical padding */
+            margin: 5px;
+        }
+
+        .site-header {
+            padding: 35px 0 !important;
+            /* Increased padding with !important to override */
+        }
+
+        /* Also adjust inner elements for better spacing */
+        .header-logo {
+            padding: 5px 0;
+        }
+
+        .main-navigation {
+            height: auto !important;
+            /* Ensure height doesn't constrain padding */
+        }
+
+        .main-navigation .menu li a {
+            padding: 12px 20px !important;
+            /* Increased vertical padding */
+            margin: 5px;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.js"></script>
 
@@ -169,21 +193,31 @@
                                         <div id="mobile-cart-items" class="p-2 container-fluid">
                                             <!-- Mobile cart items will be populated here -->
                                             <div v-for="item in cart" :key="item.name" class="cart-item">
-                                                <div class="item-container row d-flex justify-content-between align-items-center" style="white-space: nowrap;">
-                                                    <div class="col-6 text-start">
-                                                        <img :src="item.image" alt="Food Image" class="cart-item-image m-2" />
-                                                        <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
+                                                <div
+                                                    class="item-container row d-flex justify-content-between align-items-center">
+                                                    <div class="col-6 d-flex align-items-center text-start">
+                                                        <!-- Image -->
+                                                        <img :src="item.image" alt="Food Image"
+                                                            class="cart-item-image m-2" style="flex-shrink: 0;" />
+
+                                                        <!-- Text with wrapping -->
+                                                        <span class="ms-2 text-wrap">{{ item.name }} - ${{
+                                                            item.price.toFixed(2) }}</span>
                                                     </div>
-                                        
-                                                    <div class="quantity-control col-4 text-end">
-                                                        <button @click="changeQuantity(item, -1)" class="quantity-btn minus-btn">-</button>
+
+                                                    <!-- Quantity control right-aligned -->
+                                                    <div class="quantity-control col-6 text-end">
+                                                        <button @click="changeQuantity(item, -1)"
+                                                            class="quantity-btn minus-btn">-</button>
                                                         <span>{{ item.quantity }}</span>
-                                                        <button @click="changeQuantity(item, 1)" class="quantity-btn plus-btn">+</button>
+                                                        <button @click="changeQuantity(item, 1)"
+                                                            class="quantity-btn plus-btn">+</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
+
                                         <div class="order-summary-mobile mt-4">
                                             <div class="dist-title">
                                                 <h2>Order Summary</h2>
@@ -213,21 +247,25 @@
                                         <div id="cart-items" class="p-2">
                                             <!-- Desktop cart items will be populated here -->
                                             <div v-for="item in cart" :key="item.name" class="cart-item">
-                                                <div class="item-container d-flex justify-content-between align-items-center">
+                                                <div
+                                                    class="item-container d-flex justify-content-between align-items-center">
                                                     <div class="text-start">
-                                                        <img :src="item.image" alt="Food Image" class="cart-item-image m-2" />
+                                                        <img :src="item.image" alt="Food Image"
+                                                            class="cart-item-image m-2" />
                                                         <span>{{ item.name }} - ${{ item.price.toFixed(2) }}</span>
                                                     </div>
-                                                    
+
                                                     <div class="quantity-control text-end">
-                                                        <button @click="changeQuantity(item, -1)" class="quantity-btn minus-btn">-</button>
+                                                        <button @click="changeQuantity(item, -1)"
+                                                            class="quantity-btn minus-btn">-</button>
                                                         <span>{{ item.quantity }}</span>
-                                                        <button @click="changeQuantity(item, 1)" class="quantity-btn plus-btn">+</button>
+                                                        <button @click="changeQuantity(item, 1)"
+                                                            class="quantity-btn plus-btn">+</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
 
