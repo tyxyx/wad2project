@@ -578,25 +578,33 @@ function createMenuItemCard(menuItemData, container) {
 // Function to add item to cart
 function addToCart(itemName, quantity, price, image) {
   // Check if the item is already in the cart
-
   const existingItemIndex = cart.findIndex((item) => item.name === itemName);
 
   if (existingItemIndex !== -1) {
-    // If item exists, update the quantity
-    cart[existingItemIndex].quantity += quantity;
+      // If item exists, update the quantity
+      cart[existingItemIndex].quantity += quantity;
   } else {
-    // If item doesn't exist, add it to the cart
-    cart.push({
-      name: itemName,
-      quantity: quantity,
-      price: price,
-      image: image,
-    });
+      // If item doesn't exist, add it to the cart
+      cart.push({
+          name: itemName,
+          quantity: quantity,
+          price: price,
+          image: image,
+      });
   }
 
   // Store the updated cart back to localStorage
-  // localStorage.setItem("cart", JSON.stringify(cart));
-  loadCartItems();
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  // Notify the Vue.js component about the updated cart
+  const cartButtonComponent = document.getElementById('cart-button')?.__vue_app__?.component('default');
+  console.log(cartButtonComponent)
+  if (cartButtonComponent) {
+      cartButtonComponent.updateCartItemCount(cart.reduce((total, item) => total + item.quantity, 0));
+  }
+
+  // Show the status popup
+  showStatusPopup(`${quantity} ${itemName}(s) added to cart!`, true);
 }
 
 function createCarousel(containerId, imageUrls) {
