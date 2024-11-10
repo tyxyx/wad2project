@@ -95,7 +95,6 @@ async function fetchBusinessCards() {
         businessData.contactInfo &&
         !menuItemsSnapshot.empty
       ) {
-        await getAvgRating(businessData.uen, businessData.placeId);
         createBusinessCard(businessDoc.id, businessData);
         createFeaturedBusinessCard(businessDoc.id, businessData);
       }
@@ -864,37 +863,7 @@ async function fetchPlaceReviews(placeId) {
   }
 }
 
-async function getAvgRating(businessUEN, placeId) {
-  const url = `../api/reviews?placeId=${placeId}`;
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      console.log(response);
-      throw new Error("Network response was not ok " + response.statusText);
-    }
 
-    const data = await response.json();
-    const avgRating = data.rating;
-
-    setAvgRating(businessUEN, avgRating);
-  } catch (error) {
-    console.error("Error fetching place reviews:", error);
-  }
-}
-
-async function setAvgRating(businessUEN, rating) {
-  try {
-    await setDoc(
-      doc(db, "businessLogin", businessUEN),
-      {
-        avgRating: rating,
-      },
-      { merge: true }
-    );
-  } catch (error) {
-    console.error("Error updating avg rating:", error);
-  }
-}
 
 function generateStars(rating) {
   let stars = "";
