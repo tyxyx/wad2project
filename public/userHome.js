@@ -119,16 +119,16 @@ async function createBusinessCard(businessUEN, businessData) {
 
   // Create outer column div with proper grid classes
   const colDiv = document.createElement("div");
-  colDiv.classList.add("col-lg-4", "col-sm-6", "mb-4", "center-col");
+  colDiv.classList.add("col-xl-3", "col-lg-4", "col-md-6","col-12", "mb-4");
 
   // Create card
   const card = document.createElement("div");
-  card.classList.add("featured-business-card"); // Use same class as horizontal cards
+  card.classList.add("grid-business-card"); // Use same class as horizontal cards
 
   try {
     // Create image container
     const imgContainer = document.createElement("div");
-    imgContainer.classList.add("featured-img-container"); // Use same class as horizontal cards
+    imgContainer.classList.add("grid-img-container"); // Use same class as horizontal cards
 
     const img = document.createElement("img");
     img.src =
@@ -142,13 +142,13 @@ async function createBusinessCard(businessUEN, businessData) {
 
     // Create content container with same classes as horizontal cards
     const content = document.createElement("div");
-    content.classList.add("featured-content");
+    content.classList.add("grid-content");
 
     const contentTitleAndRating = document.createElement("div");
-    contentTitleAndRating.classList.add("featured-content-title-and-rating");
+    contentTitleAndRating.classList.add("grid-content-header");
 
     const title = document.createElement("h3");
-    title.classList.add("featured-title");
+    title.classList.add("grid-title");
     if (businessData.busName.length > 20) {
       const displayTitle = businessData.busName.slice(0, 20) + " ...";
       title.innerText = displayTitle;
@@ -157,7 +157,7 @@ async function createBusinessCard(businessUEN, businessData) {
     }
 
     const locationP = document.createElement("p");
-    locationP.classList.add("featured-info");
+    locationP.classList.add("grid-info");
     if (businessData.address.length > 20) {
       const displayAddress = businessData.address.slice(0, 20) + " ...";
       locationP.innerText = `📍 ${displayAddress}`;
@@ -166,10 +166,10 @@ async function createBusinessCard(businessUEN, businessData) {
     }
 
     const stars = document.createElement("p");
-    stars.classList.add("featured-info-rating");
+    stars.classList.add("grid-rating");
     stars.innerText = businessData.avgRating
       ? `⭐ ${businessData.avgRating}/5.0`
-      : "⭐ Rating not available";
+      : "⭐ No Reviews";
 
     // Assemble the card
     contentTitleAndRating.appendChild(title);
@@ -752,7 +752,7 @@ function createFeaturedBusinessCard(businessUEN, businessData) {
     stars.classList.add("featured-info-rating");
     stars.innerText = businessData.avgRating
       ? `⭐ ${businessData.avgRating}/5.0`
-      : "No reviews";
+      : "No Reviews";
 
     const contactP = document.createElement("p");
     contactP.classList.add("featured-info");
