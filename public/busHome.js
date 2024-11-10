@@ -53,7 +53,8 @@ onAuthStateChanged(auth, async(user) => {
                 const img = document.createElement('img')
                 profileContainer.appendChild(img)
                 img.src = businessFields.profilePic
-                await getAvgRating(businessData.uen, businessData.placeId);
+              
+                await getAvgRating(businessFields.uen, businessFields.placeId);
             }
             
         setTimeout(() => {
@@ -179,9 +180,11 @@ async function handleOnboardingSubmit(e) {
                 address: address,
                 contactInfo: contact,
                 profilePic: profilePicUrl,
-                updatedAt: new Date().toISOString()
+              updatedAt: new Date().toISOString(),
+              placeId:place_id,
+                
             }, { merge: true });
-
+          getAvgRating(businessUEN, place_id);
             // Hide modal
             const myModal = document.getElementById('staticBackdrop');
             const bsModal = bootstrap.Modal.getInstance(myModal);
@@ -226,7 +229,8 @@ async function handleOnboardingSubmit(e) {
         }
     }
     
-    form.classList.add('was-validated');
+  form.classList.add('was-validated');
+  
 }
 
 // Add to busHome.js

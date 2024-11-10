@@ -12,10 +12,10 @@
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    
+
     <!-- swiper -->
     <!-- <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"> -->
-     
+
     <!-- fancy box  -->
     <link rel="stylesheet" href="assets/css/jquery.fancybox.min.css">
     <!-- custom css  -->
@@ -23,14 +23,17 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  
+
+    <!-- Vue CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
     <script type="module" src="./database.js"></script>
     <style>
         .main-navigation {
             display: flex;
             justify-content: flex-end;
         }
-        
+
         .menu-toggle {
             position: relative;
             width: 40px;
@@ -43,7 +46,7 @@
             border-radius: 10px;
             padding: 0 8px;
         }
-        
+
         .menu-toggle span {
             display: block;
             width: 100%;
@@ -53,29 +56,29 @@
             border-radius: 5px;
             transition: 0.3s;
         }
-        
+
         .menu-toggle span:last-child {
             margin: 0;
         }
-        
+
         .toggled .menu-toggle span:nth-child(1) {
             transform: rotate(45deg);
             top: 5px;
             position: relative;
         }
-        
+
         .toggled .menu-toggle span:nth-child(2) {
             transform: rotate(-45deg);
             top: -4px;
             position: relative;
         }
-        
+
         @media (max-width: 991px) {
             .menu-toggle {
                 display: block;
                 z-index: 100;
             }
-        
+
             .header-menu {
                 position: fixed;
                 top: 0;
@@ -88,59 +91,71 @@
                 transform: translateY(-100%);
                 transition: 0.5s ease;
             }
-        
+
             .main-navigation.toggled .header-menu {
                 transform: translateY(0);
             }
-        
+
             .main-navigation .menu li {
                 display: block;
                 margin-bottom: 20px;
             }
-        
+
             .main-navigation .menu li a {
                 display: inline-block;
                 font-size: 18px;
             }
         }
-        
+
         @media (max-width: 767px) {
             .dish-box {
-                margin: 80px 15px 30px; /* Add some horizontal margin */
+                margin: 80px 15px 30px;
+                /* Add some horizontal margin */
             }
 
             .dist-bottom-row {
-                padding: 0 15px; /* Add padding to the bottom row */
+                padding: 0 15px;
+                /* Add padding to the bottom row */
             }
 
             .dist-bottom-row ul {
-                flex-wrap: wrap; /* Allow items to wrap */
-                gap: 10px; /* Add space between wrapped items */
+                flex-wrap: wrap;
+                /* Allow items to wrap */
+                gap: 10px;
+                /* Add space between wrapped items */
             }
 
             .dist-bottom-row ul li {
-                width: 100%; /* Make each item take full width */
+                width: 100%;
+                /* Make each item take full width */
                 justify-content: space-between;
                 align-items: center;
             }
 
             .dish-add-btn {
-                min-width: 120px; /* Ensure minimum width for the button */
-                height: auto; /* Allow height to adjust */
-                padding: 8px 12px; /* Add more padding */
-                white-space: nowrap; /* Prevent text wrapping */
+                min-width: 120px;
+                /* Ensure minimum width for the button */
+                height: auto;
+                /* Allow height to adjust */
+                padding: 8px 12px;
+                /* Add more padding */
+                white-space: nowrap;
+                /* Prevent text wrapping */
                 /* margin: 0px; */
             }
 
             .dist-bottom-row ul li b {
-                font-size: 22px; /* Slightly reduce font size */
+                font-size: 22px;
+                /* Slightly reduce font size */
             }
 
             /* Adjust padding for price and info sections */
-            .dish-info, .dish-title {
+            .dish-info,
+            .dish-title {
                 padding: 0 15px;
             }
         }
+
         @media (max-width: 375px) {
             .dish-box {
                 padding-bottom: 30px;
@@ -161,11 +176,11 @@
             font-weight: 500 !important;
             text-transform: uppercase;
             color: #FF7747;
-            background: #f3f3f5; 
+            background: #f3f3f5;
             display: inline-block;
             padding: 15px 45px;
             border-radius: 60px;
-            box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff; 
+            box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff;
         }
 
 
@@ -182,7 +197,7 @@
             box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff;
         }
 
-        .center-col{
+        .center-col {
             display: flex;
             /* align-items: center; */
             justify-content: center;
@@ -206,41 +221,43 @@
             box-shadow: 9px 9px 12px #e4e4e4, -9px -9px 12px #ffffff;
         }
 
-        
-    .status-popup {
-      position: fixed;
-      top: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 15px 20px;
-      border-radius: 5px;
-      color: white;
-      font-weight: bold;
-      opacity: 0;
-      transition: opacity 0.3s ease-in-out;
-      z-index: 1000;
-    }
 
-    .status-popup.success {
-      background-color: #4CAF50;
-    }
+        .status-popup {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            z-index: 1000;
+        }
 
-    .status-popup.error {
-      background-color: #f44336;
-    }
+        .status-popup.success {
+            background-color: #4CAF50;
+        }
 
-    .status-popup.show {
-      opacity: 1;
-    }
+        .status-popup.error {
+            background-color: #f44336;
+        }
 
-    .dish-box {
+        .status-popup.show {
+            opacity: 1;
+        }
+
+        .dish-box {
             border-radius: 12px;
             background: linear-gradient(145deg, #ececec, #ffffff);
-            box-shadow:  0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             min-height: 120px;
-            width: 100%;        /* Make it take full width of parent */
-            max-width: 400px;   /* Maximum width */
+            width: 100%;
+            /* Make it take full width of parent */
+            max-width: 400px;
+            /* Maximum width */
             display: flex;
             align-items: center;
             padding: 1rem;
@@ -264,27 +281,32 @@
         /* Responsive grid adjustments */
         @media (min-width: 1400px) {
             .center-col-menu {
-                width: 33.333%;  /* 3 cards per row on large screens */
+                width: 33.333%;
+                /* 3 cards per row on large screens */
             }
         }
 
         @media (min-width: 992px) and (max-width: 1399px) {
             .center-col-menu {
-                width: 50%;      /* 2 cards per row on medium screens */
+                width: 50%;
+                /* 2 cards per row on medium screens */
             }
-            
+
             .dish-box {
-                max-width: 450px;  /* Slightly larger on medium screens */
+                max-width: 450px;
+                /* Slightly larger on medium screens */
             }
         }
 
         @media (min-width: 768px) and (max-width: 991px) {
             .center-col-menu {
-                width: 100%;     /* 1 card per row on smaller screens */
+                width: 100%;
+                /* 1 card per row on smaller screens */
             }
-            
+
             .dish-box {
-                max-width: 600px;  /* Larger width on smaller screens */
+                max-width: 600px;
+                /* Larger width on smaller screens */
             }
         }
 
@@ -293,7 +315,7 @@
                 width: 100%;
                 padding: 0.25rem;
             }
-            
+
             .dish-box {
                 min-height: 100px;
                 max-width: 100%;
@@ -319,11 +341,38 @@
         .row.g-xxl-5.bydefault_show {
             display: flex;
             flex-wrap: wrap;
-            margin: 0 -0.5rem;  /* Compensate for column padding */
+            margin: 0 -0.5rem;
+            /* Compensate for column padding */
             width: 100%;
         }
+
+        #cart-button {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: auto;
+        }
+
+        .cart-btn-drag {
+            touch-action: none;
+            user-select: none;
+        }
+
+        .cart-item-count-container {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+}
+
+.cart-item-count {
+    background-color: #f44336;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 50%;
+}
     </style>
-        
+
 </head>
 
 <body class="body-fixed">
@@ -334,7 +383,8 @@
                 <div class="col-lg-2">
                     <div class="header-logo">
                         <a href="index.html">
-                            <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" width="160" alt="Logo">
+                            <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" width="160"
+                                alt="Logo">
                         </a>
                     </div>
                 </div>
@@ -357,6 +407,7 @@
 
     <div id="viewport">
         <div id="js-scroll-content">
+
             <section class="main-banner" id="home" style="padding-top: 100px; margin-bottom: 10px;">
                 <div class="js-parallax-scene">
                     <div class="banner-shape-1 w-100" data-depth="0.30">
@@ -384,7 +435,7 @@
                                     <!-- <div class="banner-btn mt-4">
                                         <a href="#menu" class="sec-btn">Check our Menu</a>
                                     </div> -->
-                                    
+
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -397,7 +448,8 @@
                                 <div class="banner-img-wp" style="height: 300px; padding-top: 20px;">
                                     <!-- <div class="banner-img" style="background-image: url(assets/images/main-b.jpg);">
                                     </div> -->
-                                    <div class="banner-img" style="background-image: url(images/66594dd0493476bf35d63bb4_Snip20240531_48.webp);">
+                                    <div class="banner-img"
+                                        style="background-image: url(images/66594dd0493476bf35d63bb4_Snip20240531_48.webp);">
                                     </div>
                                 </div>
                             </div>
@@ -412,7 +464,8 @@
                 </div>
             </section>
 
-            <section id="featured-businesses" class="section pt-3 pb-3 bg-light repeat-img" style="background-image: url(assets/images/menu-bg.png);">
+            <section id="featured-businesses" class="section pt-3 pb-3 bg-light repeat-img"
+                style="background-image: url(assets/images/menu-bg.png);">
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
@@ -424,23 +477,23 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="horizontal-scroll-container">
                         <button class="scroll-arrow prev-arrow">
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                        
+
                         <div class="business-scroll-wrapper">
                             <div id="featured-cards" class="business-cards"></div>
                         </div>
-                        
+
                         <button class="scroll-arrow next-arrow">
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
                 </div>
             </section>
-            
+
             <section style="background-image: url(assets/images/menu-bg.png);"
                 class="our-menu section bg-light repeat-img py-3" id="menu">
                 <div class="sec-wp">
@@ -459,32 +512,31 @@
                         <!-- selector end -->
                         <div class="menu-list-row">
                             <div class="row g-xxl-5 bydefault_show justify-content-center" id="menu-dish">
-                                
-                            </div>
-                        </div>
-                        
-                    </div>
-                    
-                </div>
-                
-            </section>
-            <section style="background-image: url(assets/images/menu-bg.png);"
-                class="section bg-light repeat-img py-3">
-            <div id="reviews-container" style="display:none;" class="container">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="sec-title text-center mb-5">
-                                    <p class="sec-sub-title mb-3">Reviews</p>
-                                    <h2 id="review-subheader" class="h2-title" ">Click on a business to discover<span>what others think</span></h2>
-                                    <div class="sec-title-shape mb-4">
-                                        <img src="assets/images/title-shape.svg" alt="">
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
 
+                    </div>
+
+                </div>
+
+            </section>
+            <section style="background-image: url(assets/images/menu-bg.png);" class="section bg-light repeat-img py-3">
+                <div id="reviews-container" style="display:none;" class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="sec-title text-center mb-5">
+                                <p class="sec-sub-title mb-3">Reviews</p>
+                                <h2 id="review-subheader" class="h2-title" ">Click on a business to discover<span>what others think</span></h2>
+                                    <div class=" sec-title-shape mb-4">
+                                    <img src="assets/images/title-shape.svg" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="reviews" style="display:none;">
-                    
+
                 </div>
             </section>
             <!-- <div id="reviews"></div> -->
@@ -506,27 +558,36 @@
                         <div class="faq-row">
                             <div class="faq-box">
                                 <h4 class="h4-title">How does MealMate work?</h4>
-                                <p>MealMate connects you with local businesses offering discounted food that would otherwise go to waste. Browse available meals, place your order, and pick up during the specified time window.</p>
+                                <p>MealMate connects you with local businesses offering discounted food that would
+                                    otherwise go to waste. Browse available meals, place your order, and pick up during
+                                    the specified time window.</p>
                             </div>
                             <div class="faq-box">
                                 <h4 class="h4-title">Is the food safe to eat?</h4>
-                                <p>Yes! All food offered through MealMate is perfectly safe for consumption. These are fresh, unsold items that businesses need to sell by the end of their business day due to inventory management.</p>
+                                <p>Yes! All food offered through MealMate is perfectly safe for consumption. These are
+                                    fresh, unsold items that businesses need to sell by the end of their business day
+                                    due to inventory management.</p>
                             </div>
                             <div class="faq-box">
                                 <h4 class="h4-title">Can I see what's available before ordering?</h4>
-                                <p>Yes! Businesses list their available items with descriptions, photos, original prices, and discounted prices so you know exactly what you're getting.</p>
+                                <p>Yes! Businesses list their available items with descriptions, photos, original
+                                    prices, and discounted prices so you know exactly what you're getting.</p>
                             </div>
                             <div class="faq-box">
                                 <h4 class="h4-title">How do I pay for my order?</h4>
-                                <p>Reserve your meal on MealMate, then pay directly at the business when you collect your order within the specified pickup window.</p>
+                                <p>Reserve your meal on MealMate, then pay directly at the business when you collect
+                                    your order within the specified pickup window.</p>
                             </div>
                             <div class="faq-box">
                                 <h4 class="h4-title">What if I miss my pickup window?</h4>
-                                <p>Orders not picked up during the specified window will be cancelled due to the time-sensitive nature of our deals. Please contact the business if you're running late.</p>
+                                <p>Orders not picked up during the specified window will be cancelled due to the
+                                    time-sensitive nature of our deals. Please contact the business if you're running
+                                    late.</p>
                             </div>
                             <div class="faq-box">
                                 <h4 class="h4-title">Are there any membership fees to use MealMate?</h4>
-                                <p>No! MealMate is completely free to use. You only pay for the discounted food items you purchase, with no hidden fees.</p>
+                                <p>No! MealMate is completely free to use. You only pay for the discounted food items
+                                    you purchase, with no hidden fees.</p>
                             </div>
                         </div>
 
@@ -550,7 +611,7 @@
                                         <div class="sec-wp">
                                             <div class="newsletter-box-text">
                                                 <h2 class="h2-title">Subscribe our newsletter</h2>
-                                                
+
                                             </div>
                                             <form action="#" class="newsletter-form">
                                                 <input type="email" class="form-input"
@@ -660,7 +721,7 @@
         </div>
     </div>
 
-
+    <div id="cart-button"></div>
 
 
 
@@ -702,14 +763,14 @@
     <!-- userHome.js -->
     <script type="module" src="./userHome.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const menuToggle = document.querySelector('.menu-toggle');
             const mainNav = document.querySelector('.main-navigation');
-            
-            menuToggle.addEventListener('click', function() {
+
+            menuToggle.addEventListener('click', function () {
                 mainNav.classList.toggle('toggled');
             });
-        
+
             // Close menu when clicking a link
             // document.querySelectorAll('.header-menu a').forEach(link => {
             //     link.addEventListener('click', () => {
@@ -719,7 +780,7 @@
         });
 
         // initialize parallax
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             var scene = document.querySelector('.js-parallax-scene');
             if (scene) {
                 var parallaxInstance = new Parallax(scene, {
@@ -731,28 +792,183 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-        // Check if GSAP is loaded
-        if (typeof gsap !== 'undefined') {
-            gsap.registerPlugin(ScrollTrigger);
-            
-            var elementFirst = document.querySelector('.site-header');
-            if (elementFirst) {
-                ScrollTrigger.create({
-                    trigger: "body",
-                    start: "30px top",
-                    end: "bottom bottom",
-                    onEnter: () => elementFirst.classList.add('sticky_head'),
-                    onLeaveBack: () => elementFirst.classList.remove('sticky_head'),
-                });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if GSAP is loaded
+            if (typeof gsap !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+
+                var elementFirst = document.querySelector('.site-header');
+                if (elementFirst) {
+                    ScrollTrigger.create({
+                        trigger: "body",
+                        start: "30px top",
+                        end: "bottom bottom",
+                        onEnter: () => elementFirst.classList.add('sticky_head'),
+                        onLeaveBack: () => elementFirst.classList.remove('sticky_head'),
+                    });
+                } else {
+                    console.error('Header element not found');
+                }
             } else {
-                console.error('Header element not found');
+                console.error('GSAP is not loaded');
             }
-        } else {
-            console.error('GSAP is not loaded');
-        }
         });
     </script>
+
+    <!-- Just before closing </body> tag -->
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    position: this.getInitialPosition(),
+                    isDragging: false,
+                    dragOffset: { x: 0, y: 0 },
+                    hover: false,
+                    dragStartTime: 0,
+                    dragStartPos: { x: 0, y: 0 },
+                    initialPosition: null,
+                    cartItemCount: 0
+                }
+            },
+            methods: {
+                getInitialPosition() {
+                    const padding = 20;
+                    const x = window.innerWidth - 76 - padding;
+                    const y = window.innerHeight - 76 - padding;
+                    this.initialPosition = { x, y };
+                    return { x, y };
+                },
+                startDrag(event) {
+                    if (event.button !== 0) return;
+                    this.isDragging = true;
+                    this.dragStartTime = Date.now();
+                    this.dragStartPos = { x: event.clientX, y: event.clientY };
+                    const boundingRect = event.currentTarget.getBoundingClientRect();
+                    this.dragOffset = {
+                        x: event.clientX - boundingRect.left,
+                        y: event.clientY - boundingRect.top
+                    };
+                    event.preventDefault();
+                },
+                handleDrag(event) {
+                    if (!this.isDragging) return;
+                    const padding = 20;
+                    const newX = Math.min(Math.max(padding, event.clientX - this.dragOffset.x), window.innerWidth - 76 - padding);
+                    const newY = Math.min(Math.max(padding, event.clientY - this.dragOffset.y), window.innerHeight - 76 - padding);
+                    this.position = { x: newX, y: newY };
+                },
+                stopDrag(event) {
+                    if (!this.isDragging) return;
+                    const dragDistance = Math.hypot(
+                        event.clientX - this.dragStartPos.x,
+                        event.clientY - this.dragStartPos.y
+                    );
+                    const dragDuration = Date.now() - this.dragStartTime;
+
+                    if (dragDistance < 5 && dragDuration < 200) {
+                        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                        if (cart.length > 0) {
+                            window.location.href = "cart.html";
+                        } else {
+                            this.showStatusPopup(
+                                "Your cart is empty. Please add items to the cart before ordering.",
+                                false
+                            );
+                        }
+                    }
+
+                    this.isDragging = false;
+                },
+                handleResize() {
+                    if (!this.isDragging) {
+                        this.position = this.getInitialPosition();
+                    }
+                },
+                handleScroll() {
+                    if (!this.isDragging) {
+                        this.position = { ...this.initialPosition };
+                    }
+                },
+                updateCartItemCount(count) {
+                    this.cartItemCount = count;
+                    if (this.$el) {
+        // Use this.$el to access the DOM element directly
+        const cartItemCountElement = this.$el.querySelector('.cart-item-count');
+        if (cartItemCountElement) {
+            cartItemCountElement.textContent = count;
+        }
+    }
+                }
+            },
+            mounted() {
+                document.addEventListener('mousemove', this.handleDrag);
+                document.addEventListener('mouseup', this.stopDrag);
+                window.addEventListener('resize', this.handleResize);
+                window.addEventListener('scroll', this.handleScroll);
+                this.getInitialPosition();
+
+                this.updateCartItemCount(cart.reduce((total, item) => total + item.quantity, 0));
+            },
+            unmounted() {
+                document.removeEventListener('mousemove', this.handleDrag);
+                document.removeEventListener('mouseup', this.stopDrag);
+                window.removeEventListener('resize', this.handleResize);
+                window.removeEventListener('scroll', this.handleScroll);
+            },
+            template: `
+            <div 
+        class="cart-btn-drag"
+        @mousedown="startDrag"
+        :style="{
+            position: 'fixed',
+            left: position.x + 'px',
+            top: position.y + 'px',
+            cursor: isDragging ? 'grabbing' : 'grab',
+            visibility: initialPosition ? 'visible' : 'hidden'
+        }"
+    >
+        <div
+            :style="{
+                width: '56px',
+                height: '56px',
+                backgroundColor: hover ? '#ea580c' : '#f97316',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                transition: 'background-color 0.2s',
+                position: 'relative'
+            }"
+            @mouseover="hover = true"
+            @mouseleave="hover = false"
+        >
+            <div class="cart-item-count-container">
+                <span v-if="cartItemCount > 0" class="cart-item-count">{{ cartItemCount }}</span>
+            </div>
+            <svg 
+                width="24" 
+                height="24" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="white" 
+                stroke-width="2"
+                stroke-linecap="round" 
+                stroke-linejoin="round"
+            >
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+        </div>
+    </div>
+
+    `
+        }).mount('#cart-button');
+    </script>
+
 </body>
 
 </html>
