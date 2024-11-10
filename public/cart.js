@@ -2,56 +2,57 @@ const cart = JSON.parse(localStorage.getItem("cart")) || [];
 const businessUEN = JSON.parse(localStorage.getItem("businessId")) || [];
 
 window.onload = function () {
-  
   renderCart();
-  // Update totals display
   updateTotals();
-  
 };
 
 // Function to create and append a cart item element
 function renderCart() {
-  
-  const cartDiv = document.getElementById('cart-items');
-    cartDiv.innerHTML = ''; // Clear previous cart items
+  // Desktop cart items
+  renderCartItems("cart-items");
+  // Mobile cart items
+  renderCartItems("mobile-cart-items");
+}
 
-    cart.forEach(item => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'cart-item';
+function renderCartItems(containerId) {
+  const cartDiv = document.getElementById(containerId);
+  if (!cartDiv) return; // Skip if element doesn't exist
 
-     
-      
-      const itemContainer = document.createElement("div");
-      itemContainer.className = "item-container";
+  cartDiv.innerHTML = ""; // Clear previous cart items
 
-      const name = document.createElement("span");
-      name.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+  cart.forEach((item) => {
+    const itemDiv = document.createElement("div");
+    itemDiv.className = "cart-item";
 
-      const quantityDiv = document.createElement("div");
-      quantityDiv.className = "quantity-control";
+    const itemContainer = document.createElement("div");
+    itemContainer.className = "item-container";
 
-        const decreaseButton = document.createElement('button');
-        decreaseButton.textContent = '-';
-        decreaseButton.onclick = () => changeQuantity(item.name, -1);
+    const name = document.createElement("span");
+    name.textContent = `${item.name} - $${item.price.toFixed(2)}`;
 
-        const quantity = document.createElement('span');
-        quantity.textContent = item.quantity;
+    const quantityDiv = document.createElement("div");
+    quantityDiv.className = "quantity-control";
 
-        const increaseButton = document.createElement('button');
-        increaseButton.textContent = '+';
-        increaseButton.onclick = () => changeQuantity(item.name, 1);
+    const decreaseButton = document.createElement("button");
+    decreaseButton.textContent = "-";
+    decreaseButton.onclick = () => changeQuantity(item.name, -1);
 
-        quantityDiv.appendChild(decreaseButton);
-        quantityDiv.appendChild(quantity);
-        quantityDiv.appendChild(increaseButton);
+    const quantity = document.createElement("span");
+    quantity.textContent = item.quantity;
 
-      
-      
-      itemContainer.appendChild(name);
-      itemContainer.appendChild(quantityDiv);
-      itemDiv.appendChild(itemContainer);
-      cartDiv.appendChild(itemDiv);
-    });
+    const increaseButton = document.createElement("button");
+    increaseButton.textContent = "+";
+    increaseButton.onclick = () => changeQuantity(item.name, 1);
+
+    quantityDiv.appendChild(decreaseButton);
+    quantityDiv.appendChild(quantity);
+    quantityDiv.appendChild(increaseButton);
+
+    itemContainer.appendChild(name);
+    itemContainer.appendChild(quantityDiv);
+    itemDiv.appendChild(itemContainer);
+    cartDiv.appendChild(itemDiv);
+  });
 }
 
 function changeQuantity(name, delta) {
@@ -60,44 +61,115 @@ function changeQuantity(name, delta) {
   if (item) {
     item.quantity += delta;
 
-    if ((item.quantity <= 0)) {
+    if (item.quantity <= 0) {
       cart.splice(itemIndex, 1);
     }
-
   }
-      localStorage.setItem("cart", JSON.stringify(cart)); // Update localStorage
-      renderCart(); // Re-render the cart
+
+  localStorage.setItem("cart", JSON.stringify(cart)); // Update localStorage
+  renderCart(); // Re-render the cart
   updateTotals();
-  if (cart.length == 0) {
-    alert("Your cart is empty, returning you to homepage");
-    window.location.replace("home.html");
+
+  if (cart.length === 0) {
+    showStatusPopup("Your cart is empty, returning you to homepage", false);
+    setTimeout(() => {
+      window.location.replace("home.html");
+    }, 3000)
   }
-    
+}
+
+// Function to update total quantity and price
+function updateTotals() {
+  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = cart.reduce(
+    (sum, item) => sum + item.quantity * item.price,
+    0
+  );
+
+  // Update desktop totals
+  updateElementText("total-quantity", `Total Items in Cart: ${totalQuantity}`);
+  updateElementText("total-price", `Total Price: $${totalPrice.toFixed(2)}`);
+
+  // Update mobile totals
+  updateElementText(
+    "mobile-total-quantity",
+    `Total Items in Cart: ${totalQuantity}`
+  );
+  updateElementText(
+    "mobile-total-price",
+    `Total Price: $${totalPrice.toFixed(2)}`
+  );
+
+  setupOrderNowButtons();
+}
+
+// Helper function to safely update element text
+function updateElementText(elementId, text) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.textContent = text;
+  }
+}
+
+// Function to set up the Order Now buttons
+function setupOrderNowButtons() {
+  // Set up click handlers for both desktop and mobile checkout buttons
+  const checkoutButtons = document.querySelectorAll(".cart-btn");
+  checkoutButtons.forEach((button) => {
+    if (!button.classList.contains("secondary")) {
+      // Only add to primary checkout buttons
+      button.addEventListener("click", (e) => {
+        e.preventDefault()
+        // Check if there are items in the cart (stored in localStorage)
+        const cart = JSON.parse(localStorage.getItem("cart"));
+
+        if (cart && cart.length > 0) {
+          // Proceed with placing the order if there are items in the cart
+          showStatusPopup("Order placed!", true);
+          setTimeout(() => {
+            window.location.replace("order.html");
+          }, 3000)
+          
+        } else {
+          // Notify the user if the cart is empty
+          showStatusPopup("Your cart is empty. Please add items to the cart first.", false)
+          setTimeout(() => {
+            window.location.replace("home.html");
+          }, 3000)
+        }
+      });
+    }
+  });
+}
+
+function showStatusPopup(message, isSuccess = true) {
+  // Remove any existing popup
+  const existingPopup = document.querySelector('.status-popup');
+  if (existingPopup) {
+    existingPopup.remove();
   }
 
-  // Function to update total quantity and price
-  function updateTotals() {
-    const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const totalPrice = cart.reduce(
-      (sum, item) => sum + item.quantity * item.price,
-      0
-    );
+  // Create new popup element
+  const popup = document.createElement('div');
+  popup.className = `status-popup ${isSuccess ? 'success' : 'error'}`;
+  popup.textContent = message;
 
-    document.getElementById(
-      "total-quantity"
-    ).textContent = `Total Items in Cart: ${totalQuantity}`;
-    document.getElementById(
-      "total-price"
-    ).textContent = `Total Price: $${totalPrice.toFixed(2)}`;
+  // Add popup to the document
+  document.body.appendChild(popup);
 
-    setupOrderNowButton();
-  }
+  // Trigger reflow to ensure transition works
+  popup.offsetHeight;
 
-  // Function to set up the Order Now button
-  function setupOrderNowButton() {
-    document.getElementById("order-btn").addEventListener("click", () => {
-      alert("Order placed!");
-      window.location.replace("order.html");
-    
-    });
-  }
+  // Show the popup
+  setTimeout(() => {
+    popup.classList.add('show');
+  }, 10);
+
+  // Hide the popup after 3 seconds
+  setTimeout(() => {
+    popup.classList.remove('show');
+    setTimeout(() => {
+      popup.remove();
+    }, 300); // Wait for fade out transition to complete
+  }, 3000);
+}
