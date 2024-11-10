@@ -622,7 +622,42 @@
         .scroll-indicator-container:hover .scroll-text {
             opacity: 1;
         }
-       
+
+.main-navigation .menu li a {
+    padding: 8px 20px;  /* Increased vertical padding */
+    margin: 5px;
+    border-radius: 30px;
+}
+
+/* Adjust mobile padding */
+@media (max-width: 991px) {
+    .main-navigation .menu li a {
+        padding: 12px 25px; /* Slightly larger padding on mobile */
+    }
+    
+    .header-menu {
+        padding-top: max(12vh, 40px); /* Increased top padding */
+    }
+}
+/* Add this at the very end of your CSS */
+.site-header {
+    padding: 35px 0 !important; /* Increased padding with !important to override */
+}
+
+/* Also adjust inner elements for better spacing */
+.header-logo {
+    padding: 5px 0;
+}
+
+.main-navigation {
+    height: auto !important; /* Ensure height doesn't constrain padding */
+}
+
+.main-navigation .menu li a {
+    padding: 12px 20px !important;  /* Increased vertical padding */
+    margin: 5px;
+}
+
     </style>
 
     <!-- Bootstrap CSS -->
