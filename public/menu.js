@@ -81,13 +81,26 @@ export async function displayBusinessMenu(businessMenu) {
 
       const priceElement = document.createElement("p");
       priceElement.className = "card-text";
-      priceElement.innerHTML = `
-            <strong>Price: $${item.price.toFixed(2)}</strong>
-            <br>
-            <strong>Discounted Price: $${(
-          item.discount
-        ).toFixed(2)}</strong>
-        `;
+// priceElement.innerHTML = `
+//             <strong>Price: $${item.price.toFixed(2)}</strong>
+//             <br>
+//             <strong>Discounted Price: $${item.discount.toFixed(2)}</strong>
+//         `;
+      // Create a strong element for the price
+      const priceText = document.createElement("strong");
+      priceText.textContent = `Price: $${item.price.toFixed(2)}`;
+      priceElement.appendChild(priceText);
+
+      // Create a line break between price and discounted price
+      priceElement.appendChild(document.createElement("br"));
+
+      // Create a strong element for the discounted price
+      const discountedPriceText = document.createElement("strong");
+      discountedPriceText.textContent = `Discounted Price: $${item.discount.toFixed(
+        2
+      )}`;
+      priceElement.appendChild(discountedPriceText);
+
     
     // Create discard button
     const discardButton = document.createElement("button");

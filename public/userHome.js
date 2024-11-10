@@ -322,19 +322,55 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     ftb.classList.add("d-none");
 
     // Clear existing cards to display menu
+    // const menuDish = document.getElementById("menu-dish");
+    // menuDish.innerHTML = `
+    //   <div class="col-lg-12">
+    //     <div class="sec-title text-center mb-5">
+    //       <h2 class="h2-title" id='displayMenu'>${businessName}'s Menu</h2>
+    //       <div class="sec-title-shape mb-4">
+    //         <img src="assets/images/title-shape.svg">
+    //       </div>
+    //     </div>
+    //   </div>
+    // `;
     const menuDish = document.getElementById("menu-dish");
-    menuDish.innerHTML = `
-      <div class="col-lg-12">
-        <div class="sec-title text-center mb-5">
-          <h2 class="h2-title" id='displayMenu'>${businessName}'s Menu</h2>
-          <div class="sec-title-shape mb-4">
-            <img src="assets/images/title-shape.svg">
-          </div>
-        </div>
-      </div>
-    `;
-    
-    document.querySelector('.our-menu .sec-title').classList.add('d-none');
+
+    // Create the outer div with class "col-lg-12"
+    const colDiv = document.createElement("div");
+    colDiv.classList.add("col-lg-12");
+
+    // Create the inner div with class "sec-title text-center mb-5"
+    const secTitleDiv = document.createElement("div");
+    secTitleDiv.classList.add("sec-title", "text-center", "mb-5");
+
+    // Create the <h2> element with class "h2-title"
+    const h2Title = document.createElement("h2");
+    h2Title.classList.add("h2-title");
+    h2Title.id = "displayMenu";
+    h2Title.textContent = `${businessName}'s Menu`;
+
+    // Create the inner div for the title shape
+    const titleShapeDiv = document.createElement("div");
+    titleShapeDiv.classList.add("sec-title-shape", "mb-4");
+
+    // Create the <img> element for the title shape image
+    const img = document.createElement("img");
+    img.src = "assets/images/title-shape.svg";
+
+    // Append the <img> to the titleShapeDiv
+    titleShapeDiv.appendChild(img);
+
+    // Append the <h2> and titleShapeDiv to the secTitleDiv
+    secTitleDiv.appendChild(h2Title);
+    secTitleDiv.appendChild(titleShapeDiv);
+
+    // Append the secTitleDiv to the colDiv
+    colDiv.appendChild(secTitleDiv);
+
+    // Finally, append the colDiv to the menuDish
+    menuDish.appendChild(colDiv);
+
+    document.querySelector(".our-menu .sec-title").classList.add("d-none");
     // Create a row for menu items
     const menuRow = document.createElement("div");
     menuRow.classList.add("row", "g-xxl-5");
@@ -354,11 +390,17 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     cartBox.style.maxWidth = "500px";
     cartBox.style.margin = "0 auto";
 
+    // Create the div element with classes "dist-title" and "text-center"
     const cartTitle = document.createElement("div");
     cartTitle.classList.add("dist-title", "text-center");
-    cartTitle.innerHTML = `
-      <h3 class="h3-title">Your Cart</h3>
-    `;
+
+    // Create the <h3> element with class "h3-title"
+    const h3Title = document.createElement("h3");
+    h3Title.classList.add("h3-title");
+    h3Title.textContent = "Your Cart"; // Set the text content for the <h3>
+
+    // Append the <h3> element to the cartTitle div
+    cartTitle.appendChild(h3Title);
 
     // Create cart list
     listGroup = document.createElement("ul");
@@ -415,7 +457,7 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       header.querySelector("span").textContent = "what others think";
       const ftb = document.getElementById("featured-businesses");
       ftb.classList.remove("d-none");
-      document.querySelector('.our-menu .sec-title').classList.remove('d-none');
+      document.querySelector(".our-menu .sec-title").classList.remove("d-none");
       await fetchBusinessCards();
     });
 
@@ -831,18 +873,49 @@ function initializeHorizontalScroll() {
   // Create arrows if they don't exist
   let prevButton = container.querySelector(".prev-arrow");
   let nextButton = container.querySelector(".next-arrow");
+// if (!prevButton) {
+//   prevButton = document.createElement("button");
+//   prevButton.className = "scroll-arrow prev-arrow";
+//   prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+//   container.insertBefore(prevButton, scrollWrapper);
+// }
 
+// if (!nextButton) {
+//   nextButton = document.createElement("button");
+//   nextButton.className = "scroll-arrow next-arrow";
+//   nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+//   container.appendChild(nextButton);
+// }
   if (!prevButton) {
+    // prevButton = document.createElement("button");
+    // prevButton.className = "scroll-arrow prev-arrow";
+    // prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    // container.insertBefore(prevButton, scrollWrapper);
     prevButton = document.createElement("button");
-    prevButton.className = "scroll-arrow prev-arrow";
-    prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    prevButton.classList.add("scroll-arrow", "prev-arrow");
+
+    // Create the <i> element for the chevron icon
+    const icon = document.createElement("i");
+    icon.classList.add("fas", "fa-chevron-left");
+
+    // Append the icon to the button
+    prevButton.appendChild(icon);
+
+    // Insert the button into the container before the scrollWrapper
     container.insertBefore(prevButton, scrollWrapper);
   }
 
   if (!nextButton) {
     nextButton = document.createElement("button");
     nextButton.className = "scroll-arrow next-arrow";
-    nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    const icon = document.createElement("i");
+    icon.classList.add("fas", "fa-chevron-left");
+
+    // Clear any existing content in prevButton (optional)
+    prevButton.textContent = ""; // You can clear the button's text content
+
+    // Append the <i> icon to the prevButton
+    prevButton.appendChild(icon);
     container.appendChild(nextButton);
   }
 
