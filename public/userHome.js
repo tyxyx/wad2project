@@ -629,7 +629,7 @@ function createMenuItemCard(menuItemData, container) {
 
   const priceSection = document.createElement("h3");
   priceSection.classList.add("featured-title");
-  priceSection.textContent = `$${Number(menuItemData.price).toFixed(2)}`;
+  priceSection.textContent = `$${Number(menuItemData.discount).toFixed(2)}`;
 
   const quantityControls = document.createElement("div");
   quantityControls.classList.add(
@@ -658,7 +658,7 @@ function createMenuItemCard(menuItemData, container) {
   addButton.addEventListener("click", () => {
     const quantity = parseInt(quantityInput.value);
     if (quantity > 0) {
-      addToCart(menuItemData.itemName, quantity, menuItemData.price, img.src);
+      addToCart(menuItemData.itemName, quantity, menuItemData.discount, img.src);
       showStatusPopup(
         `${quantity} ${menuItemData.itemName}(s) added to cart!`,
         true
