@@ -84,7 +84,7 @@ class OrderQRGenerator {
       );
       await setDoc(userOrderRef, orderDocument);
   
-      console.log("Order successfully saved to database!");
+      //console.log("Order successfully saved to database!");
       return true;
     } catch (error) {
       console.error("Error saving order to database:", error);
@@ -149,7 +149,7 @@ function redirectToLogin() {
 
 async function renderOrderSummary() {
   const existingBackup = localStorage.getItem("orderBackup");
-  console.log("Initial localStorage:", localStorage);
+  //console.log("Initial localStorage:", localStorage);
 
   if (!existingBackup) {
     // No backup exists - create new backup from localStorage
@@ -186,10 +186,10 @@ async function renderOrderSummary() {
           elapsedTime < 7200000) {
         // Valid order - continue using existing backup
         showStatusPopup("You have an existing order that still needs verification.", false)
-        console.log("Using existing backup - valid order");
+        //console.log("Using existing backup - valid order");
       } else {
         // Order completed or expired - use new localStorage data
-        console.log("Creating new backup from localStorage");
+        //console.log("Creating new backup from localStorage");
         const cartData = localStorage.getItem("cart");
         const cart = cartData ? JSON.parse(cartData) : [];
         const businessId = localStorage.getItem("businessId")?.replace(/"/g, '') || null;
@@ -217,7 +217,7 @@ async function renderOrderSummary() {
   const finalBackupData = JSON.parse(localStorage.getItem("orderBackup"));
   const cart = finalBackupData.cart || [];
   const businessUEN = finalBackupData.businessId;
-  console.log(businessUEN);
+  //console.log(businessUEN);
   
   const orderSummaryDiv = document.getElementById("order-summary");
   orderSummaryDiv.innerText = "";
@@ -229,7 +229,7 @@ async function renderOrderSummary() {
   }
 
   cart.forEach((item) => {
-    console.log(item)
+    //console.log(item)
     const itemDiv = document.createElement("div");
     itemDiv.innerText = `${item.name} - $${item.price.toFixed(2)} x ${item.quantity}`;
     orderSummaryDiv.appendChild(itemDiv);
@@ -273,10 +273,10 @@ onAuthStateChanged(auth, async (user) => {
       if (userDoc.exists()) {
         userData = userDoc.data(); // Store the user data
         userEmail = userData.email;
-        console.log("User data loaded:", userData.fullName);
+        //console.log("User data loaded:", userData.fullName);
         await renderOrderSummary();
       } else {
-        console.log("No user document found");
+        //console.log("No user document found");
         redirectToLogin();
       }
 
