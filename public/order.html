@@ -24,7 +24,9 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
       <!-- Axios -->
         <script src='https://unpkg.com/axios/dist/axios.min.js'></script>
-        <script type="module" src="./database.js"></script>
+        <script type="module" src="./database.js">
+        import { logOut } from './database.js'
+        </script>
         <style>
             .section.book-table {
     padding-top: 180px !important; /* Increase top padding to push content down */
@@ -157,6 +159,7 @@
                             <ul class="menu food-nav-menu">
                                 <!-- <li><a href="#home" onclick="scrollToSection('home')">Home</a></li>
                                 <li><a href="#about" onclick="scrollToSection('about')">About</a></li> -->
+                                <li><a href="./orderhistory.html" id="orderhist">Orders</a></li>
                                 <li><a href="#contact" onclick="scrollToSection('contact')">Contact</a></li>
                                 <!-- <li><a href="./login.html?mode=login&type=individual" class="nav-link">Log In</a></li>
                                 <li><a href="./login.html?mode=signup&type=individual" class="nav-link">Sign Up</a></li>
@@ -263,7 +266,7 @@
                                     <div class="footer-info">
                                         <div class="footer-logo">
                                             <a href="index.html">
-                                                <img src="logo.png" alt="">
+                                                <img src="images/mealmate-logo-zip-file/png/logo-no-background.png"  style="width: 200px;">
                                             </a>
                                         </div>
                                         <p>Connect with us on our socials!
@@ -296,20 +299,19 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="footer-flex-box">
-                                        <div class="footer-table-info">
+                                        <!-- <div class="footer-table-info">
                                             <h3 class="h3-title">open hours</h3>
                                             <ul>
                                                 <li><i class="uil uil-clock"></i> Mon-Thurs : 9am - 22pm</li>
                                                 <li><i class="uil uil-clock"></i> Fri-Sun : 11am - 22pm</li>
                                             </ul>
-                                        </div>
+                                        </div> -->
                                         <div class="footer-menu food-nav-menu">
                                             <h3 class="h3-title">Links</h3>
                                             <ul class="column-2">
                                                 <li>
-                                                    <a href="#home" class="footer-active-menu">Home</a>
+                                                    <a href="./home.html" class="footer-active-menu" id="home">Home</a>
                                                 </li>
-                                                <li><a href="#about">About</a></li>
                                                 <li><a href="#contact">Contact</a></li>
                                             </ul>
                                         </div>
@@ -332,7 +334,7 @@
                         <div class="row">
                             <div class="col-lg-12 text-center">
                                 <div class="copyright-text">
-                                    <p>Copyright &copy; 2024 <span class="name">MealMate.</span> All Rights Reserved.
+                                    <p>Copyright &copy; 2024 <span class="name">MealMate.</span>All Rights Reserved.
                                     </p>
                                 </div>
                             </div>
@@ -381,6 +383,7 @@
     
     <script type="module" src="./order.js"></script>
     <script>
+
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.querySelector('.menu-toggle');
             const mainNav = document.querySelector('.main-navigation');
@@ -396,6 +399,14 @@
                 });
             });
         });
+
+        document.getElementById("home").addEventListener('click', () => {
+            window.location.href = './home.html'
+        })
+
+        document.getElementById("orderhist").addEventListener('click', () => {
+            window.location.href = './orderhistory.html'
+        })
     </script>
 </body>
 </html>

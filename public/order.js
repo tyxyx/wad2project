@@ -375,3 +375,5 @@ function showStatusPopup(message, isSuccess = true) {
     }, 300); // Wait for fade out transition to complete
   }, 3000);
 }
+
+document.getElementById('logout').addEventListener('click', logOut)
