@@ -49,9 +49,6 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .site-header {
-            padding: 35px 0 !important;
-        }
 
         .header-logo {
             padding: 5px 0;
@@ -65,6 +62,37 @@
             padding: 12px 20px !important;
             margin: 5px;
         }
+        .site-header {
+    position: fixed;
+    padding: 30px 0;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    transition: 0.5s;
+    border-bottom: 1px solid transparent;
+}
+
+/* Only apply background when sticky_head class is present */
+.site-header.sticky_head {
+    background: rgb(255 255 255 / 80%);
+    padding: 20px 0;
+    border-color: #f2f2f2;
+    backdrop-filter: blur(20px);
+}
+
+/* Add some spacing for the content */
+.section {
+    margin-top: 100px;  /* Instead of body padding-top */
+}
+
+@media (max-width: 991px) {
+    .section {
+        margin-top: 80px;  /* Adjust for mobile */
+    }
+}
     </style>
 </head>
 
@@ -98,8 +126,7 @@
     </header>
 
     <!-- Order History Section -->
-    <div id="viewport" style="overflow-y: auto;">
-        <div id="js-scroll-content">
+    
             <section class="section book-table bg-light repeat-img"
                 style="background-image: url(assets/images/menu-bg.png);">
                 <div class="book-table-shape">
@@ -441,6 +468,40 @@
         import { logOut } from './database.js'
 
         document.getElementById('logout').addEventListener('click', logOut)
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // Function to handle header scroll effect
+    function handleScroll() {
+        const header = document.querySelector('.site-header');
+        if (window.scrollY > 30) {
+            header.classList.add('sticky_head');
+        } else {
+            header.classList.remove('sticky_head');
+        }
+    }
+
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll);
+
+    // Initial check
+    handleScroll();
+
+    // Handle contact link click
+    const contactLink = document.querySelector('a[href="#contact"]');
+    if (contactLink) {
+        contactLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            const footer = document.querySelector('#contact');
+            const headerHeight = document.querySelector('.site-header').offsetHeight;
+            const footerPosition = footer.getBoundingClientRect().top + window.pageYOffset;
+            window.scrollTo({
+                top: footerPosition - headerHeight,
+                behavior: 'smooth'
+            });
+        });
+    }
+});
     </script>
 
 </body>
