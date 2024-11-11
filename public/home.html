@@ -798,27 +798,27 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Check if GSAP is loaded
-            if (typeof gsap !== 'undefined') {
-                gsap.registerPlugin(ScrollTrigger);
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     // Check if GSAP is loaded
+        //     if (typeof gsap !== 'undefined') {
+        //         gsap.registerPlugin(ScrollTrigger);
 
-                var elementFirst = document.querySelector('.site-header');
-                if (elementFirst) {
-                    ScrollTrigger.create({
-                        trigger: "body",
-                        start: "30px top",
-                        end: "bottom bottom",
-                        onEnter: () => elementFirst.classList.add('sticky_head'),
-                        onLeaveBack: () => elementFirst.classList.remove('sticky_head'),
-                    });
-                } else {
-                    console.error('Header element not found');
-                }
-            } else {
-                console.error('GSAP is not loaded');
-            }
-        });
+        //         var elementFirst = document.querySelector('.site-header');
+        //         if (elementFirst) {
+        //             ScrollTrigger.create({
+        //                 trigger: "body",
+        //                 start: "30px top",
+        //                 end: "bottom bottom",
+        //                 onEnter: () => elementFirst.classList.add('sticky_head'),
+        //                 onLeaveBack: () => elementFirst.classList.remove('sticky_head'),
+        //             });
+        //         } else {
+        //             console.error('Header element not found');
+        //         }
+        //     } else {
+        //         console.error('GSAP is not loaded');
+        //     }
+        // });
     </script>
 
     
