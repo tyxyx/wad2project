@@ -533,7 +533,7 @@ async function initMap() {
 
       // Save the selected address
       selectedAddress = place.formatted_address;
-      console.log("Selected Address:", place); // Display the selected address in the console
+      // console.log("Selected Address:", place); // Display the selected address in the console
       place_id = place.place_id;
       
     } else {
@@ -591,7 +591,7 @@ async function initMap2() {
       // Save the selected address for the second map
         selectedAddress2 = place2.formatted_address;
         document.getElementById("addressDisplay").innerText = selectedAddress2;
-      console.log("Selected Address for Map 2:", place2); // Display the selected address in the console
+      // console.log("Selected Address for Map 2:", place2); // Display the selected address in the console
       place_id = place2.place_id;
     } else {
       document.getElementById("location").placeholder = "Enter a place";
