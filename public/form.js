@@ -192,8 +192,11 @@ function handleSubmit(event) {
         if (currentType === 'individual') {
             createUser(name, emailOrUEN, password)
                 .then(user => {
-                    showStatusPopup('Registration successful! Welcome ' + user.email)
+                    showStatusPopup('Registration successful! Login to continue!')
                     // After successful registration, save user details
+                    setTimeout(() => {
+                        window.location.href = './login.html?mode=login&type=individual'
+                    }, 3000)
                     return saveUserDetails(name, emailOrUEN);
                 })
                 .then(() => {
@@ -206,8 +209,11 @@ function handleSubmit(event) {
             let uppercaseUEN = emailOrUEN.toUpperCase()
             createUserWithUEN(emailOrUEN, password)
             .then(business => {
-                showStatusPopup('Registration successful! Welcome ' + name)
+                showStatusPopup('Registration successful! Login to continue!')
                 // After successful registration, save business details
+                setTimeout(() => {
+                    window.location.href = './login.html?mode=login&type=business'
+                }, 3000)
                 return saveBusinessDetails(uppercaseUEN, business.uid, name);
             })
             .then(() => {

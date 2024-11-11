@@ -497,7 +497,7 @@
         /* Scroll indicator container */
         .scroll-indicator-container {
             position: absolute;
-            bottom: 80px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
@@ -587,20 +587,20 @@
         /* Responsive adjustments */
 
         @media (max-width: 400px) and (max-height: 800px) {
-            .scroll-text {
+            /* .scroll-text {
                 color: #ff8243;
                 font-weight: bold;
                 -webkit-text-stroke-width: 1px;
                 -webkit-text-stroke-color: white;
                 text-shadow: black;
                 font-size: 10px
-            }
+            } */
         }
 
         @media (max-width: 768px) {
             .scroll-indicator-container {
-                bottom: 60px;
-                gap: 20px;
+                bottom: 20px;
+                gap: 5px;
                 /* Slightly reduced gap on mobile */
             }
 
@@ -610,6 +610,12 @@
 
             .scroll-arrow {
                 font-size: 24px;
+            }
+        }
+
+        @media (max-height: 800px) {
+            .banner-text {
+                margin-top: 65px;
             }
         }
 
@@ -704,7 +710,7 @@
         <div id="js-scroll-content">
             <section class="main-banner" id="home">
                 <div class="js-parallax-scene">
-                    <div class="banner-shape-1 w-100" data-depth="0.30">
+                    <div class="banner-shape-1 w-100" data-depth="0.8" style="opacity: 70%;">
                         <img src="assets/images/berry.png" alt="Decorative berry">
                     </div>
                     <div class="banner-shape-2 w-100" data-depth="0.25">
@@ -728,7 +734,7 @@
                                     </div> -->
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6" style="position: relative; top: -20px;">
                                 <div class="banner-img-wp">
                                     <div class="banner-img" style="background-image: url(assets/images/main-b.jpg);">
                                         
@@ -1209,7 +1215,7 @@
                                     <div class="footer-info">
                                         <div class="footer-logo">
                                             <a href="index.html">
-                                                <img src="logo.png" alt="">
+                                                <img src="images/mealmate-logo-zip-file/png/logo-no-background.png"  style="width: 200px;">
                                             </a>
                                         </div>
                                         <p>Connect with us on our socials!
@@ -1242,14 +1248,12 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="footer-flex-box">
-
                                         <div class="footer-menu food-nav-menu">
                                             <h3 class="h3-title">Links</h3>
                                             <ul class="column-2">
                                                 <li>
                                                     <a href="#home" class="footer-active-menu">Home</a>
                                                 </li>
-                                                <li><a href="#about">About</a></li>
                                                 <li><a href="#contact">Contact</a></li>
                                             </ul>
                                         </div>
@@ -1272,7 +1276,7 @@
                         <div class="row">
                             <div class="col-lg-12 text-center">
                                 <div class="copyright-text">
-                                    <p>Copyright &copy; 2024 <span class="name">MealMate.</span> All Rights Reserved.
+                                    <p>Copyright &copy; 2024 <span class="name">MealMate.</span>All Rights Reserved.
                                     </p>
                                 </div>
                             </div>

@@ -8,6 +8,8 @@
     <!-- for icons  -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release-pro/v4.0.0/css/line.css">
 
+    <link rel="icon" type="image/svg+xml" href="./images/mealmate-logo-zip-file/svg icon 2/logo-color.svg">
+
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
@@ -70,53 +72,63 @@
         }
 
         .item-container img {
-            max-width: auto;
+            max-width: 50px;
             max-height: 40px;
         }
 
-        .site-header {
-            padding: 35px 0 !important;
-            /* Increased padding with !important to override */
-        }
-
-        /* Also adjust inner elements for better spacing */
-        .header-logo {
-            padding: 5px 0;
-        }
-
-        .main-navigation {
-            height: auto !important;
-            /* Ensure height doesn't constrain padding */
-        }
-
         .main-navigation .menu li a {
-            padding: 12px 20px !important;
-            /* Increased vertical padding */
-            margin: 5px;
-        }
+    padding: 8px 20px;  /* Increased vertical padding */
+    margin: 5px;
+    border-radius: 30px;
+}
 
-        .site-header {
-            padding: 35px 0 !important;
-            /* Increased padding with !important to override */
-        }
+/* Adjust mobile padding */
+@media (max-width: 991px) {
+    .main-navigation .menu li a {
+        padding: 12px 25px; /* Slightly larger padding on mobile */
+    }
+    
+    .header-menu {
+        padding-top: max(12vh, 40px); /* Increased top padding */
+    }
+}
 
-        /* Also adjust inner elements for better spacing */
-        .header-logo {
-            padding: 5px 0;
-        }
+.site-header {
+    position: fixed;
+    padding: 30px 0;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    transition: 0.5s;
+    border-bottom: 1px solid transparent;
+}
 
-        .main-navigation {
-            height: auto !important;
-            /* Ensure height doesn't constrain padding */
-        }
+.site-header.sticky_head {
+    background: rgb(255 255 255 / 80%);
+    padding: 20px 0;
+    border-color: #f2f2f2;
+    backdrop-filter: blur(20px);
+}
 
-        .main-navigation .menu li a {
-            padding: 12px 20px !important;
-            /* Increased vertical padding */
-            margin: 5px;
-        }
+/* Also adjust inner elements for better spacing */
+.header-logo {
+    padding: 5px 0;
+}
+
+.main-navigation {
+    height: auto !important; /* Ensure height doesn't constrain padding */
+}
+
+.main-navigation .menu li a {
+    padding: 12px 20px !important;  /* Increased vertical padding */
+    margin: 5px;
+}
     </style>
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.47/dist/vue.global.js"></script>
+    
 
 </head>
 
@@ -127,7 +139,7 @@
                 <div class="col-lg-2">
                     <div class="header-logo">
                         <a href="index.html">
-                            <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" width="160" height=""
+                            <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" width="160"
                                 alt="Logo">
                         </a>
                     </div>
@@ -137,13 +149,8 @@
                         <button class="menu-toggle"><span></span><span></span></button>
                         <nav class="header-menu">
                             <ul class="menu food-nav-menu">
-                                <!-- <li><a href="#home" onclick="scrollToSection('home')">Home</a></li>
-                                <li><a href="#about" onclick="scrollToSection('about')">About</a></li> -->
-                                <li><a href="#contact" onclick="scrollToSection('contact')">Contact</a></li>
-                                <!-- <li><a href="./login.html?mode=login&type=individual" class="nav-link">Log In</a></li>
-                                <li><a href="./login.html?mode=signup&type=individual" class="nav-link">Sign Up</a></li>
-                                <li><a href="./login.html?mode=login&type=business" class="nav-link">For Business</a></li> -->
-                                <!-- To add this logout function -->
+                                <li><a href="./home.html" id="menu" class="nav-link">Menu</a></li>
+                                <li><a href="javascript:void(0)" id="contactLink">Contact</a></li>
                                 <li><a href="./index.html" id="logout" class="nav-link">Log Out</a></li>
                             </ul>
                         </nav>
@@ -292,100 +299,97 @@
                         </div>
 
 
-                        <!-- footer starts  -->
-                        <footer class="site-footer" id="contact">
-                            <div class="top-footer section">
-                                <div class="sec-wp">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <div class="footer-info">
-                                                    <div class="footer-logo">
-                                                        <a href="index.html">
-                                                            <img src="logo.png" alt="">
-                                                        </a>
-                                                    </div>
-                                                    <p>Connect with us on our socials!
-                                                    </p>
-                                                    <div class="social-icon">
-                                                        <ul>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="uil uil-facebook-f"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="uil uil-instagram"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="uil uil-github-alt"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="#">
-                                                                    <i class="uil uil-youtube"></i>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-8">
-                                                <div class="footer-flex-box">
-                                                    <div class="footer-table-info">
-                                                        <h3 class="h3-title">open hours</h3>
-                                                        <ul>
-                                                            <li><i class="uil uil-clock"></i> Mon-Thurs : 9am - 22pm
-                                                            </li>
-                                                            <li><i class="uil uil-clock"></i> Fri-Sun : 11am - 22pm</li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="footer-menu food-nav-menu">
-                                                        <h3 class="h3-title">Links</h3>
-                                                        <ul class="column-2">
-                                                            <li>
-                                                                <a href="#home" class="footer-active-menu">Home</a>
-                                                            </li>
-                                                            <li><a href="#about">About</a></li>
-                                                            <li>
-                                                                <a href="#contact">Contact</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="footer-menu">
-                                                        <h3 class="h3-title">Company</h3>
-                                                        <ul>
-                                                            <li><a href="#">Terms & Conditions</a></li>
-                                                            <li><a href="#">Privacy Policy</a></li>
-                                                            <li><a href="#">Cookie Policy</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bottom-footer">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-12 text-center">
-                                            <div class="copyright-text">
-                                                <p>Copyright &copy; 2024 <span class="name">MealMate.</span> All Rights
-                                                    Reserved.
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="scrolltop"><i class="uil uil-angle-up"></i></button>
-                                </div>
-                            </div>
-                        </footer>
+                        
                     </div>
-                </div>
+                </section>
+
+                <!-- footer starts  -->
+                <footer class="site-footer" id="contact">
+                    <div class="top-footer section">
+                        <div class="sec-wp">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="footer-info">
+                                            <div class="footer-logo">
+                                                <a href="index.html">
+                                                    <img src="images/mealmate-logo-zip-file/png/logo-no-background.png"  style="width: 200px;">
+                                                </a>
+                                            </div>
+                                            <p>Connect with us on our socials!
+                                            </p>
+                                            <div class="social-icon">
+                                                <ul>
+                                                    <li>
+                                                        <a href="#">
+                                                            <i class="uil uil-facebook-f"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <i class="uil uil-instagram"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <i class="uil uil-github-alt"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">
+                                                            <i class="uil uil-youtube"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="footer-flex-box">
+                                            <!-- <div class="footer-table-info">
+                                                <h3 class="h3-title">open hours</h3>
+                                                <ul>
+                                                    <li><i class="uil uil-clock"></i> Mon-Thurs : 9am - 22pm</li>
+                                                    <li><i class="uil uil-clock"></i> Fri-Sun : 11am - 22pm</li>
+                                                </ul>
+                                            </div> -->
+                                            <div class="footer-menu food-nav-menu">
+                                                <h3 class="h3-title">Links</h3>
+                                                <ul class="column-2">
+                                                    <li>
+                                                        <a href="#home" class="footer-active-menu" id="home" >Home</a>
+                                                    </li>
+                                                    <li><a href="#contact">Contact</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="footer-menu">
+                                                <h3 class="h3-title">Company</h3>
+                                                <ul>
+                                                    <li><a href="#">Terms & Conditions</a></li>
+                                                    <li><a href="#">Privacy Policy</a></li>
+                                                    <li><a href="#">Cookie Policy</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom-footer">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12 text-center">
+                                    <div class="copyright-text">
+                                        <p>Copyright &copy; 2024 <span class="name">MealMate.</span>All Rights Reserved.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="scrolltop"><i class="uil uil-angle-up"></i></button>
+                        </div>
+                    </div>
+                </footer>
 
                 <!-- Add your JavaScript files here -->
                 <!-- jquery  -->
@@ -427,6 +431,40 @@
                 <!-- <script type="module" src="./userHome copy.js"></script> -->
                 <!-- cart.js -->
                 <!-- <script src="./cart.js"></script> -->
+
+
+
+    <script>
+        // Get necessary elements
+    const menuToggle2 = document.querySelector('.menu-toggle');
+    const mainNavigation2 = document.querySelector('.main-navigation');
+    
+    // Add click event listener to toggle button
+    menuToggle2.addEventListener('click', () => {
+      mainNavigation2.classList.toggle('toggled');
+    
+      // Toggle aria-expanded attribute
+      const isExpanded = mainNavigation2.classList.contains('toggled');
+      menuToggle2.setAttribute('aria-expanded', isExpanded);
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mainNavigation.contains(e.target) && !menuToggle.contains(e.target)) {
+        mainNavigation.classList.remove('toggled');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    
+    // Close menu when clicking on a link
+    const menuLinks2 = document.querySelectorAll('.main-navigation .menu li a');
+    menuLinks2.forEach(link => {
+      link.addEventListener('click', () => {
+        mainNavigation2.classList.remove('toggled');
+        menuToggle2.setAttribute('aria-expanded', 'false');
+      });
+    });
+      </script>
                 <script>
                     const { createApp, ref, computed, onMounted } = Vue;
 
@@ -541,8 +579,44 @@
                             menuToggle.setAttribute('aria-expanded', 'false');
                         });
                     });
+
+                    const home = document.getElementById('home')
+                    home.addEventListener('click', () => {
+                        window.location.href = './home.html'
+                    })
+
+                    const menu = document.getElementById('menu')
+                    menu.addEventListener('click', () => {
+                        window.location.href = './home.html'
+                    })
                 </script>
 
+                <script type="module">
+                    import { logOut } from './database.js'
+
+                    document.getElementById('logout').addEventListener('click', logOut)
+                </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+    // Function to handle scroll
+    function handleScroll() {
+        const header = document.querySelector('.site-header');
+        if (window.scrollY > 30) {
+            header.classList.add('sticky_head');
+        } else {
+            header.classList.remove('sticky_head');
+        }
+    }
+
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll);
+
+    // Initial check in case page is loaded scrolled down
+    handleScroll();
+});
+        </script>
+
+        
 </body>
 
 </html>

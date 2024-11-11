@@ -7,7 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MealMate - Browse</title>
     <!-- for icons  -->
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release-pro/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release-pro/v4.0.6/css/line.css">
+    <!-- <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"> -->
+
+    <!-- header icons -->
+    <link rel="icon" type="image/svg+xml" href="./images/mealmate-logo-zip-file/svg icon 2/logo-color.svg">
 
     <!-- font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -385,7 +389,7 @@
             <div class="row">
                 <div class="col-lg-2">
                     <div class="header-logo">
-                        <a href="index.html">
+                        <a href="home.html">
                             <img src="./images/mealmate-logo-zip-file/png/logo-no-background.png" width="160"
                                 alt="Logo">
                         </a>
@@ -452,7 +456,7 @@
                                     <!-- <div class="banner-img" style="background-image: url(assets/images/main-b.jpg);">
                                     </div> -->
                                     <div class="banner-img"
-                                        style="background-image: url(images/66594dd0493476bf35d63bb4_Snip20240531_48.webp);">
+                                        style="background-image: url(assets/images/pax-food-section-d.png);">
                                     </div>
                                 </div>
                             </div>
@@ -473,7 +477,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="sec-title text-center mb-0">
-                                <h2 class="h2-title mb-0">Featured Businesses Near You</h2>
+                                <h2 class="h2-title mb-0">Top-rated Businesses</h2>
                                 <div class="sec-title-shape mb-3">
                                     <img src="assets/images/title-shape.svg" alt="">
                                 </div>
@@ -640,7 +644,7 @@
                                     <div class="footer-info">
                                         <div class="footer-logo">
                                             <a href="index.html">
-                                                <img src="images/mealmate-logo-zip-file/png/logo-color.png" alt="">
+                                                <img src="images/mealmate-logo-zip-file/png/logo-no-background.png"  style="width: 200px;">
                                             </a>
                                         </div>
                                         <p>Connect with us on our socials!
@@ -673,20 +677,19 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="footer-flex-box">
-                                        <div class="footer-table-info">
+                                        <!-- <div class="footer-table-info">
                                             <h3 class="h3-title">open hours</h3>
                                             <ul>
                                                 <li><i class="uil uil-clock"></i> Mon-Thurs : 9am - 22pm</li>
                                                 <li><i class="uil uil-clock"></i> Fri-Sun : 11am - 22pm</li>
                                             </ul>
-                                        </div>
+                                        </div> -->
                                         <div class="footer-menu food-nav-menu">
                                             <h3 class="h3-title">Links</h3>
                                             <ul class="column-2">
                                                 <li>
                                                     <a href="#home" class="footer-active-menu">Home</a>
                                                 </li>
-                                                <li><a href="#about">About</a></li>
                                                 <li><a href="#contact">Contact</a></li>
                                             </ul>
                                         </div>
@@ -765,6 +768,7 @@
     <script src="main.js"></script>
     <!-- userHome.js -->
     <script type="module" src="./userHome.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const menuToggle = document.querySelector('.menu-toggle');
@@ -795,30 +799,65 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Check if GSAP is loaded
-            if (typeof gsap !== 'undefined') {
-                gsap.registerPlugin(ScrollTrigger);
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     // Check if GSAP is loaded
+        //     if (typeof gsap !== 'undefined') {
+        //         gsap.registerPlugin(ScrollTrigger);
 
-                var elementFirst = document.querySelector('.site-header');
-                if (elementFirst) {
-                    ScrollTrigger.create({
-                        trigger: "body",
-                        start: "30px top",
-                        end: "bottom bottom",
-                        onEnter: () => elementFirst.classList.add('sticky_head'),
-                        onLeaveBack: () => elementFirst.classList.remove('sticky_head'),
-                    });
-                } else {
-                    console.error('Header element not found');
-                }
-            } else {
-                console.error('GSAP is not loaded');
-            }
-        });
+        //         var elementFirst = document.querySelector('.site-header');
+        //         if (elementFirst) {
+        //             ScrollTrigger.create({
+        //                 trigger: "body",
+        //                 start: "30px top",
+        //                 end: "bottom bottom",
+        //                 onEnter: () => elementFirst.classList.add('sticky_head'),
+        //                 onLeaveBack: () => elementFirst.classList.remove('sticky_head'),
+        //             });
+        //         } else {
+        //             console.error('Header element not found');
+        //         }
+        //     } else {
+        //         console.error('GSAP is not loaded');
+        //     }
+        // });
     </script>
 
-    <!-- Just before closing </body> tag -->
+
+
+
+<script>
+    // Get necessary elements
+const menuToggle = document.querySelector('.menu-toggle');
+const mainNavigation = document.querySelector('.main-navigation');
+
+// Add click event listener to toggle button
+menuToggle.addEventListener('click', () => {
+  mainNavigation.classList.toggle('toggled');
+
+  // Toggle aria-expanded attribute
+  const isExpanded = mainNavigation.classList.contains('toggled');
+  menuToggle.setAttribute('aria-expanded', isExpanded);
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (!mainNavigation.contains(e.target) && !menuToggle.contains(e.target)) {
+    mainNavigation.classList.remove('toggled');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }
+});
+
+// Close menu when clicking on a link
+const menuLinks = document.querySelectorAll('.main-navigation .menu li a');
+menuLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    mainNavigation.classList.remove('toggled');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  });
+});
+  </script>
+
+    
     <script>
  const { createApp } = Vue;
 

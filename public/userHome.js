@@ -242,85 +242,6 @@ async function createBusinessCard(businessUEN, businessData) {
   } catch (error) {
     console.error("Error creating business card:", error);
   }
-
-  // new all biz cards END
-
-  // Create card element
-  // const card = document.createElement("div");
-  // card.classList.add("col-lg-4", "col-sm-6", "dish-box-wp", "breakfast");
-  // card.style.height = "450px"; // Ensure consistent card height
-  // card.setAttribute("data-cat", "breakfast");
-
-  // Create dish-box
-  // const dishBox = document.createElement("div");
-  // dishBox.classList.add("dish-box", "text-center");
-
-  // Create distImg container for image
-  // const distImg = document.createElement("div");
-  // distImg.classList.add("dist-img");
-  //distImg.style.width = "200px"; // Ensure container is square
-  //distImg.style.height = "200px"; // Ensure container is square
-  //distImg.style.borderRadius = "50%"; // Make the container circular
-  //distImg.style.overflow = "hidden"; // Prevent overflow
-  //distImg.style.margin = "0 auto"; // Center the image in the card
-
-  // Create image element
-  // const img = document.createElement("img");
-  // img.src = businessData.profilePic || "./images/default-profile.png"; // Fallback image
-  // img.style.width = "100%";
-  // img.style.height = "100%";
-  // img.style.objectFit = "cover"; // Ensure the image covers the container
-  // img.style.display = "block"; // Ensure no extra space below the image
-
-  // distImg.appendChild(img);
-  // dishBox.appendChild(distImg);
-
-  // // Create dish title section
-  // const dishTitle = document.createElement("div");
-  // dishTitle.classList.add("dist-title");
-  // const h3Title = document.createElement("h3");
-  // h3Title.classList.add("h3-title");
-  // h3Title.innerText = businessData.busName;
-  // const locationP = document.createElement("p");
-  // locationP.innerText = `📍 ${businessData.address}`;
-  // const stars = document.createElement("p");
-  // stars.innerText = businessData.avgRating
-  //   ? `⭐ ${businessData.avgRating}/5.0`
-  //   : "⭐ Rating not available";
-  // const contactP = document.createElement("p");
-  // contactP.innerText = `📞 ${businessData.contactInfo}`;
-  // dishTitle.appendChild(h3Title);
-  // dishTitle.appendChild(locationP);
-  // dishTitle.appendChild(stars);
-  // dishTitle.appendChild(contactP);
-  // dishBox.appendChild(dishTitle);
-
-  // // Create view button section
-  // const viewButtonSection = document.createElement("div");
-  // viewButtonSection.classList.add("dist-bottom-row");
-  // const viewButton = document.createElement("button");
-  // viewButton.classList.add("dish-add-btn");
-  // viewButton.innerText = "View";
-  // viewButtonSection.appendChild(viewButton);
-  // dishBox.appendChild(viewButtonSection);
-
-  // // Append dishBox into card
-  // card.appendChild(dishBox);
-  // menuDish.appendChild(card);
-
-  // Add event listener to the card-like element
-  // card.addEventListener("click", () => {
-  //   // Update URL to include business ID to allow browser back
-  //   history.pushState(
-  //     { businessUEN, businessName: businessData.busName },
-  //     "",
-  //     `?business=${businessUEN}`
-  //   );
-  //   fetchAndDisplayMenuItems(businessUEN, businessData.busName);
-  // });
-
-  // Append the card-like elem into the container
-  // menuDish.appendChild(card);
 }
 
 // async function displayBusinessInfo(businessUEN, businessName){
@@ -414,27 +335,30 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     // Clear existing cards to display menu
     const menuDish = document.getElementById("menu-dish");
     menuDish.innerHTML = `
-      <div class="col-lg-12">
-      <div class="row">
-      <div class="col-lg-6">
-        <div class="banner-img-wp" style="height: 300px; padding-top: 20px;">
-          <div class="banner-img" style="background-image: url(${src});"></div>
+    <div class="business-details-section">
+        <div class="row business-details-row align-items-center">
+            <div class="col-md-4">
+                <div class="business-banner-wrap" style="height: 200px;">
+                    <div class="business-banner-img" style="background-image: url(${src});">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="business-details-content">
+                    <div class="business-header-row">
+                        <h2 class="h2-title" id="displayMenu">${busName}</h2>
+                        <div class="business-rating">⭐ ${avgRating}/5.0</div>
+                    </div>
+                    <p class="business-contact">📞 ${contactInfo}</p>
+                    <p class="business-address">📍 ${address}</p>
+                    <div class="sec-title-shape">
+                        <img src="assets/images/title-shape.svg" alt="">
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-lg-6">
-        <div class="sec-title mb-5">
-          <h2 class="h2-title" id='displayMenu'>${busName}</h2>
-          <p>${avgRating}</p>
-          <p>${contactInfo}</p>
-          <p>${address}</p>
-          <div class="sec-title-shape mb-4">
-            <img src="assets/images/title-shape.svg">
-          </div>
-        </div>
-      </div>
-      </div>
-      </div>
-    `;
+    </div>
+  `;
 
     document.querySelector(".our-menu .sec-title").classList.add("d-none");
     // Create a row for menu items
@@ -624,9 +548,26 @@ function createMenuItemCard(menuItemData, container) {
   actionSection.style.gap = "1rem";
   actionSection.style.width = "100%";
 
-  const priceSection = document.createElement("h3");
-  priceSection.classList.add("featured-title");
-  priceSection.textContent = `$${Number(menuItemData.price).toFixed(2)}`;
+  const priceSection=document.createElement("h3")
+
+  const actualPrice = document.createElement("h4");
+  actualPrice.classList.add("featured-title");
+
+  // Create the <s> element for the strike-through on the original price
+  const strikeThrough = document.createElement("s");
+  strikeThrough.textContent = `$${Number(menuItemData.price).toFixed(2)}`;
+
+  // Append the <s> element to the actualPrice element
+  actualPrice.appendChild(strikeThrough);
+
+
+  const discountedPrice = document.createElement("h3");
+  discountedPrice.classList.add("featured-title");
+
+  discountedPrice.textContent = `$${Number(menuItemData.discount).toFixed(2)}`;
+
+  actualPrice.appendChild(discountedPrice)
+  priceSection.appendChild(actualPrice)
 
   const quantityControls = document.createElement("div");
   quantityControls.classList.add(
@@ -655,7 +596,7 @@ function createMenuItemCard(menuItemData, container) {
   addButton.addEventListener("click", () => {
     const quantity = parseInt(quantityInput.value);
     if (quantity > 0) {
-      addToCart(menuItemData.itemName, quantity, menuItemData.price, img.src);
+      addToCart(menuItemData.itemName, quantity, menuItemData.discount, img.src);
       showStatusPopup(
         `${quantity} ${menuItemData.itemName}(s) added to cart!`,
         true
