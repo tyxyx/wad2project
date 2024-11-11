@@ -26,33 +26,35 @@ onAuthStateChanged(auth, async (user) => {
     try {
       const logout = document.getElementById("logout");
       logout.addEventListener("click", logOut);
-      const contactLink = document.getElementById('contactLink')
+      const contactLink = document.getElementById("contactLink");
       if (contactLink) {
-        contactLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Get the footer element
-            const footer = document.querySelector('.site-footer');
-            
-            if (footer) {
-                // Calculate position accounting for fixed header
-                const headerHeight = document.querySelector('.site-header').offsetHeight;
-                const footerPosition = footer.getBoundingClientRect().top + window.pageYOffset;
-                
-                // Scroll with offset
-                window.scrollTo({
-                    top: footerPosition - headerHeight,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    }
+        contactLink.addEventListener("click", function (e) {
+          e.preventDefault();
 
-      const orderHistory = document.querySelector('#orderHistory');
-    
-      orderHistory.addEventListener('click', function(event) {
-          event.preventDefault(); 
-          window.location.href = './orderhistory.html';  // 
+          // Get the footer element
+          const footer = document.querySelector(".site-footer");
+
+          if (footer) {
+            // Calculate position accounting for fixed header
+            const headerHeight =
+              document.querySelector(".site-header").offsetHeight;
+            const footerPosition =
+              footer.getBoundingClientRect().top + window.pageYOffset;
+
+            // Scroll with offset
+            window.scrollTo({
+              top: footerPosition - headerHeight,
+              behavior: "smooth",
+            });
+          }
+        });
+      }
+
+      const orderHistory = document.querySelector("#orderHistory");
+
+      orderHistory.addEventListener("click", function (event) {
+        event.preventDefault();
+        window.location.href = "./orderhistory.html"; //
       });
 
       userEmail = user.email;
@@ -151,7 +153,6 @@ async function fetchBusinessCards() {
   }
 }
 
-
 // Function to create a business card CHANGE THE DATA HERE FOR THE OUTPUT
 async function createBusinessCard(businessUEN, businessData) {
   const menuDish = document.getElementById("menu-dish");
@@ -162,7 +163,7 @@ async function createBusinessCard(businessUEN, businessData) {
 
   // Create outer column div with proper grid classes
   const colDiv = document.createElement("div");
-  colDiv.classList.add("col-xl-3", "col-lg-4", "col-md-6","col-12", "mb-4");
+  colDiv.classList.add("col-xl-3", "col-lg-4", "col-md-6", "col-12", "mb-4");
 
   // Create card
   const card = document.createElement("div");
@@ -376,7 +377,7 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     let img;
     let src;
     if (docSnap.exists()) {
-      currentBusinessUEN = businessUEN;    
+      currentBusinessUEN = businessUEN;
       currentBusinessName = businessName;
       placeId = docSnap.data().placeId;
       address = docSnap.data().address;
@@ -387,8 +388,9 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       contactInfo = docSnap.data().contactInfo;
       // await fetchPlaceReviews(placeId);
       img = document.createElement("img");
-      src = docSnap.data().profilePic ||
-      "./images/mealmate-logo-zip-file/png/logo-color.png";
+      src =
+        docSnap.data().profilePic ||
+        "./images/mealmate-logo-zip-file/png/logo-color.png";
       img.alt = docSnap.data().busName || "Business Image";
       // img.src =
       // docSnap.data().profilePic ||
@@ -396,10 +398,10 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       // img.alt = docSnap.data().busName || "Business Image";
       img.src = src;
       img.onerror = function () {
-      this.src = "./images/mealmate-logo-zip-file/png/logo-color.png";
-      console.log(
-        `Failed to load profile picture for ${businessData.busName}, using placeholder`
-      );
+        this.src = "./images/mealmate-logo-zip-file/png/logo-color.png";
+        console.log(
+          `Failed to load profile picture for ${businessData.busName}, using placeholder`
+        );
       };
       await fetchPlaceReviews(placeId);
     } else {
@@ -410,55 +412,7 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     ftb.classList.add("d-none");
 
     // Clear existing cards to display menu
-    // const menuDish = document.getElementById("menu-dish");
-    // menuDish.innerHTML = `
-    //   <div class="col-lg-12">
-    //     <div class="sec-title text-center mb-5">
-    //       <h2 class="h2-title" id='displayMenu'>${businessName}'s Menu</h2>
-    //       <div class="sec-title-shape mb-4">
-    //         <img src="assets/images/title-shape.svg">
-    //       </div>
-    //     </div>
-    //   </div>
-    // `;
     const menuDish = document.getElementById("menu-dish");
-
-    // Create the outer div with class "col-lg-12"
-    const colDiv = document.createElement("div");
-    colDiv.classList.add("col-lg-12");
-
-    // Create the inner div with class "sec-title text-center mb-5"
-    const secTitleDiv = document.createElement("div");
-    secTitleDiv.classList.add("sec-title", "text-center", "mb-5");
-
-    // Create the <h2> element with class "h2-title"
-    const h2Title = document.createElement("h2");
-    h2Title.classList.add("h2-title");
-    h2Title.id = "displayMenu";
-    h2Title.textContent = `${businessName}'s Menu`;
-
-    // Create the inner div for the title shape
-    const titleShapeDiv = document.createElement("div");
-    titleShapeDiv.classList.add("sec-title-shape", "mb-4");
-
-    // Create the <img> element for the title shape image
-    const img = document.createElement("img");
-    img.src = "assets/images/title-shape.svg";
-
-    // Append the <img> to the titleShapeDiv
-    titleShapeDiv.appendChild(img);
-
-    // Append the <h2> and titleShapeDiv to the secTitleDiv
-    secTitleDiv.appendChild(h2Title);
-    secTitleDiv.appendChild(titleShapeDiv);
-
-    // Append the secTitleDiv to the colDiv
-    colDiv.appendChild(secTitleDiv);
-
-    // Finally, append the colDiv to the menuDish
-    menuDish.appendChild(colDiv);
-
-    document.querySelector(".our-menu .sec-title").classList.add("d-none");
     menuDish.innerHTML = `
       <div class="col-lg-12">
       <div class="row">
@@ -481,8 +435,8 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       </div>
       </div>
     `;
-    
-    document.querySelector('.our-menu .sec-title').classList.add('d-none');
+
+    document.querySelector(".our-menu .sec-title").classList.add("d-none");
     // Create a row for menu items
     const menuRow = document.createElement("div");
     menuRow.classList.add("row", "g-xxl-5");
@@ -502,11 +456,11 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     // cartBox.style.maxWidth = "500px";
     // cartBox.style.margin = "0 auto";
 
-    const cartTitle = document.createElement("div");
-    cartTitle.classList.add("dist-title", "text-center");
-    cartTitle.innerHTML = `
-      <h3 class="h3-title">Your Cart</h3>
-    `;
+    // const cartTitle = document.createElement("div");
+    // cartTitle.classList.add("dist-title", "text-center");
+    // cartTitle.innerHTML = `
+    //   <h3 class="h3-title">Your Cart</h3>
+    // `;
 
     // // Create cart list
     // listGroup = document.createElement("ul");
@@ -548,24 +502,24 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     //   }
     // });
 
-    // Create Back button
-    const backButton = document.createElement("button");
-    backButton.textContent = "Back to Businesses";
-    backButton.classList.add("dish-add-btn");
-    backButton.style.width = "auto";
-    backButton.style.padding = "0 20px";
-    backButton.style.background = "linear-gradient(145deg, #e26a2c, #ff8243)";
-    backButton.addEventListener("click", async () => {
-      menuDish.innerHTML = "";
-      document.getElementById("reviews").innerHTML = "";
-      const header = document.getElementById("review-subheader");
-      header.firstChild.textContent = "Click on a business to discover";
-      header.querySelector("span").textContent = "what others think";
-      const ftb = document.getElementById("featured-businesses");
-      ftb.classList.remove("d-none");
-      document.querySelector('.our-menu .sec-title').classList.remove('d-none');
-      await fetchBusinessCards();
-    });
+    // // Create Back button
+    // const backButton = document.createElement("button");
+    // backButton.textContent = "Back to Businesses";
+    // backButton.classList.add("dish-add-btn");
+    // backButton.style.width = "auto";
+    // backButton.style.padding = "0 20px";
+    // backButton.style.background = "linear-gradient(145deg, #e26a2c, #ff8243)";
+    // backButton.addEventListener("click", async () => {
+    //   menuDish.innerHTML = "";
+    //   document.getElementById("reviews").innerHTML = "";
+    //   const header = document.getElementById("review-subheader");
+    //   header.firstChild.textContent = "Click on a business to discover";
+    //   header.querySelector("span").textContent = "what others think";
+    //   const ftb = document.getElementById("featured-businesses");
+    //   ftb.classList.remove("d-none");
+    //   document.querySelector('.our-menu .sec-title').classList.remove('d-none');
+    //   await fetchBusinessCards();
+    // });
 
     // // Assemble cart section
     // buttonContainer.appendChild(orderNowButton);
@@ -596,14 +550,13 @@ window.addEventListener("popstate", async (event) => {
   menuDish.innerHTML = "";
   const ftb = document.getElementById("featured-businesses");
   ftb.classList.remove("d-none");
-  document.querySelector('.our-menu .sec-title').classList.remove('d-none');
+  document.querySelector(".our-menu .sec-title").classList.remove("d-none");
   await fetchBusinessCards();
   document.getElementById("reviews").innerHTML = "";
   const header = document.getElementById("review-subheader");
   header.firstChild.textContent = "Click on a business to discover";
   header.querySelector("span").textContent = "what others think";
   document.getElementById("reviews-container").style.display = "none";
-
 });
 // new createMenuItemCard
 function createMenuItemCard(menuItemData, container) {
@@ -628,11 +581,13 @@ function createMenuItemCard(menuItemData, container) {
 
   // Image
   const img = document.createElement("img");
-  img.src = menuItemData.images?.[0] || "./images/mealmate-logo-zip-file/png/logo-color.png";
+  img.src =
+    menuItemData.images?.[0] ||
+    "./images/mealmate-logo-zip-file/png/logo-color.png";
   img.style.width = "100%";
   img.style.height = "100%";
   img.style.objectFit = "cover";
-  
+
   // Content container
   const content = document.createElement("div");
   content.classList.add("featured-content");
@@ -641,7 +596,7 @@ function createMenuItemCard(menuItemData, container) {
   content.style.height = "100%"; // Take full height
   content.style.position = "relative"; // Add relative positioning
   content.style.flex = "1"; // Allow content to grow
-  
+
   // Title and description section
   const titleSection = document.createElement("div");
   titleSection.classList.add("mb-2"); // Reduced bottom margin
@@ -674,7 +629,12 @@ function createMenuItemCard(menuItemData, container) {
   priceSection.textContent = `$${Number(menuItemData.price).toFixed(2)}`;
 
   const quantityControls = document.createElement("div");
-  quantityControls.classList.add("d-flex", "align-items-center", "gap-2", "flex-nowrap");
+  quantityControls.classList.add(
+    "d-flex",
+    "align-items-center",
+    "gap-2",
+    "flex-nowrap"
+  );
 
   const quantityInput = document.createElement("input");
   quantityInput.type = "number";
@@ -697,10 +657,12 @@ function createMenuItemCard(menuItemData, container) {
     if (quantity > 0) {
       addToCart(menuItemData.itemName, quantity, menuItemData.price, img.src);
       showStatusPopup(
-        `${quantity} ${menuItemData.itemName}(s) added to cart!`, true);
+        `${quantity} ${menuItemData.itemName}(s) added to cart!`,
+        true
+      );
       quantityInput.value = 0;
-      } else {
-        showStatusPopup("Please select a quantity to add to the cart.", false);
+    } else {
+      showStatusPopup("Please select a quantity to add to the cart.", false);
     }
   });
 
@@ -708,19 +670,19 @@ function createMenuItemCard(menuItemData, container) {
   imgContainer.appendChild(img);
   titleSection.appendChild(title);
   titleSection.appendChild(description);
-  
+
   quantityControls.appendChild(quantityInput);
   quantityControls.appendChild(addButton);
-  
+
   actionSection.appendChild(priceSection);
   actionSection.appendChild(quantityControls);
-  
+
   content.appendChild(titleSection);
   content.appendChild(actionSection);
 
   dishBox.appendChild(imgContainer);
   dishBox.appendChild(content);
-  
+
   col.appendChild(dishBox);
   container.appendChild(col);
 }
@@ -731,16 +693,16 @@ function addToCart(itemName, quantity, price, image) {
   const existingItemIndex = cart.findIndex((item) => item.name === itemName);
 
   if (existingItemIndex !== -1) {
-      // If item exists, update the quantity
-      cart[existingItemIndex].quantity += quantity;
+    // If item exists, update the quantity
+    cart[existingItemIndex].quantity += quantity;
   } else {
-      // If item doesn't exist, add it to the cart
-      cart.push({
-          name: itemName,
-          quantity: quantity,
-          price: price,
-          image: image,
-      });
+    // If item doesn't exist, add it to the cart
+    cart.push({
+      name: itemName,
+      quantity: quantity,
+      price: price,
+      image: image,
+    });
   }
 
   // Store the updated cart back to localStorage
@@ -748,13 +710,15 @@ function addToCart(itemName, quantity, price, image) {
   localStorage.setItem("businessId", JSON.stringify(currentBusinessUEN));
   localStorage.setItem("businessName", JSON.stringify(currentBusinessName));
 
-    // Calculate total quantity across all items
-    const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+  // Calculate total quantity across all items
+  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-    // Dispatch a custom event with the new total
-    window.dispatchEvent(new CustomEvent('cartUpdated', { 
-        detail: { count: totalQuantity }
-    }));
+  // Dispatch a custom event with the new total
+  window.dispatchEvent(
+    new CustomEvent("cartUpdated", {
+      detail: { count: totalQuantity },
+    })
+  );
 
   // Show the status popup
   showStatusPopup(`${quantity} ${itemName}(s) added to cart!`, true);
@@ -989,49 +953,18 @@ function initializeHorizontalScroll() {
   // Create arrows if they don't exist
   let prevButton = container.querySelector(".prev-arrow");
   let nextButton = container.querySelector(".next-arrow");
-// if (!prevButton) {
-//   prevButton = document.createElement("button");
-//   prevButton.className = "scroll-arrow prev-arrow";
-//   prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
-//   container.insertBefore(prevButton, scrollWrapper);
-// }
 
-// if (!nextButton) {
-//   nextButton = document.createElement("button");
-//   nextButton.className = "scroll-arrow next-arrow";
-//   nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
-//   container.appendChild(nextButton);
-// }
   if (!prevButton) {
-    // prevButton = document.createElement("button");
-    // prevButton.className = "scroll-arrow prev-arrow";
-    // prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
-    // container.insertBefore(prevButton, scrollWrapper);
     prevButton = document.createElement("button");
-    prevButton.classList.add("scroll-arrow", "prev-arrow");
-
-    // Create the <i> element for the chevron icon
-    const icon = document.createElement("i");
-    icon.classList.add("fas", "fa-chevron-left");
-
-    // Append the icon to the button
-    prevButton.appendChild(icon);
-
-    // Insert the button into the container before the scrollWrapper
+    prevButton.className = "scroll-arrow prev-arrow";
+    prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
     container.insertBefore(prevButton, scrollWrapper);
   }
 
   if (!nextButton) {
     nextButton = document.createElement("button");
     nextButton.className = "scroll-arrow next-arrow";
-    const icon = document.createElement("i");
-    icon.classList.add("fas", "fa-chevron-left");
-
-    // Clear any existing content in prevButton (optional)
-    prevButton.textContent = ""; // You can clear the button's text content
-
-    // Append the <i> icon to the prevButton
-    prevButton.appendChild(icon);
+    nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
     container.appendChild(nextButton);
   }
 
@@ -1101,8 +1034,6 @@ async function fetchPlaceReviews(placeId) {
   }
 }
 
-
-
 function generateStars(rating) {
   let stars = "";
   for (let i = 0; i < 5; i++) {
@@ -1115,13 +1046,13 @@ function displayReviews(reviews) {
   const header = document.getElementById("review-subheader");
   header.firstChild.textContent = "Check out what";
   header.querySelector("span").textContent = "others think";
-  
+
   const reviewsList = document.getElementById("reviews");
   reviewsList.innerHTML = "";
 
   document.getElementById("reviews-container").style.display = "block";
   reviewsList.style.display = "block";
- 
+
   reviews.forEach((review) => {
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("card", "mb-3");
@@ -1167,9 +1098,6 @@ function displayReviews(reviews) {
 
     reviewsList.appendChild(cardDiv);
   });
-
-  
-  
 }
 
 function showStatusPopup(message, isSuccess = true) {
