@@ -92,7 +92,23 @@
 }
 
 .site-header {
-    padding: 35px 0 !important; /* Increased padding with !important to override */
+    position: fixed;
+    padding: 30px 0;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    transition: 0.5s;
+    border-bottom: 1px solid transparent;
+}
+
+.site-header.sticky_head {
+    background: rgb(255 255 255 / 80%);
+    padding: 20px 0;
+    border-color: #f2f2f2;
+    backdrop-filter: blur(20px);
 }
 
 /* Also adjust inner elements for better spacing */
@@ -542,7 +558,25 @@
 
                     document.getElementById('logout').addEventListener('click', logOut)
                 </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+    // Function to handle scroll
+    function handleScroll() {
+        const header = document.querySelector('.site-header');
+        if (window.scrollY > 30) {
+            header.classList.add('sticky_head');
+        } else {
+            header.classList.remove('sticky_head');
+        }
+    }
 
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll);
+
+    // Initial check in case page is loaded scrolled down
+    handleScroll();
+});
+        </script>
 </body>
 
 </html>
