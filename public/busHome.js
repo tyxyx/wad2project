@@ -650,15 +650,15 @@ async function getAvgRating(businessUEN, placeId) {
 
 async function setAvgRating(businessUEN, rating) {
   try {
-    await setDoc(
-      doc(db, "businessLogin", businessUEN),
-      {
-        avgRating: rating,
-      },
-      { merge: true }
-    );
-    console.log(businessUEN)
-    console.log(rating);
+    if (rating) {
+      await setDoc(
+        doc(db, "businessLogin", businessUEN),
+        {
+          avgRating: rating,
+        },
+        { merge: true }
+      );
+    }
   } catch (error) {
     console.error("Error updating avg rating:", error);
   }
