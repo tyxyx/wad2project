@@ -224,18 +224,44 @@
             },
             methods: {
                 async fetchOrderHistory() {
-                    try {
-                        const userPath = `userLogin/${this.email}/orderHistory/`
-                        const ordersRef = collection(db, userPath)
-                        const querySnapshot = await getDocs(ordersRef)
-                        this.ordersData = querySnapshot.docs.map(doc => ({
-                            orderId: doc.id,
-                            ...doc.data()
-                        }))
-                    } catch (error) {
-                        console.error('Error fetching orders:', error)
-                    }
-                },
+    try {
+        const userPath = `userLogin/${this.email}/orderHistory/`
+        const ordersRef = collection(db, userPath)
+        const querySnapshot = await getDocs(ordersRef)
+        
+        const currentTime = Date.now();  // Current time in milliseconds
+
+        this.ordersData = querySnapshot.docs.map(doc => {
+            const order = doc.data();
+            if (order.status !== false) {
+                return {
+                    orderId: doc.id,
+                    ...order
+                };
+            }
+            const createdAt = order.createdAt.toMillis();  // Convert Firebase Timestamp to milliseconds
+            
+            // Check if the order is older than 2 hours (7200000 milliseconds)
+            if (currentTime - createdAt > 7200000) {
+                // Add expired field to the order
+                order.expired = true;
+                return null;  // Skip adding this order to ordersData
+            }
+            return {
+                orderId: doc.id,
+                ...order
+            };
+        }).filter(order => order !== null); // Remove null values from the array (expired orders)
+        
+        this.ordersData.sort((a, b) => {
+            const dateA = a.createdAt.toMillis();  // Convert Firebase Timestamp to milliseconds
+            const dateB = b.createdAt.toMillis();  // Convert Firebase Timestamp to milliseconds
+            return dateB - dateA;  // Sort in descending order (newest first)
+        });
+    } catch (error) {
+        console.error('Error fetching orders:', error)
+    }
+},
                 async showOrderDetails(order) {
                     this.selectedOrder = order
                     if (!order.status) {
