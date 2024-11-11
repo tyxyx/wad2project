@@ -200,7 +200,7 @@ function handleSubmit(event) {
                     return saveUserDetails(name, emailOrUEN);
                 })
                 .then(() => {
-                    console.log("User details saved successfully");
+                    // console.log("User details saved successfully");
                 })
                 .catch(error => {
                     showStatusPopup("Registration failed: " + getCustomErrorMessage(error), false)
@@ -217,7 +217,7 @@ function handleSubmit(event) {
                 return saveBusinessDetails(uppercaseUEN, business.uid, name);
             })
             .then(() => {
-                console.log('Business details saved successfully');
+                // console.log('Business details saved successfully');
             })
             .catch(error => {
                 if (error.message.includes('Business details')) {
