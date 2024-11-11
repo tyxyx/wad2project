@@ -26,6 +26,27 @@ onAuthStateChanged(auth, async (user) => {
     try {
       const logout = document.getElementById("logout");
       logout.addEventListener("click", logOut);
+      const contactLink = document.getElementById('contactLink')
+      if (contactLink) {
+        contactLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Get the footer element
+            const footer = document.querySelector('.site-footer');
+            
+            if (footer) {
+                // Calculate position accounting for fixed header
+                const headerHeight = document.querySelector('.site-header').offsetHeight;
+                const footerPosition = footer.getBoundingClientRect().top + window.pageYOffset;
+                
+                // Scroll with offset
+                window.scrollTo({
+                    top: footerPosition - headerHeight,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    }
 
       const orderHistory = document.querySelector('#orderHistory');
     
@@ -473,65 +494,59 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     });
 
     // Create cart section with same styling
-    const cartSection = document.createElement("div");
-    cartSection.classList.add("col-lg-12", "mt-5");
+    // const cartSection = document.createElement("div");
+    // cartSection.classList.add("col-lg-12", "mt-5");
 
-    const cartBox = document.createElement("div");
-    cartBox.classList.add("dish-box");
-    cartBox.style.maxWidth = "500px";
-    cartBox.style.margin = "0 auto";
+    // const cartBox = document.createElement("div");
+    // cartBox.classList.add("dish-box");
+    // cartBox.style.maxWidth = "500px";
+    // cartBox.style.margin = "0 auto";
 
-    // Create the div element with classes "dist-title" and "text-center"
     const cartTitle = document.createElement("div");
     cartTitle.classList.add("dist-title", "text-center");
+    cartTitle.innerHTML = `
+      <h3 class="h3-title">Your Cart</h3>
+    `;
 
-    // Create the <h3> element with class "h3-title"
-    const h3Title = document.createElement("h3");
-    h3Title.classList.add("h3-title");
-    h3Title.textContent = "Your Cart"; // Set the text content for the <h3>
+    // // Create cart list
+    // listGroup = document.createElement("ul");
+    // listGroup.classList.add("list-group", "list-group-flush");
+    // listGroup.setAttribute("id", "cartItems");
+    // listGroup.style.padding = "20px";
 
-    // Append the <h3> element to the cartTitle div
-    cartTitle.appendChild(h3Title);
+    // // Create buttons container
+    // const buttonContainer = document.createElement("div");
+    // buttonContainer.classList.add("dist-bottom-row", "mt-4");
+    // buttonContainer.style.display = "flex";
+    // buttonContainer.style.justifyContent = "center";
+    // buttonContainer.style.gap = "15px";
 
-    // Create cart list
-    listGroup = document.createElement("ul");
-    listGroup.classList.add("list-group", "list-group-flush");
-    listGroup.setAttribute("id", "cartItems");
-    listGroup.style.padding = "20px";
+    // // Create Order Now button
+    // const orderNowButton = document.createElement("button");
+    // orderNowButton.textContent = "Order Now";
+    // orderNowButton.classList.add("dish-add-btn");
+    // orderNowButton.style.width = "auto";
+    // orderNowButton.style.padding = "0 20px";
+    // orderNowButton.addEventListener("click", () => {
+    //   // Retrieve cart data from localStorage and parse it
 
-    // Create buttons container
-    const buttonContainer = document.createElement("div");
-    buttonContainer.classList.add("dist-bottom-row", "mt-4");
-    buttonContainer.style.display = "flex";
-    buttonContainer.style.justifyContent = "center";
-    buttonContainer.style.gap = "15px";
-
-    // Create Order Now button
-    const orderNowButton = document.createElement("button");
-    orderNowButton.textContent = "Order Now";
-    orderNowButton.classList.add("dish-add-btn");
-    orderNowButton.style.width = "auto";
-    orderNowButton.style.padding = "0 20px";
-    orderNowButton.addEventListener("click", () => {
-      // Retrieve cart data from localStorage and parse it
-
-      // Check if the cart exists and contains items
-      if (cart.length > 0) {
-        // Proceed with saving business info and redirecting to the cart page
-        localStorage.setItem("businessId", JSON.stringify(businessUEN));
-        localStorage.setItem("cart", JSON.stringify(cart)); // Ensure cart is saved
-        localStorage.setItem("businessName", JSON.stringify(businessName));
-        localStorage.removeItem("currentOrderId");
-        localStorage.removeItem("orderCreationTime");
-        window.location.href = "cart.html";
-      } else {
-        // If cart is empty, show an alert or notify the user
-        showStatusPopup(
-          "Your cart is empty. Please add items to the cart before ordering.",
-          false
-        );
-      }
-    });
+    //   // Check if the cart exists and contains items
+    //   if (cart.length > 0) {
+    //     // Proceed with saving business info and redirecting to the cart page
+    //     localStorage.setItem("businessId", JSON.stringify(businessUEN));
+    //     localStorage.setItem("cart", JSON.stringify(cart)); // Ensure cart is saved
+    //     localStorage.setItem("businessName", JSON.stringify(businessName));
+    //     localStorage.removeItem("currentOrderId");
+    //     localStorage.removeItem("orderCreationTime");
+    //     window.location.href = "cart.html";
+    //   } else {
+    //     // If cart is empty, show an alert or notify the user
+    //     showStatusPopup(
+    //       "Your cart is empty. Please add items to the cart before ordering.",
+    //       false
+    //     );
+    //   }
+    // });
 
     // Create Back button
     const backButton = document.createElement("button");
@@ -548,18 +563,18 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
       header.querySelector("span").textContent = "what others think";
       const ftb = document.getElementById("featured-businesses");
       ftb.classList.remove("d-none");
-      document.querySelector(".our-menu .sec-title").classList.remove("d-none");
+      document.querySelector('.our-menu .sec-title').classList.remove('d-none');
       await fetchBusinessCards();
     });
 
-    // Assemble cart section
-    buttonContainer.appendChild(orderNowButton);
-    buttonContainer.appendChild(backButton);
-    cartBox.appendChild(cartTitle);
-    cartBox.appendChild(listGroup);
-    cartBox.appendChild(buttonContainer);
-    cartSection.appendChild(cartBox);
-    menuDish.appendChild(cartSection);
+    // // Assemble cart section
+    // buttonContainer.appendChild(orderNowButton);
+    // buttonContainer.appendChild(backButton);
+    // cartBox.appendChild(cartTitle);
+    // cartBox.appendChild(listGroup);
+    // cartBox.appendChild(buttonContainer);
+    // cartSection.appendChild(cartBox);
+    // menuDish.appendChild(cartSection);
 
     loadCartItems();
     const targetElement = document.getElementById("displayMenu");
@@ -588,9 +603,8 @@ window.addEventListener("popstate", async (event) => {
   header.firstChild.textContent = "Click on a business to discover";
   header.querySelector("span").textContent = "what others think";
   document.getElementById("reviews-container").style.display = "none";
-  
-});
 
+});
 // new createMenuItemCard
 function createMenuItemCard(menuItemData, container) {
   const col = document.createElement("div");

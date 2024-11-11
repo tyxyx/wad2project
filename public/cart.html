@@ -459,7 +459,7 @@
                             // Method to handle checkout
                             const checkout = () => {
                                 if (cart.value.length > 0) {
-                                    showStatusPopup("Order placed!", true);
+                                    showStatusPopup("Placing Order...", true);
                                     setTimeout(() => {
                                         window.location.replace("order.html");
                                     }, 3000);
@@ -497,6 +497,7 @@
                             onMounted(() => {
                                 updateLocalStorage();
                                 console.log(localStorage)
+                                //localStorage.removeItem("orderBackup")
                             });
 
                             // Return all the reactive properties and methods for use in the template
