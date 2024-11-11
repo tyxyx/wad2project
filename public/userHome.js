@@ -12,6 +12,8 @@ let userEmail = null;
 let cart = [];
 let listGroup = [];
 let placeId = "";
+let currentBusinessUEN = null;
+let currentBusinessName = null;
 const overlay = document.createElement("div");
 overlay.className = "loading-overlay";
 const spinner = document.createElement("div");
@@ -207,7 +209,9 @@ async function createBusinessCard(businessUEN, businessData) {
         "",
         `?business=${businessUEN}`
       );
+      // displayBusinessInfo(businessUEN, businessData.busName);
       fetchAndDisplayMenuItems(businessUEN, businessData.busName);
+      // displayBusinessInfo(businessUEN, businessData.busName);
     });
 
     // Append card to column div and column to container
@@ -297,6 +301,40 @@ async function createBusinessCard(businessUEN, businessData) {
   // menuDish.appendChild(card);
 }
 
+// async function displayBusinessInfo(businessUEN, businessName){
+//   try{
+//     const businessSnapshot = await getDoc(
+//       doc(db, `businessLogin/${businessUEN}`)
+//     );
+//     console.log(businessSnapshot);
+//     if (businessSnapshot.exists()) {
+//       const address = businessSnapshot.data().address;
+//       // console.log(address)
+//       const avgRating = businessSnapshot.data().avgRating;
+//       const busName = businessSnapshot.data().busName;
+//       const contactInfo = businessSnapshot.data().contactInfo;
+//       // await fetchPlaceReviews(placeId);
+//       const img = document.createElement("img");
+//       img.src =
+//       businessSnapshot.data().profilePic ||
+//       "./images/mealmate-logo-zip-file/png/logo-color.png";
+//       img.alt = businessSnapshot.data().busName || "Business Image";
+//       console.log(img);
+//       img.onerror = function () {
+//       this.src = "./images/mealmate-logo-zip-file/png/logo-color.png";
+//       console.log(
+//         `Failed to load profile picture for ${businessData.busName}, using placeholder`
+//       );
+//       };
+//     } else {
+//       console.error("Error getting reviews");
+//     }
+//   }
+//   catch (error) {
+//     console.error("Error fetching business details:", error);
+//   }
+// }
+
 //new  fetchAndDisplayMenuItems
 async function fetchAndDisplayMenuItems(businessUEN, businessName) {
   setTimeout(() => {
@@ -310,9 +348,38 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     );
 
     const docSnap = await getDoc(doc(db, `businessLogin/${businessUEN}`));
-
+    let address;
+    let avgRating;
+    let busName;
+    let contactInfo;
+    let img;
+    let src;
     if (docSnap.exists()) {
+      currentBusinessUEN = businessUEN;    
+      currentBusinessName = businessName;
       placeId = docSnap.data().placeId;
+      address = docSnap.data().address;
+      // console.log(address)
+      avgRating = docSnap.data().avgRating;
+      busName = docSnap.data().busName;
+      // console.log(busName);
+      contactInfo = docSnap.data().contactInfo;
+      // await fetchPlaceReviews(placeId);
+      img = document.createElement("img");
+      src = docSnap.data().profilePic ||
+      "./images/mealmate-logo-zip-file/png/logo-color.png";
+      img.alt = docSnap.data().busName || "Business Image";
+      // img.src =
+      // docSnap.data().profilePic ||
+      // "./images/mealmate-logo-zip-file/png/logo-color.png";
+      // img.alt = docSnap.data().busName || "Business Image";
+      img.src = src;
+      img.onerror = function () {
+      this.src = "./images/mealmate-logo-zip-file/png/logo-color.png";
+      console.log(
+        `Failed to load profile picture for ${businessData.busName}, using placeholder`
+      );
+      };
       await fetchPlaceReviews(placeId);
     } else {
       console.error("Error getting reviews");
@@ -371,6 +438,30 @@ async function fetchAndDisplayMenuItems(businessUEN, businessName) {
     menuDish.appendChild(colDiv);
 
     document.querySelector(".our-menu .sec-title").classList.add("d-none");
+    menuDish.innerHTML = `
+      <div class="col-lg-12">
+      <div class="row">
+      <div class="col-lg-6">
+        <div class="banner-img-wp" style="height: 300px; padding-top: 20px;">
+          <div class="banner-img" style="background-image: url(${src});"></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="sec-title mb-5">
+          <h2 class="h2-title" id='displayMenu'>${busName}</h2>
+          <p>${avgRating}</p>
+          <p>${contactInfo}</p>
+          <p>${address}</p>
+          <div class="sec-title-shape mb-4">
+            <img src="assets/images/title-shape.svg">
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+    `;
+    
+    document.querySelector('.our-menu .sec-title').classList.add('d-none');
     // Create a row for menu items
     const menuRow = document.createElement("div");
     menuRow.classList.add("row", "g-xxl-5");
@@ -623,25 +714,36 @@ function createMenuItemCard(menuItemData, container) {
 // Function to add item to cart
 function addToCart(itemName, quantity, price, image) {
   // Check if the item is already in the cart
-
   const existingItemIndex = cart.findIndex((item) => item.name === itemName);
 
   if (existingItemIndex !== -1) {
-    // If item exists, update the quantity
-    cart[existingItemIndex].quantity += quantity;
+      // If item exists, update the quantity
+      cart[existingItemIndex].quantity += quantity;
   } else {
-    // If item doesn't exist, add it to the cart
-    cart.push({
-      name: itemName,
-      quantity: quantity,
-      price: price,
-      image: image,
-    });
+      // If item doesn't exist, add it to the cart
+      cart.push({
+          name: itemName,
+          quantity: quantity,
+          price: price,
+          image: image,
+      });
   }
 
   // Store the updated cart back to localStorage
-  // localStorage.setItem("cart", JSON.stringify(cart));
-  loadCartItems();
+  localStorage.setItem("cart", JSON.stringify(cart));
+  localStorage.setItem("businessId", JSON.stringify(currentBusinessUEN));
+  localStorage.setItem("businessName", JSON.stringify(currentBusinessName));
+
+    // Calculate total quantity across all items
+    const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+    // Dispatch a custom event with the new total
+    window.dispatchEvent(new CustomEvent('cartUpdated', { 
+        detail: { count: totalQuantity }
+    }));
+
+  // Show the status popup
+  showStatusPopup(`${quantity} ${itemName}(s) added to cart!`, true);
 }
 
 function createCarousel(containerId, imageUrls) {
