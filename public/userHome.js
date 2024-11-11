@@ -627,9 +627,26 @@ function createMenuItemCard(menuItemData, container) {
   actionSection.style.gap = "1rem";
   actionSection.style.width = "100%";
 
-  const priceSection = document.createElement("h3");
-  priceSection.classList.add("featured-title");
-  priceSection.textContent = `$${Number(menuItemData.discount).toFixed(2)}`;
+  const priceSection=document.createElement("h3")
+
+  const actualPrice = document.createElement("h4");
+  actualPrice.classList.add("featured-title");
+
+  // Create the <s> element for the strike-through on the original price
+  const strikeThrough = document.createElement("s");
+  strikeThrough.textContent = `$${Number(menuItemData.price).toFixed(2)}`;
+
+  // Append the <s> element to the actualPrice element
+  actualPrice.appendChild(strikeThrough);
+
+
+  const discountedPrice = document.createElement("h3");
+  discountedPrice.classList.add("featured-title");
+
+  discountedPrice.textContent = `$${Number(menuItemData.discount).toFixed(2)}`;
+
+  actualPrice.appendChild(discountedPrice)
+  priceSection.appendChild(actualPrice)
 
   const quantityControls = document.createElement("div");
   quantityControls.classList.add(
