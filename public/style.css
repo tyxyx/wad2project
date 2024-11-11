@@ -1945,9 +1945,9 @@ p {
     .newsletter-box-text {
         padding: 0;
     }
-    .footer-flex-box>div {
+    /* .footer-flex-box>div {
         padding: 0 10px;
-    }
+    } */
     .star-rating {
         font-size: 19px;
     }
