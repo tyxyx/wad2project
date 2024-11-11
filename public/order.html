@@ -138,6 +138,40 @@
     padding: 12px 20px !important;  /* Increased vertical padding */
     margin: 5px;
 }
+.site-header {
+    position: fixed;
+    padding: 30px 0;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    transition: 0.5s;
+    border-bottom: 1px solid transparent;
+}
+
+.site-header.sticky_head {
+    background: rgb(255 255 255 / 80%);
+    padding: 20px 0;
+    border-color: #f2f2f2;
+    backdrop-filter: blur(20px);
+}
+
+.section.book-table {
+    padding-top: 180px !important;
+    margin-top: 0;
+}
+
+@media (max-width: 991px) {
+    .site-header {
+        padding: 20px 0 !important;
+    }
+    
+    .site-header.sticky_head {
+        padding: 15px 0 !important;
+    }
+}
         </style>
     </head>
 <body>
@@ -174,8 +208,7 @@
         </div>
     </header>
 
-    <div id="viewport">
-        <div id="js-scroll-content">
+    
             <section class="section book-table bg-light repeat-img" style="background-image: url(assets/images/menu-bg.png);">
                 <div class="book-table-shape">
                     <img src="assets/images/table-leaves-shape.png" alt="shape">
@@ -408,5 +441,24 @@
             window.location.href = './orderhistory.html'
         })
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to handle header scroll effect
+            function handleScroll() {
+                const header = document.querySelector('.site-header');
+                if (window.scrollY > 30) {
+                    header.classList.add('sticky_head');
+                } else {
+                    header.classList.remove('sticky_head');
+                }
+            }
+        
+            // Add scroll event listener
+            window.addEventListener('scroll', handleScroll);
+        
+            // Initial check
+            handleScroll();
+        });
+        </script>
 </body>
 </html>
