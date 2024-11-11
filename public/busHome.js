@@ -657,6 +657,8 @@ async function setAvgRating(businessUEN, rating) {
       },
       { merge: true }
     );
+    console.log(businessUEN)
+    console.log(rating);
   } catch (error) {
     console.error("Error updating avg rating:", error);
   }
