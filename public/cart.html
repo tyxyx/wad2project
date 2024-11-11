@@ -431,6 +431,40 @@
                 <!-- <script type="module" src="./userHome copy.js"></script> -->
                 <!-- cart.js -->
                 <!-- <script src="./cart.js"></script> -->
+
+
+
+    <script>
+        // Get necessary elements
+    const menuToggle2 = document.querySelector('.menu-toggle');
+    const mainNavigation2 = document.querySelector('.main-navigation');
+    
+    // Add click event listener to toggle button
+    menuToggle2.addEventListener('click', () => {
+      mainNavigation2.classList.toggle('toggled');
+    
+      // Toggle aria-expanded attribute
+      const isExpanded = mainNavigation2.classList.contains('toggled');
+      menuToggle2.setAttribute('aria-expanded', isExpanded);
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!mainNavigation.contains(e.target) && !menuToggle.contains(e.target)) {
+        mainNavigation.classList.remove('toggled');
+        menuToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+    
+    // Close menu when clicking on a link
+    const menuLinks2 = document.querySelectorAll('.main-navigation .menu li a');
+    menuLinks2.forEach(link => {
+      link.addEventListener('click', () => {
+        mainNavigation2.classList.remove('toggled');
+        menuToggle2.setAttribute('aria-expanded', 'false');
+      });
+    });
+      </script>
                 <script>
                     const { createApp, ref, computed, onMounted } = Vue;
 
@@ -581,6 +615,8 @@
     handleScroll();
 });
         </script>
+
+        
 </body>
 
 </html>
